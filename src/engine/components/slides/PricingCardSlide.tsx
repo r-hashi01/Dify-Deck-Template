@@ -8,6 +8,16 @@ interface PricingCardSlideProps {
 }
 
 export const PricingCardSlide: React.FC<PricingCardSlideProps> = ({ slide }) => {
+
+  const isHighlightedDescription = (desc: string) => {
+      const keywords = ['免费', 'free', '云市场', 'marketplace', 'custom', '定制'];
+      return keywords.some(k => desc.toLowerCase().includes(k));
+  };
+
+  const isSuccessDescription = (desc: string) => {
+      return ['免费', 'free'].some(k => desc.toLowerCase().includes(k));
+  };
+
   return (
     <div className="flex flex-col h-full p-4 sm:p-6 md:p-8 lg:p-12">
       <SlideHeader title={slide.title} subtitle={slide.subtitle} variant="vertical-bar" />
@@ -47,9 +57,9 @@ export const PricingCardSlide: React.FC<PricingCardSlideProps> = ({ slide }) => 
                     {item.priceUnit && <span className="text-gray-500 ml-2 text-sm">{item.priceUnit}</span>}
                   </div>
                 ) : (
-                   // If no price, check description for "免费" style large text
-                   item.description && ['免费', '云市场采购'].includes(item.description) ? (
-                     <div className={`mb-6 text-3xl font-bold ${item.description === '免费' ? 'text-green-600' : 'text-gray-900'}`}>
+                   // If no price, check description for "Free" style large text
+                   item.description && isHighlightedDescription(item.description) ? (
+                     <div className={`mb-6 text-3xl font-bold ${isSuccessDescription(item.description) ? 'text-green-600' : 'text-gray-900'}`}>
                        {item.description}
                      </div>
                    ) : null
@@ -68,7 +78,7 @@ export const PricingCardSlide: React.FC<PricingCardSlideProps> = ({ slide }) => 
                 )}
                 
                 {/* Description fallback if not used as large status */}
-                 {item.description && !['免费', '云市场采购'].includes(item.description) && !item.price && (
+                 {item.description && !item.price && !isHighlightedDescription(item.description) && (
                    <p className="text-sm text-gray-600 mt-2">{item.description}</p>
                 )}
 
@@ -97,4 +107,3 @@ export const PricingCardSlide: React.FC<PricingCardSlideProps> = ({ slide }) => 
     </div>
   );
 };
-

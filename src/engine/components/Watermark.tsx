@@ -1,21 +1,22 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 
 interface WatermarkProps {
-  text: string;  // 用户邮箱或 ID
-  isDark?: boolean;  // 是否深色背景
+  text: string;  // User email or ID
+  isDark?: boolean;  // Whether background is dark
 }
 
 export const Watermark: React.FC<WatermarkProps> = ({ text, isDark = false }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [renderKey, setRenderKey] = useState(0);
   
-  // 生成随机类名，每次组件挂载时生成一次
+  // Generate random class name once per component mount
   const [randomClass] = useState(() => `wm-${Math.random().toString(36).slice(2, 10)}`);
   
-  // 获取当前时间戳
+  // Get current timestamp
   const getTimestamp = () => {
     const now = new Date();
-    return now.toLocaleDateString('zh-CN', { 
+    // Use locale string for international format
+    return now.toLocaleDateString('en-US', { 
       year: 'numeric', 
       month: '2-digit', 
       day: '2-digit',
@@ -26,12 +27,12 @@ export const Watermark: React.FC<WatermarkProps> = ({ text, isDark = false }) =>
   
   const watermarkText = `${text} · ${getTimestamp()}`;
   
-  // 强制重新渲染水印
+  // Force re-render watermark
   const forceRerender = useCallback(() => {
     setRenderKey(prev => prev + 1);
   }, []);
   
-  // MutationObserver - 检测水印被删除时自动恢复
+  // MutationObserver - Automatically restore watermark if deleted
   useEffect(() => {
     const checkWatermark = () => {
       if (!document.querySelector(`.${randomClass}`)) {
@@ -40,7 +41,7 @@ export const Watermark: React.FC<WatermarkProps> = ({ text, isDark = false }) =>
     };
     
     const observer = new MutationObserver((mutations) => {
-      // 检查是否有节点被移除
+      // Check if nodes were removed
       for (const mutation of mutations) {
         if (mutation.removedNodes.length > 0) {
           checkWatermark();
@@ -49,13 +50,13 @@ export const Watermark: React.FC<WatermarkProps> = ({ text, isDark = false }) =>
       }
     });
     
-    // 观察整个 body 的子树变化
+    // Observe body subtree changes
     observer.observe(document.body, { 
       childList: true, 
       subtree: true 
     });
     
-    // 定时检查作为双重保险
+    // Double insurance with interval check
     const intervalId = setInterval(checkWatermark, 2000);
     
     return () => {
@@ -64,10 +65,10 @@ export const Watermark: React.FC<WatermarkProps> = ({ text, isDark = false }) =>
     };
   }, [randomClass, forceRerender]);
   
-  // 生成水印网格
+  // Generate watermark grid
   const generateWatermarks = () => {
     const items = [];
-    // 生成足够多的水印覆盖整个区域（考虑旋转后的扩展）
+    // Generate enough watermarks to cover the area (considering expansion after rotation)
     for (let i = 0; i < 12; i++) {
       items.push(
         <div 
@@ -89,10 +90,10 @@ export const Watermark: React.FC<WatermarkProps> = ({ text, isDark = false }) =>
     return items;
   };
 
-  // 内联样式 - 降低被 CSS 覆盖的风险
+  // Inline styles - reduce risk of being overridden by CSS
   const containerStyle: React.CSSProperties = {
     position: 'absolute',
-    inset: '-50%',  // 扩大范围以覆盖旋转后的区域
+    inset: '-50%',  // Expand range to cover rotated area
     width: '200%',
     height: '200%',
     display: 'flex',
@@ -124,4 +125,3 @@ export const Watermark: React.FC<WatermarkProps> = ({ text, isDark = false }) =>
 };
 
 export default Watermark;
-

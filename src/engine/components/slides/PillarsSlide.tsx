@@ -45,7 +45,7 @@ export const PillarsSlide: React.FC<PillarsSlideProps> = ({ slide }) => {
                  <div className="relative z-10 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-5">
                     <div className="flex-shrink-0">
                         <span className="px-3 py-1.5 bg-blue-600 text-white rounded-lg text-sm font-bold uppercase tracking-widest shadow-sm">
-                           定位
+                           {/[\u4e00-\u9fa5]/.test(slide.title) ? 'POSITIONING' : 'POSITIONING'}
                         </span>
                     </div>
                     <h2 className="text-2xl sm:text-3xl lg:text-[2.5rem] font-extrabold text-slate-900 leading-[1.2] tracking-tight drop-shadow-sm">

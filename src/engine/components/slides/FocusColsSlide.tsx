@@ -9,7 +9,7 @@ interface FocusColsSlideProps {
 
 export const FocusColsSlide: React.FC<FocusColsSlideProps> = ({ slide }) => {
   const items = slide.items || [];
-  const heroItem = items[0]; // 定位/Hero
+  const heroItem = items[0]; // POSITIONING/Hero
   const listItems = items.slice(1); // 实现细节列表
 
   return (
@@ -33,7 +33,7 @@ export const FocusColsSlide: React.FC<FocusColsSlideProps> = ({ slide }) => {
                            {heroItem.icon && React.cloneElement(heroItem.icon as React.ReactElement<any>, { size: 20 })}
                         </div>
                         <span className="text-dify-blue font-bold uppercase tracking-widest text-sm sm:text-base">
-                           {heroItem.tags?.[0] || '定位'}
+                           {heroItem.tags?.[0] || 'POSITIONING'}
                         </span>
                     </div>
                     <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3rem] font-extrabold text-gray-900 leading-[1.1] tracking-tight drop-shadow-sm mb-6">

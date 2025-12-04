@@ -69,16 +69,30 @@ const CardItem: React.FC<{ item: any, widthClass?: string, style?: React.CSSProp
   const tag = item.tags?.[0];
   
   // Icons and Tags use their original semantic colors (EXEMPT from strict text rule)
-  // Restore original tag color logic
+  // Define available styles
+  const TAG_STYLES = [
+    'bg-blue-50 text-blue-700 border-blue-100',   // 0: Blue
+    'bg-green-50 text-green-700 border-green-100', // 1: Green
+    'bg-purple-50 text-purple-700 border-purple-100', // 2: Purple
+    'bg-orange-50 text-orange-700 border-orange-100', // 3: Orange
+    'bg-indigo-50 text-indigo-700 border-indigo-100', // 4: Indigo
+    'bg-cyan-50 text-cyan-700 border-cyan-100',     // 5: Cyan
+  ];
+
   let tagColor = 'bg-gray-50 text-gray-600 border-gray-200';
-  if (tag === '基础应用') tagColor = 'bg-blue-50 text-blue-700 border-blue-100';
-  else if (tag === '工作流应用') tagColor = 'bg-green-50 text-green-700 border-green-100';
-  else if (tag === '高级应用') tagColor = 'bg-purple-50 text-purple-700 border-purple-100';
-  else if (tag === 'Core Component') tagColor = 'bg-blue-50 text-blue-700 border-blue-100';
-  else if (tag === 'Infrastructure') tagColor = 'bg-orange-50 text-orange-700 border-orange-100';
-  else if (tag === 'Admin') tagColor = 'bg-blue-50 text-blue-700 border-blue-100';
-  else if (tag === 'Builder') tagColor = 'bg-indigo-50 text-indigo-700 border-indigo-100';
-  else if (tag === 'User') tagColor = 'bg-green-50 text-green-700 border-green-100';
+
+  if (tag) {
+     // Dynamic color assignment based on string hash
+     let hash = 0;
+     for (let i = 0; i < tag.length; i++) {
+       hash = tag.charCodeAt(i) + ((hash << 5) - hash);
+     }
+     const index = Math.abs(hash) % TAG_STYLES.length;
+     tagColor = TAG_STYLES[index];
+     
+     // Specific overrides for semantic consistency if needed (optional)
+     // Currently purely dynamic to support internationalization
+  }
   
   // Check for Logo (Image) vs Icon (Component)
   const hasLogo = !!item.logo && !imgError;
@@ -99,13 +113,12 @@ const CardItem: React.FC<{ item: any, widthClass?: string, style?: React.CSSProp
   let iconDim = "w-10 h-10 sm:w-12 sm:h-12"; 
 
   // Special Cards override
-  if (item.title === "核心定位") {
+  if (item.title === "CORE POSITIONING" || item.title === "核心定位") {
       cardStyle = "bg-blue-600 border-blue-600 shadow-blue-200"; // Blue Background
       iconBg = "bg-white/20 text-white border-white/20 backdrop-blur-sm"; // White Icon on Blue
       titleColor = "text-white"; // White Text
       descStyle = "text-blue-50 text-lg sm:text-xl md:text-2xl font-extrabold leading-tight"; 
-  } else if (item.title === "价值") {
-      // Amber removed. Enforce neutral or blue theme.
+  } else if (item.title === "VALUE" || item.title === "核心价值") {
       // Let's make it Neutral Gray with Blue accent
       cardStyle = "bg-gray-50 border-gray-200 shadow-gray-100";
       iconBg = "bg-white border-gray-200 text-dify-blue"; 
@@ -113,22 +126,29 @@ const CardItem: React.FC<{ item: any, widthClass?: string, style?: React.CSSProp
       descStyle = "text-gray-600 text-base sm:text-lg md:text-xl font-bold leading-snug";
   } else {
       // For standard cards, enforce borders/shadows but keep text strictly Black
-      if (['Admin', 'Builder', 'User'].includes(tag)) {
-           // Use Blue border/shadow for hover state regardless of tag type to keep "Theme Blue" feel
-           // Or match the tag color for the BORDER only?
-           // "Text must be Black and Dify Blue".
-           // Let's keep the hover effect subtle and theme-aligned.
+      // We check tag to apply hover border color
+      if (tag) {
+           // Extract base color name from tagColor class for hover effect logic is tricky with dynamic classes
+           // So we use a generic blue hover for all standard cards to match "Dify Theme"
+           cardStyle = "bg-white border-gray-200 hover:border-blue-300 hover:shadow-blue-100/50";
            
-           // We will use the tag's color for the hover border to distinguish the card visually,
-           // but the TEXT inside stays Black.
-           if (tag === 'Admin') cardStyle = "bg-white border-blue-100 hover:border-blue-300 hover:shadow-blue-100/50";
-           else if (tag === 'Builder') cardStyle = "bg-white border-indigo-100 hover:border-indigo-300 hover:shadow-indigo-100/50";
-           else if (tag === 'User') cardStyle = "bg-white border-green-100 hover:border-green-300 hover:shadow-green-100/50";
-           
-           // Icon BG matches the tag/icon color (Allowed)
-           if (tag === 'Admin') iconBg = "bg-blue-50 group-hover:bg-blue-100 border-blue-100 text-dify-blue";
-           else if (tag === 'Builder') iconBg = "bg-indigo-50 group-hover:bg-indigo-100 border-indigo-100 text-indigo-600";
-           else if (tag === 'User') iconBg = "bg-green-50 group-hover:bg-green-100 border-green-100 text-green-600";
+           // But if we really want to match the tag color...
+           if (tagColor.includes('blue')) {
+               cardStyle = "bg-white border-blue-100 hover:border-blue-300 hover:shadow-blue-100/50";
+               iconBg = "bg-blue-50 group-hover:bg-blue-100 border-blue-100 text-dify-blue";
+           } else if (tagColor.includes('green')) {
+               cardStyle = "bg-white border-green-100 hover:border-green-300 hover:shadow-green-100/50";
+               iconBg = "bg-green-50 group-hover:bg-green-100 border-green-100 text-green-600";
+           } else if (tagColor.includes('purple')) {
+               cardStyle = "bg-white border-purple-100 hover:border-purple-300 hover:shadow-purple-100/50";
+               iconBg = "bg-purple-50 group-hover:bg-purple-100 border-purple-100 text-purple-600";
+           } else if (tagColor.includes('orange')) {
+               cardStyle = "bg-white border-orange-100 hover:border-orange-300 hover:shadow-orange-100/50";
+               iconBg = "bg-orange-50 group-hover:bg-orange-100 border-orange-100 text-orange-600";
+           } else if (tagColor.includes('indigo')) {
+               cardStyle = "bg-white border-indigo-100 hover:border-indigo-300 hover:shadow-indigo-100/50";
+               iconBg = "bg-indigo-50 group-hover:bg-indigo-100 border-indigo-100 text-indigo-600";
+           }
       }
   }
 
