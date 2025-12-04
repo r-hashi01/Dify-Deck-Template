@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dify Academy</title>
+    <link rel="icon" type="image/svg+xml" href="/assets/icon/Dify-if.svg" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              dify: {
+                blue: '#0033FF',
+                dark: '#111827',
+                gray: '#F3F4F6',
+              }
+            },
+            fontFamily: {
+              sans: ['MiSans', 'Sohne', 'Helvetica', 'Arial', 'sans-serif'],
+              mono: ['Sohne Mono', 'monospace'],
+            },
+            keyframes: {
+              'fade-in-up': {
+                '0%': { opacity: '0', transform: 'translateY(20px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              'scale-up': {
+                '0%': { opacity: '0', transform: 'scale(0.95)' },
+                '100%': { opacity: '1', transform: 'scale(1)' },
+              }
+            },
+            animation: {
+              'fade-in-up': 'fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+              'scale-up': 'scale-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      @font-face {
+        font-family: 'MiSans';
+        src: url('/assets/font/MiSans/MiSans-Regular.woff2') format('woff2');
+        font-weight: 400;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: 'MiSans';
+        src: url('/assets/font/MiSans/MiSans-Medium.woff2') format('woff2');
+        font-weight: 500;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: 'MiSans';
+        src: url('/assets/font/MiSans/MiSans-Bold.woff2') format('woff2');
+        font-weight: 700;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: 'Sohne';
+        src: url('/assets/font/Söhne/soehne-buch.woff2') format('woff2');
+        font-weight: 400;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: 'Sohne';
+        src: url('/assets/font/Söhne/soehne-halbfett.woff2') format('woff2');
+        font-weight: 600;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: 'Sohne';
+        src: url('/assets/font/Söhne/soehne-fett.woff2') format('woff2');
+        font-weight: 700;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: 'Sohne Mono';
+        src: url('/assets/font/Söhne/soehne-mono-buch.woff2') format('woff2');
+        font-weight: 400;
+        font-style: normal;
+      }
+
+      /* Hide scrollbar for presentation mode feel */
+      body {
+        overflow: hidden; 
+        font-family: 'MiSans', sans-serif;
+      }
+      .slide-transition {
+        animation: fadeIn 0.4s ease-in-out;
+      }
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0"
+  }
+}
+</script>
+</head>
+  <body class="bg-gray-100 text-gray-900">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
