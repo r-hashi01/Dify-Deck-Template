@@ -4,22 +4,15 @@ This is a **template branch** for creating slide decks using the Dify Training D
 
 ## Screenshots
 
-<div align="center">
-  <img src="public/screenshot/screenshot-20251205-084617.png" alt="Screenshot 1" width="45%" style="margin: 5px;">
-  <img src="public/screenshot/screenshot-20251205-084652.png" alt="Screenshot 2" width="45%" style="margin: 5px;">
-  <br>
-  <img src="public/screenshot/screenshot-20251205-084701.png" alt="Screenshot 3" width="45%" style="margin: 5px;">
-  <img src="public/screenshot/screenshot-20251205-084722.png" alt="Screenshot 4" width="45%" style="margin: 5px;">
-  <br>
-  <img src="public/screenshot/screenshot-20251205-084743.png" alt="Screenshot 5" width="45%" style="margin: 5px;">
-  <img src="public/screenshot/screenshot-20251205-084936.png" alt="Screenshot 6" width="45%" style="margin: 5px;">
-  <br>
-  <img src="public/screenshot/screenshot-20251205-084947.png" alt="Screenshot 7" width="45%" style="margin: 5px;">
-  <img src="public/screenshot/screenshot-20251205-085000.png" alt="Screenshot 8" width="45%" style="margin: 5px;">
-  <br>
-  <img src="public/screenshot/screenshot-20251205-085013.png" alt="Screenshot 9" width="45%" style="margin: 5px;">
-  <img src="public/screenshot/screenshot-20251205-085022.png" alt="Screenshot 10" width="45%" style="margin: 5px;">
-</div>
+![Screenshot 1](public/screenshot/screenshot-20251205-084617.png) ![Screenshot 2](public/screenshot/screenshot-20251205-084652.png)
+
+![Screenshot 3](public/screenshot/screenshot-20251205-084701.png) ![Screenshot 4](public/screenshot/screenshot-20251205-084722.png)
+
+![Screenshot 5](public/screenshot/screenshot-20251205-084743.png) ![Screenshot 6](public/screenshot/screenshot-20251205-084936.png)
+
+![Screenshot 7](public/screenshot/screenshot-20251205-084947.png) ![Screenshot 8](public/screenshot/screenshot-20251205-085000.png)
+
+![Screenshot 9](public/screenshot/screenshot-20251205-085013.png) ![Screenshot 10](public/screenshot/screenshot-20251205-085022.png)
 
 ## Quick Start
 
