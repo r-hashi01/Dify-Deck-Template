@@ -154,6 +154,7 @@ export const AdaptiveContentSlide: React.FC<SlideProps> = ({ slide }) => {
     </div>
   );
 };
+
 export const MatrixSlide: React.FC<SlideProps> = ({ slide }) => (
   <div className="flex flex-col h-full p-4 sm:p-6 md:p-8 lg:p-12 xl:p-16 relative overflow-hidden">
       <BackgroundPattern />

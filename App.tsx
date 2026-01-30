@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { SlideRenderer } from './src/engine/components/SlideRenderer';
-import { ChevronLeft, ChevronRight, Maximize2, BookOpen, LogOut } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Maximize2, BookOpen, LogOut, Download } from 'lucide-react';
 import { decks, getDeck } from './src/contents/registry';
 import { SlideData } from './src/engine/types';
 import { AUTHOR_INFO, COMPANY_INFO } from './src/contents/common';
 import { Watermark } from './src/engine/components/Watermark';
+import { exportToPowerPoint } from './src/engine/export/pptxExporter';
 
 function SlideDeckApp() {
   // Get deck ID from URL query parameter (e.g., ?deck=201)
@@ -190,6 +191,23 @@ function SlideDeckApp() {
     window.location.reload();
   };
 
+  const handleExportToPowerPoint = async () => {
+    if (!currentDeck) return;
+
+    try {
+      await exportToPowerPoint(SLIDES, {
+        title: currentDeck.title,
+        author: AUTHOR_INFO.name,
+        company: COMPANY_INFO.name,
+        tagline: COMPANY_INFO.tagline,
+        description: COMPANY_INFO.description,
+      });
+    } catch (error) {
+      console.error('Failed to export to PowerPoint:', error);
+      alert('Failed to export to PowerPoint. Please try again.');
+    }
+  };
+
   return (
     <div className="w-screen h-screen flex flex-col bg-gray-900 overflow-hidden font-sans relative">
 
@@ -233,12 +251,21 @@ function SlideDeckApp() {
            
            <div className="w-px h-4 sm:h-5 md:h-6 bg-gray-800 mx-1 sm:mx-1.5 md:mx-2 flex-shrink-0"></div>
            
-           <button 
-             onClick={toggleFullScreen} 
+           <button
+             onClick={toggleFullScreen}
              className="p-1.5 sm:p-2 hover:bg-gray-800 rounded text-gray-400 hover:text-white transition-colors flex-shrink-0"
              aria-label="Toggle fullscreen"
            >
              <Maximize2 size={16} className="sm:w-4 sm:h-4 md:w-5 md:h-5" />
+           </button>
+
+           <button
+             onClick={handleExportToPowerPoint}
+             className="p-1.5 sm:p-2 hover:bg-gray-800 rounded text-gray-400 hover:text-dify-blue transition-colors flex-shrink-0"
+             aria-label="Export to PowerPoint"
+             title="Export to PowerPoint"
+           >
+             <Download size={16} className="sm:w-4 sm:h-4 md:w-5 md:h-5" />
            </button>
         </div>
       </div>

@@ -111,7 +111,7 @@ export const SLIDES: SlideData[] = [
       "Any questions about creating content?",
       "Check the `src/engine/types.ts` for all available SlideTypes."
     ],
-    footer: `Contact: ${AUTHOR_INFO.email}`
+    footer: `Email: ${AUTHOR_INFO.email} | GitHub: ${AUTHOR_INFO.social.github}`
   }
 ];
 

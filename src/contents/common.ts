@@ -16,5 +16,7 @@ export const AUTHOR_INFO = {
 export const COMPANY_INFO = {
   name: "Dify Tech Inc.",
   copyright: "Copyright © Dify Tech Inc. All Rights Reserved.",
-  website: "dify.ai"
+  website: "dify.ai",
+  tagline: "Solutions & Customer Success",
+  description: "Infrastructure for Intuitive LLM App Development"
 };
