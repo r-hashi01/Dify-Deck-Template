@@ -1,0 +1,10 @@
+{
+  "name": "all-styles-en",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "slidev --port 3001",
+    "build": "slidev build --base /all-styles-en/ --out ../../dist/all-styles-en",
+    "export": "slidev export"
+  }
+}
