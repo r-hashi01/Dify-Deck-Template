@@ -1,0 +1,33 @@
+/* Global styles for Dify Deck Slidev */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;300;400;500;700;900&display=swap');
+
+:root {
+  --dify-blue: #0033FF;
+  --slidev-slide-container-background: white;
+}
+
+/* Apply Noto Sans JP globally */
+* {
+  font-family: 'Noto Sans JP', sans-serif;
+}
+
+.slidev-layout {
+  font-family: 'Noto Sans JP', sans-serif;
+}
+
+/* Reset slide container to allow full control */
+.slidev-layout {
+  padding: 0 !important;
+  width: 100%;
+  height: 100%;
+}
+
+/* Ensure slides take full height */
+.slidev-page {
+  height: 100%;
+}
+
+/* Hide default Slidev navigation for custom footer */
+.slidev-navigation {
+  display: none;
+}
