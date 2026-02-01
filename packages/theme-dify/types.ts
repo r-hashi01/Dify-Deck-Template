@@ -8,6 +8,7 @@ export interface BaseSlideProps {
   copyright?: string;
   authorName?: string;
   logoVariant?: LogoVariant;
+  notes?: string; // Speaker notes for presenter mode
 }
 
 // ===================
@@ -272,6 +273,7 @@ export interface DeckConfig {
   title: string;
   theme?: string;
   defaults?: BaseSlideProps;
+  browserExporter?: boolean;
 }
 
 // Full deck definition

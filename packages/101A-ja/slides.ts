@@ -4,6 +4,7 @@ export const deck: Deck = {
   config: {
     title: 'Dify 101A: 製品価値と位置付け',
     theme: '../theme-dify',
+    browserExporter: true,
     defaults: {
       deckName: 'Dify 101A: 製品価値と位置付け',
       copyright: '© 2026 LangGenius K.K. All rights reserved.',

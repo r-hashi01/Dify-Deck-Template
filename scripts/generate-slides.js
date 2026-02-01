@@ -113,6 +113,18 @@ function generateMarkdown(deck) {
   parts.push(`theme: ${deck.config.theme || '../theme-dify'}`);
   parts.push(`title: "${deck.config.title}"`);
 
+  // Add additional config properties (browserExporter, etc.)
+  const configExclude = ['theme', 'title', 'defaults'];
+  for (const [key, value] of Object.entries(deck.config)) {
+    if (configExclude.includes(key) || value === undefined) continue;
+    const yamlValue = toYamlValue(value);
+    if (yamlValue.startsWith('\n')) {
+      parts.push(`${key}:${yamlValue}`);
+    } else {
+      parts.push(`${key}: ${yamlValue}`);
+    }
+  }
+
   // Add first slide props to headmatter
   for (const [key, value] of Object.entries(firstMerged)) {
     if (value === undefined) continue;
