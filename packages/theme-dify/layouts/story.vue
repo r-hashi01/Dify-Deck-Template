@@ -44,7 +44,7 @@ const content = computed(() => props.content || [])
 
         <!-- Main Content -->
         <div class="space-y-[1.25rem]">
-          <h1 class="text-[2.5rem] font-black tracking-tighter text-[#0B33F3] leading-none">
+          <h1 class="text-[2.5rem] font-black tracking-tighter text-[#0033FF] leading-none">
             {{ slideTitle }}
           </h1>
 

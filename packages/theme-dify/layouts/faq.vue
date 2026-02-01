@@ -66,10 +66,10 @@ const sizeConfig = computed(() => {
     <div class="relative z-10 flex flex-col h-full">
       <!-- Header -->
       <div class="flex flex-col items-start w-full">
-        <h1 class="text-[3.75rem] font-extrabold text-[#0B33F3] tracking-tight leading-tight">
+        <h1 class="text-[3rem] font-extrabold text-[#0033FF] tracking-tight leading-tight">
           {{ slideTitle }}
         </h1>
-        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-600 mb-[1rem] border-l-[0.375rem] border-[#0B33F3] pl-[1rem]">
+        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-600 mb-[1rem] border-l-[0.375rem] border-[#0033FF] pl-[1rem]">
           {{ subtitle }}
         </h2>
         <div class="w-full h-px mt-[1rem] bg-gray-200"></div>
@@ -84,11 +84,11 @@ const sizeConfig = computed(() => {
             class="flex items-start"
           >
             <!-- Blue Bar -->
-            <div :class="['bg-[#0B33F3] rounded-sm shrink-0 self-stretch min-h-[3rem]', sizeConfig.barWidth, sizeConfig.barMargin]"></div>
+            <div :class="['bg-[#0033FF] rounded-sm shrink-0 self-stretch min-h-[3rem]', sizeConfig.barWidth, sizeConfig.barMargin]"></div>
 
             <!-- Content -->
             <div class="flex-1">
-              <h3 :class="['font-bold text-[#0B33F3] mb-[0.375rem]', sizeConfig.titleSize]">
+              <h3 :class="['font-bold text-[#0033FF] mb-[0.375rem]', sizeConfig.titleSize]">
                 {{ item.title }}
               </h3>
               <div :class="['text-gray-700 leading-relaxed', sizeConfig.descSize]">

@@ -1,14 +1,17 @@
 // Icon name to SVG mapping using lucide-static
 // Supports both kebab-case (git-branch) and PascalCase (GitBranch) names
 import {
-  Cloud, Lock, GitBranch, BarChart, Zap, Shield, Globe, Database,
+  Cloud, Lock, GitBranch, BarChart, BarChart2, BarChart3, Zap, Shield, Globe, Database,
   Code, User, Terminal, Server, Layers, CheckCircle, Box, Cpu,
   Users, FileText, BookOpen, AlertCircle, HelpCircle, Info,
   Star, Settings, Heart, MessageCircle, Folder, Search, Calendar,
   Clock, DollarSign, Target, Award, Link, Rocket, TrendingUp,
   Play, Pause, Plus, Minus, X, Menu, ArrowRight, ArrowLeft,
   ChevronDown, ChevronUp, ExternalLink, Download, Upload, Trash,
-  Edit, Eye, EyeOff, Bell, Mail, Phone, MapPin, Home, Check, Layout
+  Edit, Eye, EyeOff, Bell, Mail, Phone, MapPin, Home, Check, Layout,
+  Building, Building2, Briefcase, Factory,
+  LineChart, PieChart, Activity, AreaChart,
+  RefreshCw, RefreshCcw, RotateCw, RotateCcw, Repeat, Repeat1, Recycle
 } from 'lucide-static'
 
 // Build icons map
@@ -73,6 +76,23 @@ const icons: Record<string, string> = {
   'home': Home,
   'check': Check,
   'layout': Layout,
+  'building': Building,
+  'building-2': Building2,
+  'briefcase': Briefcase,
+  'factory': Factory,
+  'line-chart': LineChart,
+  'pie-chart': PieChart,
+  'activity': Activity,
+  'area-chart': AreaChart,
+  'bar-chart-2': BarChart2,
+  'bar-chart-3': BarChart3,
+  'refresh-cw': RefreshCw,
+  'refresh-ccw': RefreshCcw,
+  'rotate-cw': RotateCw,
+  'rotate-ccw': RotateCcw,
+  'repeat': Repeat,
+  'repeat-1': Repeat1,
+  'recycle': Recycle,
 }
 
 // Convert PascalCase to kebab-case

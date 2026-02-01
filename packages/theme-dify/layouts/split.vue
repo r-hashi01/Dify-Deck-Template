@@ -8,6 +8,9 @@ const props = defineProps<{
   slideTitle?: string
   subtitle?: string
   items?: string[]
+  imageUrl?: string
+  imageAlt?: string
+  imageClass?: string
   deckName?: string
   copyright?: string
   authorName?: string
@@ -17,6 +20,9 @@ const props = defineProps<{
 const slideTitle = computed(() => props.slideTitle || 'Split Layout')
 const subtitle = computed(() => props.subtitle || '')
 const items = computed(() => props.items || [])
+const imageUrl = computed(() => props.imageUrl)
+const imageAlt = computed(() => props.imageAlt || '')
+const imageClass = computed(() => props.imageClass || '')
 </script>
 
 <template>
@@ -32,10 +38,10 @@ const items = computed(() => props.items || [])
     <div class="relative z-10 flex flex-col h-full">
       <!-- Header -->
       <div class="flex flex-col items-start w-full">
-        <h1 class="text-[3.75rem] font-extrabold text-[#0B33F3] tracking-tight leading-tight">
+        <h1 class="text-[3rem] font-extrabold text-[#0033FF] tracking-tight leading-tight">
           {{ slideTitle }}
         </h1>
-        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-600 mb-[1rem] border-l-[0.375rem] border-[#0B33F3] pl-[1rem]">
+        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-600 mb-[1rem] border-l-[0.375rem] border-[#0033FF] pl-[1rem]">
           {{ subtitle }}
         </h2>
         <div class="w-full h-px bg-gray-200"></div>
@@ -48,13 +54,19 @@ const items = computed(() => props.items || [])
           <BulletList :items="items" size="xs" />
         </div>
 
-        <!-- Right: Visual Content (slot) -->
-        <div class="w-1/2 h-full min-h-0 bg-white border border-gray-200 flex items-center justify-center p-[2rem] relative overflow-hidden">
+        <!-- Right: Visual Content -->
+        <div class="w-1/2 h-full min-h-0 bg-white border border-gray-200 flex items-center justify-center p-[2rem] relative overflow-hidden rounded-xl">
           <div class="relative z-10 w-full h-full flex items-center justify-center">
-            <slot>
+            <img
+              v-if="imageUrl"
+              :src="imageUrl"
+              :alt="imageAlt"
+              :class="['max-w-full max-h-full object-contain', imageClass]"
+            />
+            <slot v-else>
               <!-- Default placeholder -->
               <div class="text-center">
-                <div class="w-[4rem] h-[4rem] mx-auto mb-[1rem] text-[#0B33F3]">
+                <div class="w-[4rem] h-[4rem] mx-auto mb-[1rem] text-[#0033FF]">
                   <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
                   </svg>

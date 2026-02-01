@@ -170,7 +170,7 @@ function generateIndexHtml(decks, isDev = false) {
 
     .deck-card:hover {
       background: #374151;
-      border-color: #0B33F3;
+      border-color: #0033FF;
       transform: translateY(-2px);
       box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
     }
@@ -191,7 +191,7 @@ function generateIndexHtml(decks, isDev = false) {
 
     .deck-card:hover .deck-icon {
       background: rgba(11, 51, 243, 0.2);
-      color: #0B33F3;
+      color: #0033FF;
     }
 
     .deck-info h3 {
@@ -201,7 +201,7 @@ function generateIndexHtml(decks, isDev = false) {
     }
 
     .deck-card:hover .deck-info h3 {
-      color: #0B33F3;
+      color: #0033FF;
     }
 
     .deck-info p {
@@ -221,7 +221,7 @@ function generateIndexHtml(decks, isDev = false) {
 
     .dev-badge {
       display: inline-block;
-      background: #0B33F3;
+      background: #0033FF;
       color: #fff;
       font-size: 0.75rem;
       font-weight: 600;

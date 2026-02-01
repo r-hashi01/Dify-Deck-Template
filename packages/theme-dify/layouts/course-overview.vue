@@ -35,10 +35,10 @@ const scope = computed(() => props.scope || '')
     <div class="relative z-10 flex flex-col h-full">
       <!-- Header -->
       <div class="flex flex-col items-start w-full">
-        <h1 class="text-[3.75rem] font-extrabold text-[#0B33F3] tracking-tight leading-tight">
+        <h1 class="text-[3rem] font-extrabold text-[#0033FF] tracking-tight leading-tight">
           {{ slideTitle }}
         </h1>
-        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-600 mb-[1rem] border-l-[0.375rem] border-[#0B33F3] pl-[1rem]">
+        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-600 mb-[1rem] border-l-[0.375rem] border-[#0033FF] pl-[1rem]">
           {{ subtitle }}
         </h2>
         <div class="w-full h-px bg-gray-200"></div>
@@ -51,7 +51,7 @@ const scope = computed(() => props.scope || '')
           <!-- Objective Card -->
           <div class="bg-gray-50 border border-gray-200 px-[2.5rem] pt-[2rem] flex flex-col justify-start min-h-0 max-h-[15rem]">
             <div class="mb-[1rem]">
-              <h3 class="text-[0.6875rem] font-bold text-[#0B33F3] uppercase tracking-[0.2em] border-b-[0.125rem] border-[#0B33F3] inline-block pb-[0.5rem]">
+              <h3 class="text-[0.6875rem] font-bold text-[#0033FF] uppercase tracking-[0.2em] border-b-[0.125rem] border-[#0033FF] inline-block pb-[0.5rem]">
                 Course Objective
               </h3>
             </div>
@@ -61,7 +61,7 @@ const scope = computed(() => props.scope || '')
           </div>
 
           <!-- Value Card -->
-          <div class="bg-[#0B33F3] px-[2.5rem] pt-[2rem] flex flex-col justify-start text-white min-h-0 max-h-[15rem]">
+          <div class="bg-[#0033FF] px-[2.5rem] pt-[2rem] flex flex-col justify-start text-white min-h-0 max-h-[15rem]">
             <div class="mb-[1rem]">
               <h3 class="text-[0.6875rem] font-bold text-white/80 uppercase tracking-[0.2em] border-b-[0.125rem] border-white inline-block pb-[0.5rem]">
                 Core Value
@@ -75,7 +75,7 @@ const scope = computed(() => props.scope || '')
 
         <!-- Scope Footer -->
         <div class="h-[5rem] bg-white border-t-[0.25rem] border-gray-100 flex items-center pt-[0.5rem] relative shrink-0">
-          <div class="absolute left-0 top-0 h-[0.25rem] w-[3rem] bg-[#0B33F3]"></div>
+          <div class="absolute left-0 top-0 h-[0.25rem] w-[3rem] bg-[#0033FF]"></div>
           <span class="text-[0.7rem] font-bold text-gray-400 uppercase tracking-widest mr-[1.5rem] shrink-0">Scope</span>
           <p class="text-[1rem] text-gray-600 flex-1">{{ scope }}</p>
         </div>

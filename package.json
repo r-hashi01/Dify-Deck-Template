@@ -4,14 +4,17 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "node scripts/dev.js",
-    "build": "pnpm -r --filter './packages/*' --filter '!theme-dify' build && node scripts/generate-index.js",
+    "dev": "pnpm generate && node scripts/dev.js",
+    "build": "pnpm generate && pnpm -r --filter './packages/*' --filter '!theme-dify' build && node scripts/generate-index.js",
     "serve": "pnpm build && npx serve dist -l 3000",
-    "create-deck": "node scripts/create-deck.js"
+    "create-deck": "node scripts/create-deck.js",
+    "generate": "npx tsx scripts/generate-slides.js",
+    "generate:watch": "npx tsx watch scripts/generate-slides.js"
   },
   "devDependencies": {
     "@slidev/cli": "^52.11.0",
     "@slidev/theme-default": "latest",
-    "concurrently": "^9.1.2"
+    "concurrently": "^9.1.2",
+    "tsx": "^4.7.0"
   }
 }

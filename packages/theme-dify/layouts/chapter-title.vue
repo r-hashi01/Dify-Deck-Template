@@ -17,7 +17,7 @@ const items = computed(() => props.items || [])
 </script>
 
 <template>
-  <div class="flex flex-col h-full justify-center items-center bg-[#0B33F3] text-white relative overflow-hidden p-[4rem]">
+  <div class="flex flex-col h-full justify-center items-center bg-[#0033FF] text-white relative overflow-hidden p-[4rem]">
     <!-- Dify Logo Top Right -->
     <SlideLogo :variant="logoVariant || 'white'" />
 

@@ -64,10 +64,10 @@ const headerFontSize = computed(() => {
     <div class="relative z-10 flex flex-col h-full">
       <!-- Header -->
       <div class="flex flex-col items-start w-full">
-        <h1 class="text-[3.75rem] font-extrabold text-[#0B33F3] tracking-tight leading-tight">
+        <h1 class="text-[3rem] font-extrabold text-[#0033FF] tracking-tight leading-tight">
           {{ slideTitle }}
         </h1>
-        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-600 mb-[1rem] border-l-[0.375rem] border-[#0B33F3] pl-[1rem]">
+        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-600 mb-[1rem] border-l-[0.375rem] border-[#0033FF] pl-[1rem]">
           {{ subtitle }}
         </h2>
         <div class="w-full h-px bg-gray-200"></div>
@@ -77,11 +77,11 @@ const headerFontSize = computed(() => {
       <div class="mt-[1rem] bg-white shadow-sm border border-gray-200 rounded-lg">
         <table class="w-full text-left border-collapse">
           <thead>
-            <tr class="bg-gray-50 border-b-2 border-[#0B33F3]">
+            <tr class="bg-gray-50 border-b-2 border-[#0033FF]">
               <th
                 v-for="(header, i) in headers"
                 :key="i"
-                class="font-bold uppercase tracking-wider text-[#0B33F3]"
+                class="font-bold uppercase tracking-wider text-[#0033FF]"
                 :style="{ padding: cellPadding, fontSize: headerFontSize }"
               >
                 {{ header }}
@@ -104,7 +104,7 @@ const headerFontSize = computed(() => {
                 :style="{ padding: cellPadding, fontSize: fontSize }"
               >
                 <!-- Yes indicator -->
-                <div v-if="parseCell(cell).type === 'yes'" class="text-[#0B33F3] font-bold flex items-center">
+                <div v-if="parseCell(cell).type === 'yes'" class="text-[#0033FF] font-bold flex items-center">
                   <svg class="w-[1.25rem] h-[1.25rem] mr-[0.5rem]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                   </svg>

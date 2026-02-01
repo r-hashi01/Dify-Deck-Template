@@ -87,7 +87,7 @@ const isEmpty = (item: string) => item.trim() === ''
 
 // Parse **bold** text
 const parseText = (text: string) => {
-  return text.replace(/\*\*(.*?)\*\*/g, '<strong class="text-[#0B33F3] font-extrabold">$1</strong>')
+  return text.replace(/\*\*(.*?)\*\*/g, '<strong class="text-[#0033FF] font-extrabold">$1</strong>')
 }
 </script>
 
@@ -103,12 +103,12 @@ const parseText = (text: string) => {
     >
       <span
         class="shrink-0 flex items-center justify-center"
-        :class="[bulletMargin, isSub(item) ? 'text-gray-400' : 'text-[#0B33F3]']"
+        :class="[bulletMargin, isSub(item) ? 'text-gray-400' : 'text-[#0033FF]']"
       >
         <div
           v-if="!isEmpty(item)"
           :class="[
-            isSub(item) ? [subBulletSize, 'rounded-full bg-gray-400', bulletOffset] : [bulletSize, 'rounded-sm bg-[#0B33F3]', bulletOffset]
+            isSub(item) ? [subBulletSize, 'rounded-full bg-gray-400', bulletOffset] : [bulletSize, 'rounded-sm bg-[#0033FF]', bulletOffset]
           ]"
         ></div>
       </span>
