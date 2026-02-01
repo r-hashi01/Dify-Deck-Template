@@ -4,19 +4,7 @@
   "installCommand": "pnpm install",
   "rewrites": [
     {
-      "source": "/:deck/presenter/:path*",
-      "destination": "/:deck/index.html"
-    },
-    {
-      "source": "/:deck/overview",
-      "destination": "/:deck/index.html"
-    },
-    {
-      "source": "/:deck/export",
-      "destination": "/:deck/index.html"
-    },
-    {
-      "source": "/:deck/:slide(\\d+)",
+      "source": "/:deck/:path*",
       "destination": "/:deck/index.html"
     }
   ]
