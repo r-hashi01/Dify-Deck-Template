@@ -77,10 +77,10 @@ const sizeConfig = computed(() => {
     <div class="relative z-10 flex flex-col h-full">
       <!-- Header -->
       <div class="flex flex-col items-start w-full">
-        <h1 class="text-[3.75rem] font-extrabold text-[#0B33F3] tracking-tight leading-tight">
+        <h1 class="text-[3rem] font-extrabold text-[#0033FF] tracking-tight leading-tight">
           {{ slideTitle }}
         </h1>
-        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-600 mb-[1rem] border-l-[0.375rem] border-[#0B33F3] pl-[1rem]">
+        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-600 mb-[1rem] border-l-[0.375rem] border-[#0033FF] pl-[1rem]">
           {{ subtitle }}
         </h2>
         <div class="w-full h-px bg-gray-200"></div>
@@ -100,13 +100,13 @@ const sizeConfig = computed(() => {
             <div class="relative z-10">
               <!-- Tag -->
               <div class="flex items-center gap-[0.75rem] mb-[1rem]">
-                <div class="p-[0.5rem] bg-[#0B33F3] text-white rounded-lg">
+                <div class="p-[0.5rem] bg-[#0033FF] text-white rounded-lg">
                   <span v-if="getIconSvg(heroItem.icon)" v-html="getIconSvg(heroItem.icon)" class="w-[1.25rem] h-[1.25rem]"></span>
                   <svg v-else class="w-[1.25rem] h-[1.25rem]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
                 </div>
-                <span class="text-[#0B33F3] font-bold uppercase tracking-widest text-[0.875rem]">
+                <span class="text-[#0033FF] font-bold uppercase tracking-widest text-[0.875rem]">
                   {{ heroItem.tag || 'POSITIONING' }}
                 </span>
               </div>
@@ -129,10 +129,10 @@ const sizeConfig = computed(() => {
           <div
             v-for="(item, idx) in listItems"
             :key="idx"
-            :class="['bg-white border border-gray-200 rounded-xl shadow-sm flex items-start gap-[0.75rem] group hover:border-[#0B33F3] transition-colors', sizeConfig.padding]"
+            :class="['bg-white border border-gray-200 rounded-xl shadow-sm flex items-start gap-[0.75rem] group hover:border-[#0033FF] transition-colors', sizeConfig.padding]"
           >
             <!-- Icon Box -->
-            <div :class="['rounded-lg bg-gray-50 flex items-center justify-center text-gray-500 group-hover:bg-blue-50 group-hover:text-[#0B33F3] transition-colors shrink-0', sizeConfig.iconBox]">
+            <div :class="['rounded-lg bg-gray-50 flex items-center justify-center text-gray-500 group-hover:bg-blue-50 group-hover:text-[#0033FF] transition-colors shrink-0', sizeConfig.iconBox]">
               <span v-if="getIconSvg(item.icon)" v-html="getIconSvg(item.icon)" :class="sizeConfig.iconSize"></span>
               <svg v-else :class="sizeConfig.iconSize" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
@@ -141,7 +141,7 @@ const sizeConfig = computed(() => {
 
             <!-- Content -->
             <div class="flex-grow">
-              <h4 :class="['font-bold text-gray-900 group-hover:text-[#0B33F3] transition-colors', sizeConfig.titleSize]">
+              <h4 :class="['font-bold text-gray-900 group-hover:text-[#0033FF] transition-colors', sizeConfig.titleSize]">
                 {{ item.title }}
               </h4>
               <p v-if="item.description" :class="['text-gray-600 leading-relaxed', sizeConfig.descSize]">

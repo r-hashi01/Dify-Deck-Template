@@ -8,6 +8,7 @@ interface PillarItem {
   title: string
   description?: string
   icon?: string
+  color?: string
   features?: string[]
 }
 
@@ -27,18 +28,40 @@ const subtitle = computed(() => props.subtitle || '')
 const positioning = computed(() => props.positioning || '')
 const items = computed(() => props.items || [])
 
-// Pillar color styles
-const pillarStyles = [
-  { text: 'text-[#0B33F3]', bg: 'bg-[#0B33F3]', border: 'border-blue-200' },
-  { text: 'text-indigo-600', bg: 'bg-indigo-500', border: 'border-indigo-200' },
-  { text: 'text-emerald-600', bg: 'bg-emerald-500', border: 'border-emerald-200' },
-  { text: 'text-amber-600', bg: 'bg-amber-500', border: 'border-amber-200' },
-  { text: 'text-rose-600', bg: 'bg-rose-500', border: 'border-rose-200' },
-  { text: 'text-violet-600', bg: 'bg-violet-500', border: 'border-violet-200' },
-  { text: 'text-cyan-600', bg: 'bg-cyan-500', border: 'border-cyan-200' },
+// Color map for pillar colors
+const colorMap: Record<string, { text: string, bg: string, border: string }> = {
+  'blue': { text: 'text-[#0033FF]', bg: 'bg-[#0033FF]', border: 'border-blue-200' },
+  'indigo': { text: 'text-indigo-600', bg: 'bg-indigo-500', border: 'border-indigo-200' },
+  'green': { text: 'text-emerald-600', bg: 'bg-emerald-500', border: 'border-emerald-200' },
+  'emerald': { text: 'text-emerald-600', bg: 'bg-emerald-500', border: 'border-emerald-200' },
+  'yellow': { text: 'text-amber-600', bg: 'bg-amber-500', border: 'border-amber-200' },
+  'amber': { text: 'text-amber-600', bg: 'bg-amber-500', border: 'border-amber-200' },
+  'red': { text: 'text-rose-600', bg: 'bg-rose-500', border: 'border-rose-200' },
+  'rose': { text: 'text-rose-600', bg: 'bg-rose-500', border: 'border-rose-200' },
+  'purple': { text: 'text-violet-600', bg: 'bg-violet-500', border: 'border-violet-200' },
+  'violet': { text: 'text-violet-600', bg: 'bg-violet-500', border: 'border-violet-200' },
+  'cyan': { text: 'text-cyan-600', bg: 'bg-cyan-500', border: 'border-cyan-200' },
+  'gray': { text: 'text-gray-600', bg: 'bg-gray-500', border: 'border-gray-200' },
+  'orange': { text: 'text-orange-600', bg: 'bg-orange-500', border: 'border-orange-200' },
+}
+
+// Default styles for fallback (cycle through)
+const defaultStyles = [
+  colorMap['blue'],
+  colorMap['indigo'],
+  colorMap['emerald'],
+  colorMap['amber'],
+  colorMap['rose'],
+  colorMap['violet'],
+  colorMap['cyan'],
 ]
 
-const getStyle = (idx: number) => pillarStyles[idx % pillarStyles.length]
+const getStyle = (item: PillarItem, idx: number) => {
+  if (item.color && colorMap[item.color]) {
+    return colorMap[item.color]
+  }
+  return defaultStyles[idx % defaultStyles.length]
+}
 
 // Size config based on item count
 const sizeConfig = computed(() => {
@@ -80,10 +103,10 @@ const sizeConfig = computed(() => {
     <div class="relative z-10 flex flex-col h-full">
       <!-- Header -->
       <div class="flex flex-col items-start w-full">
-        <h1 class="text-[3.75rem] font-extrabold text-[#0B33F3] tracking-tight leading-tight">
+        <h1 class="text-[3rem] font-extrabold text-[#0033FF] tracking-tight leading-tight">
           {{ slideTitle }}
         </h1>
-        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-600 mb-[0.5rem] border-l-[0.375rem] border-[#0B33F3] pl-[1rem]">
+        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-600 mb-[0.5rem] border-l-[0.375rem] border-[#0033FF] pl-[1rem]">
           {{ subtitle }}
         </h2>
 
@@ -93,7 +116,7 @@ const sizeConfig = computed(() => {
             <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
           </svg>
           <div class="relative z-10 flex items-center gap-[1rem]">
-            <span class="px-[0.75rem] py-[0.375rem] bg-[#0B33F3] text-white rounded-lg text-[0.75rem] font-bold uppercase tracking-widest">
+            <span class="px-[0.75rem] py-[0.375rem] bg-[#0033FF] text-white rounded-lg text-[0.75rem] font-bold uppercase tracking-widest">
               POSITIONING
             </span>
             <h3 class="text-[1.5rem] font-extrabold text-slate-900 leading-tight">
@@ -119,12 +142,12 @@ const sizeConfig = computed(() => {
             </div>
 
             <!-- Top Color Line -->
-            <div :class="['absolute top-0 left-0 w-full h-[0.25rem]', getStyle(idx).bg]"></div>
+            <div :class="['absolute top-0 left-0 w-full h-[0.25rem]', getStyle(item, idx).bg]"></div>
 
             <!-- Content -->
             <div class="relative z-10 flex flex-col items-center h-full pt-[1rem] w-full">
               <!-- Icon Box -->
-              <div :class="['mb-[0.75rem] rounded-sm bg-white border border-gray-100 shadow-sm group-hover:scale-110 transition-transform duration-300', sizeConfig.iconBox, getStyle(idx).text]">
+              <div :class="['mb-[0.75rem] rounded-sm bg-white border border-gray-100 shadow-sm group-hover:scale-110 transition-transform duration-300', sizeConfig.iconBox, getStyle(item, idx).text]">
                 <span v-if="getIconSvg(item.icon)" v-html="getIconSvg(item.icon)" :class="sizeConfig.iconSize"></span>
                 <svg v-else :class="sizeConfig.iconSize" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -132,7 +155,7 @@ const sizeConfig = computed(() => {
               </div>
 
               <!-- Title -->
-              <h3 :class="['font-black text-center mb-[0.5rem] leading-tight tracking-tight', sizeConfig.titleSize, getStyle(idx).text]">
+              <h3 :class="['font-black text-center mb-[0.5rem] leading-tight tracking-tight', sizeConfig.titleSize, getStyle(item, idx).text]">
                 {{ item.title }}
               </h3>
 
@@ -151,7 +174,7 @@ const sizeConfig = computed(() => {
                     :key="fIdx"
                     :class="['text-gray-600 flex items-center gap-[0.375rem] bg-slate-50 p-[0.375rem] rounded-lg border border-slate-100', sizeConfig.featureSize]"
                   >
-                    <div :class="['w-[0.375rem] h-[0.375rem] rounded-full shrink-0', getStyle(idx).bg]"></div>
+                    <div :class="['w-[0.375rem] h-[0.375rem] rounded-full shrink-0', getStyle(item, idx).bg]"></div>
                     {{ feature }}
                   </li>
                 </ul>

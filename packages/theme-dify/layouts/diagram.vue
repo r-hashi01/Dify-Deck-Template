@@ -6,6 +6,9 @@ import SlideLogo from '../components/SlideLogo.vue'
 const props = defineProps<{
   slideTitle?: string
   subtitle?: string
+  imageUrl?: string
+  imageAlt?: string
+  imageClass?: string
   deckName?: string
   copyright?: string
   authorName?: string
@@ -14,6 +17,9 @@ const props = defineProps<{
 
 const slideTitle = computed(() => props.slideTitle || 'Diagram')
 const subtitle = computed(() => props.subtitle || '')
+const imageUrl = computed(() => props.imageUrl)
+const imageAlt = computed(() => props.imageAlt || 'Diagram')
+const imageClass = computed(() => props.imageClass || '')
 </script>
 
 <template>
@@ -29,10 +35,10 @@ const subtitle = computed(() => props.subtitle || '')
     <div class="relative z-10 flex flex-col h-full">
       <!-- Header -->
       <div class="flex flex-col items-start w-full">
-        <h1 class="text-[3.75rem] font-extrabold text-[#0B33F3] tracking-tight leading-tight">
+        <h1 class="text-[3rem] font-extrabold text-[#0033FF] tracking-tight leading-tight">
           {{ slideTitle }}
         </h1>
-        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-600 mb-[1rem] border-l-[0.375rem] border-[#0B33F3] pl-[1rem]">
+        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-600 mb-[1rem] border-l-[0.375rem] border-[#0033FF] pl-[1rem]">
           {{ subtitle }}
         </h2>
         <div class="w-full h-px bg-gray-200"></div>
@@ -40,7 +46,15 @@ const subtitle = computed(() => props.subtitle || '')
 
       <!-- Diagram/Visual Content Area -->
       <div class="flex-grow min-h-0 relative z-10 mt-[1rem] flex items-center justify-center">
-        <slot>
+        <!-- Image URL provided -->
+        <img
+          v-if="imageUrl"
+          :src="imageUrl"
+          :alt="imageAlt"
+          :class="['max-w-full max-h-full object-contain', imageClass]"
+        />
+        <!-- Slot for custom DOM content -->
+        <slot v-else>
           <div class="text-gray-400 text-[1.25rem]">
             Place your diagram, image, or visual content here
           </div>

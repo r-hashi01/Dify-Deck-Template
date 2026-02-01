@@ -1,317 +1,343 @@
 ---
 theme: ../theme-dify
-highlighter: shiki
-lineNumbers: false
-drawings:
-  persist: false
-transition: slide-left
-title: Dify Template Gallery
-mdc: true
+title: "Dify Template Gallery"
+deckName: Dify Deck
+copyright: © 2026 Dify. All rights reserved.
+authorName: Dify Team
 layout: title
 slideTitle: Dify Template Gallery
-subtitle: Showcase of All Available Slide Styles
-label: Visual Design System
-teamName: Solutions & Customer Success
-tagline: Infrastructure for Intuitive LLM App Development
-deckName: "ENGLISH GALLERY: ALL SLIDE STYLES"
-copyright: Copyright © Dify Tech Inc. All Rights Reserved.
-authorName: Your Name
+subtitle: A showcase of all available slide layouts
+label: Template
+teamName: Dify Team
+tagline: Build AI apps faster
 ---
 
 ---
+deckName: Dify Deck
+copyright: © 2026 Dify. All rights reserved.
+authorName: Dify Team
 layout: presenter
-slideTitle: Your Instructor
-subtitle: Expert in AI Systems
-name: Your Name
+slideTitle: About the Presenter
+subtitle: Template Author
+name: Dify Team
+role: AI Platform Developer
 details:
-  - Your Job Title
-  - Senior Solution Architect
-  - 10+ years in Enterprise Software
-  - Specialized in LLM Engineering
+  - Building the future of AI applications
+  - Open source enthusiast
+  - Community driven development
+imageUrl: /assets/icon/dify-logo.svg
 ---
 
 ---
+deckName: Dify Deck
+copyright: © 2026 Dify. All rights reserved.
+authorName: Dify Team
 layout: course-overview
-slideTitle: Module Overview
-subtitle: What we will cover today
-objective: To provide a comprehensive understanding of the Dify Slide Design System and its capabilities.
-value: Enable creators to build professional, consistent, and visually engaging presentations efficiently.
-scope: This module covers all 20+ slide layouts, component usage, and customization options.
+slideTitle: Course Overview
+subtitle: What you will learn
+objective: Master all Dify Deck slide layouts and create stunning presentations
+value: Save time with pre-built, professionally designed templates
+scope: All 21 layouts with examples and best practices
 ---
 
 ---
+deckName: Dify Deck
+copyright: © 2026 Dify. All rights reserved.
+authorName: Dify Team
 layout: section
-slideTitle: Structural Slides
-subtitle: Building blocks for your narrative flow
-part: Part 01
+part: Part
+partNumber: 1
+slideTitle: Content Layouts
+subtitle: Basic building blocks
 ---
 
 ---
-layout: chapter-title
-slideTitle: Core Content Layouts
-items:
-  - Basic Text Content
-  - Split Views
-  - Adaptive Layouts
----
-
----
+deckName: Dify Deck
+copyright: © 2026 Dify. All rights reserved.
+authorName: Dify Team
 layout: content
-slideTitle: Standard Content Slide
+slideTitle: Content Layout
+subtitle: Standard bullet points
 items:
-  - This is the most basic slide type used for bullet points and text.
-  - It supports **markdown-style bolding** for emphasis.
-  - You can add multiple paragraphs or list items.
-  - "1. Ordered lists are also supported manually."
-  - "2. Keep text concise and legible."
+  - First point with **bold** text
+  - Second point with details
+  - "  Sub-item with indentation"
+  - "  Another sub-item"
+  - Third main point
 ---
 
 ---
-layout: split
-slideTitle: Split Layout
-subtitle: Text on Left, Visual on Right
-items:
-  - Ideal for explaining a diagram, chart, or image.
-  - The left side holds the narrative or explanation.
-  - The right side is a flexible content container.
-  - You can put code blocks, SVGs, or images here.
----
-
----
+deckName: Dify Deck
+copyright: © 2026 Dify. All rights reserved.
+authorName: Dify Team
 layout: adaptive-content
 slideTitle: Adaptive Content
-subtitle: Centered layout for high-impact statements
+subtitle: Centered layout
 items:
-  - This layout centers the content horizontally.
-  - Best for short, punchy lists or quotes.
-  - It draws focus to the middle of the screen.
-  - Great for summary points or simple steps.
+  - Centered content for focus
+  - Great for key messages
+  - Scales based on content amount
 ---
 
 ---
-layout: section
-slideTitle: Lists & Grids
-subtitle: Organizing complex information
-part: Part 02
+deckName: Dify Deck
+copyright: © 2026 Dify. All rights reserved.
+authorName: Dify Team
+layout: chapter-title
+slideTitle: "Chapter: Advanced Layouts"
+items:
+  - Cards and grids
+  - Data visualization
+  - Interactive elements
 ---
 
 ---
+deckName: Dify Deck
+copyright: © 2026 Dify. All rights reserved.
+authorName: Dify Team
 layout: cards
-slideTitle: Feature Cards
-subtitle: Grid layout for 3-4 key items
+slideTitle: Cards Layout
+subtitle: Feature showcase
 items:
-  - title: Performance
-    description: High-speed processing with optimized engines.
+  - title: Easy Setup
+    description: Get started in minutes
+    icon: Zap
     color: yellow
-  - title: Security
-    description: Enterprise-grade encryption and role management.
-    color: green
-  - title: Scalability
-    description: Horizontal scaling support for millions of users.
+  - title: Customizable
+    description: Adapt to your brand
+    icon: Settings
     color: blue
-  - title: Reliability
-    description: 99.99% uptime SLA guaranteed.
+  - title: Responsive
+    description: Works on all devices
+    icon: Layout
+    color: green
+  - title: Fast
+    description: Optimized performance
+    icon: Rocket
     color: purple
 ---
 
 ---
+deckName: Dify Deck
+copyright: © 2026 Dify. All rights reserved.
+authorName: Dify Team
 layout: accordion
-slideTitle: Accordion List
-subtitle: Sequential or detailed breakdown
+slideTitle: Accordion Layout
+subtitle: Expandable sections
 items:
-  - title: "Step 1: Ingestion"
-    description: Data is collected from various sources and normalized into a unified format for processing.
-  - title: "Step 2: Processing"
-    description: LLMs analyze and transform the data using advanced natural language understanding capabilities.
-  - title: "Step 3: Validation"
-    description: Quality checks ensure accuracy and consistency before final output generation.
-  - title: "Step 4: Output"
-    description: Results are delivered via API or UI with full traceability and logging support.
+  - title: What is Dify?
+    description: An open-source LLM app development platform
+    icon: HelpCircle
+  - title: Key Features
+    description: Visual workflow builder, RAG pipeline, model management
+    icon: Star
+  - title: Use Cases
+    description: Chatbots, content generation, data analysis
+    icon: Target
 ---
 
 ---
+deckName: Dify Deck
+copyright: © 2026 Dify. All rights reserved.
+authorName: Dify Team
 layout: focus-cols
 slideTitle: Focus Columns
-subtitle: Highlighting a key metric or concept
+subtitle: Highlight key points
 items:
-  - title: "EFFICIENCY"
-    description: Reduce operational costs by 40%.
-    tag: POSITIONING
-  - title: Speed
-    description: Deploy 10x faster than traditional methods.
-  - title: Quality
-    description: Maintain consistent high standards across all outputs.
+  - title: Design
+    description: Beautiful and clean
+    tag: "01"
+    icon: Layout
+  - title: Develop
+    description: Type-safe and fast
+    tag: "02"
+    icon: Code
+  - title: Deploy
+    description: One-click publish
+    tag: "03"
+    icon: Rocket
 ---
 
 ---
+deckName: Dify Deck
+copyright: © 2026 Dify. All rights reserved.
+authorName: Dify Team
 layout: pillars
-slideTitle: Strategic Pillars
-subtitle: Vertical columns for core capabilities
-positioning: Enterprise Architecture
+slideTitle: Pillars Layout
+subtitle: Core principles
+positioning: Built on solid foundations
 items:
-  - title: Cloud Native
-    description: Built for K8s and Docker environments.
-    icon: cloud
+  - title: Quality
+    description: Excellence in every detail
+    icon: Award
     features:
-      - Auto-scaling
-      - Containerized
-  - title: Security First
-    description: SOC2 Compliant and GDPR ready.
-    icon: lock
+      - Tested
+      - Reviewed
+      - Polished
+  - title: Speed
+    description: Fast development cycle
+    icon: Zap
     features:
-      - SSO
-      - Audit Logs
-  - title: Open Platform
-    description: Extensible API and plugin system.
-    icon: git-branch
+      - Quick setup
+      - Hot reload
+      - Instant deploy
+  - title: Scale
+    description: Grow without limits
+    icon: TrendingUp
     features:
-      - REST API
-      - Webhooks
-  - title: Analytics
-    description: Deep insights into usage patterns.
-    icon: bar-chart
-    features:
-      - Real-time
-      - Custom Reports
+      - Modular
+      - Extensible
+      - Enterprise-ready
 ---
 
 ---
+deckName: Dify Deck
+copyright: © 2026 Dify. All rights reserved.
+authorName: Dify Team
 layout: matrix
 slideTitle: Comparison Matrix
-subtitle: Feature comparison across plans
+subtitle: Feature comparison
 headers:
   - Feature
   - Free
   - Pro
   - Enterprise
 rows:
-  - ["Users", "1", "5", "Unlimited"]
-  - ["Storage", "1GB", "10GB", "Unlimited"]
-  - ["Support", "Community", "Email", "24/7 Dedicated"]
-  - ["SLA", "-", "99.9%", "99.99%"]
+  - 0: Slides
+    1: "10"
+    2: "100"
+    3: Unlimited
+  - 0: Themes
+    1: "1"
+    2: "5"
+    3: Custom
+  - 0: Export
+    1: ❌
+    2: ✅
+    3: ✅
+  - 0: Support
+    1: Community
+    2: Email
+    3: 24/7
 ---
 
 ---
-layout: section
-slideTitle: Specialized Slides
-subtitle: Pricing, Licensing, FAQ, etc.
-part: Part 03
----
-
----
-layout: diagram
-slideTitle: System Architecture
-subtitle: Visualizing the flow
----
-
----
+deckName: Dify Deck
+copyright: © 2026 Dify. All rights reserved.
+authorName: Dify Team
 layout: pricing
 slideTitle: Pricing Plans
-subtitle: Transparent scaling options
+subtitle: Choose your plan
 items:
   - title: Starter
-    price: "$0"
-    priceUnit: /mo
+    price: $0
+    priceUnit: /month
     description: For individuals
     features:
-      - 1 User
-      - Basic Support
-      - 1 Project
+      - 5 presentations
+      - Basic themes
+      - Community support
     topBarColor: gray
   - title: Pro
-    price: "$49"
-    priceUnit: /mo
-    description: For growing teams
+    price: $19
+    priceUnit: /month
+    description: For professionals
     features:
-      - 5 Users
-      - Priority Support
-      - Unlimited Projects
+      - Unlimited presentations
+      - All themes
+      - Priority support
+      - Custom branding
     topBarColor: blue
     badge: Popular
   - title: Enterprise
     price: Custom
-    description: For large organizations
+    description: For teams
     features:
-      - Unlimited Users
-      - Dedicated Success Manager
+      - Everything in Pro
+      - SSO
+      - Dedicated support
       - SLA
-    topBarColor: black
+    topBarColor: purple
+footerNote: All plans include a 14-day free trial
 ---
 
 ---
-layout: license
-slideTitle: Licensing Model
-subtitle: Open Source + Commercial
-content:
-  - We use a dual-license model to ensure freedom and sustainability.
-items:
-  - title: Apache 2.0
-    description: Core Framework is open source.
-    icon: book-open
-  - title: Commercial
-    description: Enterprise features require a commercial license.
-    icon: lock
-  - title: Cloud Service
-    description: Managed hosting subscription.
-    icon: cloud
----
-
----
+deckName: Dify Deck
+copyright: © 2026 Dify. All rights reserved.
+authorName: Dify Team
 layout: faq
-slideTitle: Frequently Asked Questions
+slideTitle: FAQ
+subtitle: Common questions
 items:
-  - title: Can I customize the colors?
-    description: Yes, the system uses Tailwind CSS and can be themed easily.
-  - title: Is it compatible with MDX?
-    description: The current architecture uses TypeScript objects, but can be adapted.
-  - title: How do I add images?
-    description: Import them and pass them to the visualContent prop.
-  - title: Can I export to PDF?
-    description: Yes, Slidev supports PDF export out of the box.
+  - title: How do I get started?
+    description: Run pnpm create-deck and start editing
+  - title: Can I customize themes?
+    description: Yes, all styles are customizable
+  - title: Is it open source?
+    description: Yes, MIT licensed
+  - title: Need help?
+    description: Join our community Discord
 ---
 
 ---
-layout: story
-slideTitle: The Origin Story
-subtitle: Why we built this
-content:
-  - We believed that presentation tools were too rigid for developers.
-  - We wanted to express ideas using code and components.
-  - This template is the result of that vision, combining the power of Vue with the simplicity of a slide deck.
----
-
----
-layout: macro-focus
-slideTitle: Key Takeaways
-items:
-  - Use consistent layouts
-  - Focus on one idea per slide
-  - Visuals should support the text
-  - Keep it simple
----
-
----
+deckName: Dify Deck
+copyright: © 2026 Dify. All rights reserved.
+authorName: Dify Team
 layout: key-takeaways
-slideTitle: Summary
-subtitle: Final thoughts
-content:
-  - Remember these key points as you build your presentations.
+slideTitle: Key Takeaways
+subtitle: Remember these points
 items:
-  - title: Flexible System
-    description: Adapts to various content types and layouts.
-    icon: layers
-  - title: Developer Friendly
-    description: Built with Vue and Tailwind for easy customization.
-    icon: code
-  - title: Component Based
-    description: Reusable components for consistent design.
-    icon: box
+  - title: Type-Safe
+    description: Full TypeScript support
+    icon: Shield
+  - title: Beautiful
+    description: Professional designs
+    icon: Star
+  - title: Fast
+    description: Quick development
+    icon: Zap
 ---
 
 ---
+deckName: Dify Deck
+copyright: © 2026 Dify. All rights reserved.
+authorName: Dify Team
+layout: macro-focus
+slideTitle: The Big Picture
+items:
+  - Build presentations faster
+  - Focus on content, not design
+  - Ship with confidence
+---
+
+---
+deckName: Dify Deck
+copyright: © 2026 Dify. All rights reserved.
+authorName: Dify Team
+layout: license
+slideTitle: License
+subtitle: Usage terms
+content:
+  - MIT License - Free for commercial use
+items:
+  - title: Attribution
+    description: Credit appreciated but not required
+    icon: Heart
+  - title: Modification
+    description: Customize freely
+    icon: Edit
+  - title: Distribution
+    description: Share with others
+    icon: Share
+---
+
+---
+deckName: Dify Deck
+copyright: © 2026 Dify. All rights reserved.
+authorName: Dify Team
 layout: end
-subtitle: Thank you for watching
-website: dify.ai
+subtitle: Thank you for watching!
+website: "https://dify.ai"
 email: hello@dify.ai
-github: langgenius
+github: langgenius/dify
 ---

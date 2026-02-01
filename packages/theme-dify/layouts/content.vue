@@ -32,10 +32,10 @@ const items = computed(() => props.items || [])
     <div class="relative z-10 flex flex-col h-full">
       <!-- Header -->
       <div class="flex flex-col items-start w-full">
-        <h1 class="text-[3.75rem] font-extrabold text-[#0B33F3] tracking-tight leading-tight">
+        <h1 class="text-[3rem] font-extrabold text-[#0033FF] tracking-tight leading-tight">
           {{ slideTitle }}
         </h1>
-        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-600 mb-[1rem] border-l-[0.375rem] border-[#0B33F3] pl-[1rem]">
+        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-600 mb-[1rem] border-l-[0.375rem] border-[#0033FF] pl-[1rem]">
           {{ subtitle }}
         </h2>
         <div class="w-full h-px bg-gray-200"></div>

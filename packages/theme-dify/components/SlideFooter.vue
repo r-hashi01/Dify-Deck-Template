@@ -57,7 +57,7 @@ const isDark = computed(() => props.dark || false)
     ></span>
     <span
       class="text-[0.875rem] font-mono font-bold"
-      :class="isDark ? 'text-white' : 'text-[#0B33F3]'"
+      :class="isDark ? 'text-white' : 'text-[#0033FF]'"
     >
       {{ $slidev.nav.currentPage }}
       <span :class="isDark ? 'text-white/50' : 'text-gray-300'" class="font-light">/</span>
@@ -71,7 +71,7 @@ const isDark = computed(() => props.dark || false)
     :class="isDark ? 'bg-white/20' : 'bg-gray-200'"
   >
     <div
-      class="h-full bg-[#0B33F3] transition-all duration-300 ease-out"
+      class="h-full bg-[#0033FF] transition-all duration-300 ease-out"
       :style="{ width: `${($slidev.nav.currentPage / $slidev.nav.total) * 100}%` }"
     ></div>
   </div>

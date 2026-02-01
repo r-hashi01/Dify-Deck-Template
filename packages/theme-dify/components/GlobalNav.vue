@@ -133,7 +133,7 @@ const toggleFullscreen = () => {
 .nav-logo {
   width: 1.75rem;
   height: 1.75rem;
-  background: #0B33F3;
+  background: #0033FF;
   color: white;
   border-radius: 0.25rem;
   font-weight: 700;
@@ -203,7 +203,7 @@ const toggleFullscreen = () => {
 
 .nav-page-input:focus {
   outline: none;
-  border-color: #0B33F3;
+  border-color: #0033FF;
   box-shadow: 0 0 0 2px rgba(11, 51, 243, 0.2);
 }
 

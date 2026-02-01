@@ -16,8 +16,9 @@ const props = defineProps<{
 
 const slideTitle = computed(() => props.slideTitle || 'Section Title')
 const subtitle = computed(() => props.subtitle || '')
-const part = computed(() => props.part || 'Part 01')
+const part = computed(() => props.part)
 const partNumber = computed(() => {
+  if (props.partNumber === undefined || props.partNumber === null) return 0
   if (props.partNumber) return props.partNumber
   // Extract number from part string (e.g., "Part 01" -> "1")
   const match = part.value.match(/\d+/)
@@ -26,9 +27,9 @@ const partNumber = computed(() => {
 </script>
 
 <template>
-  <div class="flex flex-col h-full justify-center items-start px-[4rem] py-[3rem] bg-[#0B33F3] text-white relative overflow-hidden">
+  <div class="flex flex-col h-full justify-center items-start px-[4rem] py-[3rem] bg-[#0033FF] text-white relative overflow-hidden">
     <!-- Large Number Indicator (Background) -->
-    <div class="absolute right-0 bottom-0 text-[28rem] font-bold text-white opacity-10 leading-none select-none font-mono translate-y-[20%] translate-x-[10%]">
+    <div v-if="partNumber" class="absolute right-0 bottom-0 text-[28rem] font-bold text-white opacity-10 leading-none select-none font-mono translate-y-[20%] translate-x-[10%]">
       {{ partNumber }}
     </div>
 
@@ -37,7 +38,7 @@ const partNumber = computed(() => {
 
     <div class="relative z-10 w-full max-w-6xl">
       <!-- Part Label -->
-      <div class="flex items-center gap-[1rem] mb-[1.5rem]">
+      <div v-if="part" class="flex items-center gap-[1rem] mb-[1.5rem]">
         <span class="h-px w-[3rem] bg-white"></span>
         <h2 class="text-[1.125rem] font-bold tracking-[0.3em] uppercase text-white/90">
           {{ part }}

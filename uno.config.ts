@@ -7,7 +7,7 @@ export default defineConfig({
   },
   theme: {
     colors: {
-      'dify-blue': '#0B33F3',
+      'dify-blue': '#0033FF',
     },
   },
   safelist: [

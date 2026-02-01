@@ -44,6 +44,7 @@ const colorClasses: Record<string, { bg: string, text: string, border: string }>
   orange: { bg: 'bg-orange-50', text: 'text-orange-500', border: 'border-orange-100' },
   indigo: { bg: 'bg-indigo-50', text: 'text-indigo-500', border: 'border-indigo-100' },
   cyan: { bg: 'bg-cyan-50', text: 'text-cyan-500', border: 'border-cyan-100' },
+  black: { bg: 'bg-gray-100', text: 'text-gray-900', border: 'border-gray-100' },
 }
 
 const getColorClasses = (color?: string) => {
@@ -64,10 +65,10 @@ const getColorClasses = (color?: string) => {
     <div class="relative z-10 flex flex-col h-full">
       <!-- Header -->
       <div class="flex flex-col items-start w-full">
-        <h1 class="text-[3.75rem] font-extrabold text-[#0B33F3] tracking-tight leading-tight">
+        <h1 class="text-[3rem] font-extrabold text-[#0033FF] tracking-tight leading-tight">
           {{ slideTitle }}
         </h1>
-        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-600 mb-[1rem] border-l-[0.375rem] border-[#0B33F3] pl-[1rem]">
+        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-600 mb-[1rem] border-l-[0.375rem] border-[#0033FF] pl-[1rem]">
           {{ subtitle }}
         </h2>
         <div class="w-full h-px bg-gray-200"></div>
@@ -79,7 +80,7 @@ const getColorClasses = (color?: string) => {
           <div
             v-for="(item, idx) in items"
             :key="idx"
-            class="bg-white rounded-sm border border-gray-200 p-[1rem] shadow-sm hover:shadow-md hover:border-[#0B33F3] transition-all duration-300 flex flex-col items-start group"
+            class="bg-white rounded-sm border border-gray-200 p-[1rem] shadow-sm hover:shadow-md hover:border-[#0033FF] transition-all duration-300 flex flex-col items-start group"
           >
             <!-- Icon Box -->
             <div
@@ -99,7 +100,7 @@ const getColorClasses = (color?: string) => {
             </div>
 
             <!-- Title -->
-            <div class="text-[1.1rem] font-bold text-gray-900 mb-[0.375rem] leading-tight group-hover:text-[#0B33F3] transition-colors">
+            <div class="text-[1.1rem] font-bold text-gray-900 mb-[0.375rem] leading-tight group-hover:text-[#0033FF] transition-colors">
               {{ item.title }}
             </div>
 

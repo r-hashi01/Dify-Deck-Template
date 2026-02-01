@@ -26,10 +26,10 @@ const items = computed(() => props.items || [])
 
     <div class="relative z-10 max-w-6xl text-center w-full">
       <!-- Blue Line -->
-      <div class="mb-[1rem] mx-auto w-[6rem] h-[0.25rem] bg-[#0B33F3]"></div>
+      <div class="mb-[1rem] mx-auto w-[6rem] h-[0.25rem] bg-[#0033FF]"></div>
 
       <!-- Title -->
-      <h1 class="text-[3.5rem] font-bold mb-[2rem] leading-tight tracking-tight">
+      <h1 class="text-[3rem] font-bold mb-[2rem] leading-tight tracking-tight">
         {{ slideTitle }}
       </h1>
 
@@ -38,10 +38,10 @@ const items = computed(() => props.items || [])
         <div
           v-for="(item, idx) in items"
           :key="idx"
-          class="bg-white/5 p-[1rem] border-l-[0.25rem] border-[#0B33F3] flex items-start"
+          class="bg-white/5 p-[1rem] border-l-[0.25rem] border-[#0033FF] flex items-start"
         >
           <!-- Check Icon -->
-          <div class="mr-[1rem] mt-[0.125rem] text-[#0B33F3] shrink-0">
+          <div class="mr-[1rem] mt-[0.125rem] text-[#0033FF] shrink-0">
             <svg class="w-[1.5rem] h-[1.5rem]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
             </svg>

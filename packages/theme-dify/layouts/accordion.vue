@@ -89,10 +89,10 @@ const sizeConfig = computed(() => {
     <div class="relative z-10 flex flex-col h-full">
       <!-- Header -->
       <div class="flex flex-col items-start w-full">
-        <h1 class="text-[3.75rem] font-extrabold text-[#0B33F3] tracking-tight leading-tight">
+        <h1 class="text-[3.75rem] font-extrabold text-[#0033FF] tracking-tight leading-tight">
           {{ slideTitle }}
         </h1>
-        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-600 mb-[1rem] border-l-[0.375rem] border-[#0B33F3] pl-[1rem]">
+        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-600 mb-[1rem] border-l-[0.375rem] border-[#0033FF] pl-[1rem]">
           {{ subtitle }}
         </h2>
         <div class="w-full h-px bg-gray-200"></div>
@@ -104,25 +104,25 @@ const sizeConfig = computed(() => {
           <div
             v-for="(item, idx) in items"
             :key="idx"
-            class="bg-white rounded-lg border border-[#0B33F3] shadow-sm"
+            class="bg-white rounded-lg border border-[#0033FF] shadow-sm"
           >
             <!-- Header -->
             <div :class="['flex items-center', sizeConfig.padding]">
               <!-- Icon Box -->
               <div :class="['flex items-center justify-center bg-blue-50 rounded-lg border border-blue-100 shrink-0', sizeConfig.iconBox, sizeConfig.iconMargin]">
-                <span v-if="getIconSvg(item.icon)" v-html="getIconSvg(item.icon)" :class="['text-[#0B33F3]', sizeConfig.iconSize]"></span>
-                <span v-else :class="['font-bold text-[#0B33F3]', sizeConfig.iconText]">{{ idx + 1 }}</span>
+                <span v-if="getIconSvg(item.icon)" v-html="getIconSvg(item.icon)" :class="['text-[#0033FF]', sizeConfig.iconSize]"></span>
+                <span v-else :class="['font-bold text-[#0033FF]', sizeConfig.iconText]">{{ idx + 1 }}</span>
               </div>
 
               <!-- Title -->
-              <h3 :class="['font-bold text-[#0B33F3]', sizeConfig.titleSize]">
+              <h3 :class="['font-bold text-[#0033FF]', sizeConfig.titleSize]">
                 {{ item.title }}
               </h3>
             </div>
 
             <!-- Description -->
             <div :class="['px-[0.75rem]', sizeConfig.paddingBottom, sizeConfig.paddingLeft]">
-              <p :class="['text-gray-600 leading-relaxed border-[#0B33F3]', sizeConfig.descSize, sizeConfig.borderWidth, sizeConfig.descPadding]">
+              <p :class="['text-gray-600 leading-relaxed border-[#0033FF]', sizeConfig.descSize, sizeConfig.borderWidth, sizeConfig.descPadding]">
                 {{ item.description }}
               </p>
             </div>

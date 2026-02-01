@@ -21,6 +21,24 @@ function getEnabledDeckNames() {
   return config.decks || [];
 }
 
+// Ensure assets symlink exists for a deck
+function ensureAssetsSymlink(deckName) {
+  const deckPublicDir = path.join(packagesDir, deckName, 'public');
+  const assetsLink = path.join(deckPublicDir, 'assets');
+  const targetPath = '../../../public/assets';
+
+  // Create public directory if it doesn't exist
+  if (!fs.existsSync(deckPublicDir)) {
+    fs.mkdirSync(deckPublicDir, { recursive: true });
+  }
+
+  // Create symlink if it doesn't exist
+  if (!fs.existsSync(assetsLink)) {
+    fs.symlinkSync(targetPath, assetsLink);
+    console.log(`  Created symlink: ${deckName}/public/assets`);
+  }
+}
+
 // Scan packages directory and find decks
 function getDecks() {
   const enabledDecks = getEnabledDeckNames();
@@ -50,6 +68,9 @@ function getDecks() {
       const slidesContent = fs.readFileSync(slidesPath, 'utf-8');
       const titleMatch = slidesContent.match(/title:\s*["']?([^"'\n]+)["']?/);
       const title = titleMatch ? titleMatch[1].trim() : pkg;
+
+      // Ensure assets symlink exists
+      ensureAssetsSymlink(pkg);
 
       decks.push({
         name: pkg,
@@ -103,7 +124,7 @@ function generateIndexHtml(decks) {
     h1 { font-size: 2.25rem; font-weight: 700; margin-bottom: 1rem; }
     .subtitle { color: #9ca3af; font-size: 1.125rem; }
     .dev-badge {
-      display: inline-block; background: #0B33F3; color: #fff;
+      display: inline-block; background: #0033FF; color: #fff;
       font-size: 0.75rem; font-weight: 600; padding: 0.25rem 0.5rem;
       border-radius: 0.25rem; margin-left: 0.5rem; vertical-align: middle;
     }
@@ -115,7 +136,7 @@ function generateIndexHtml(decks) {
       transition: all 0.3s ease;
     }
     .deck-card:hover {
-      background: #374151; border-color: #0B33F3; transform: translateY(-2px);
+      background: #374151; border-color: #0033FF; transform: translateY(-2px);
       box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
     }
     .deck-card-content { display: flex; align-items: center; gap: 1rem; }
@@ -123,9 +144,9 @@ function generateIndexHtml(decks) {
       padding: 0.75rem; background: #111827; border-radius: 0.5rem;
       color: #9ca3af; transition: all 0.3s ease;
     }
-    .deck-card:hover .deck-icon { background: rgba(11, 51, 243, 0.2); color: #0B33F3; }
+    .deck-card:hover .deck-icon { background: rgba(11, 51, 243, 0.2); color: #0033FF; }
     .deck-info h3 { font-size: 1.25rem; font-weight: 700; transition: color 0.3s ease; }
-    .deck-card:hover .deck-info h3 { color: #0B33F3; }
+    .deck-card:hover .deck-info h3 { color: #0033FF; }
     .deck-info p { color: #6b7280; font-size: 0.875rem; margin-top: 0.25rem; }
     .port-badge {
       display: inline-block; background: #374151; color: #9ca3af;

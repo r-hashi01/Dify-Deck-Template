@@ -44,10 +44,10 @@ const restrictions = computed(() => items.value.slice(1))
     <div class="relative z-10 flex flex-col h-full">
       <!-- Header -->
       <div class="flex flex-col items-start w-full">
-        <h1 class="text-[3.75rem] font-extrabold text-[#0B33F3] tracking-tight leading-tight">
+        <h1 class="text-[3rem] font-extrabold text-[#0033FF] tracking-tight leading-tight">
           {{ slideTitle }}
         </h1>
-        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-600 mb-[1rem] border-l-[0.375rem] border-[#0B33F3] pl-[1rem]">
+        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-600 mb-[1rem] border-l-[0.375rem] border-[#0033FF] pl-[1rem]">
           {{ subtitle }}
         </h2>
         <div class="w-full h-px bg-gray-200"></div>
@@ -67,15 +67,15 @@ const restrictions = computed(() => items.value.slice(1))
           <!-- Left: Base License -->
           <div
             v-if="baseLicense"
-            class="flex flex-col items-center justify-center w-5/12 border-2 border-[#0B33F3] rounded-xl bg-blue-50/30 p-[1.5rem] shadow-sm hover:shadow-lg transition-shadow"
+            class="flex flex-col items-center justify-center w-5/12 border-2 border-[#0033FF] rounded-xl bg-blue-50/30 p-[1.5rem] shadow-sm hover:shadow-lg transition-shadow"
           >
-            <div class="text-[#0B33F3]">
+            <div class="text-[#0033FF]">
               <span v-if="getIconSvg(baseLicense.icon)" v-html="getIconSvg(baseLicense.icon)" class="w-[2.5rem] h-[2.5rem]"></span>
               <svg v-else class="w-[2.5rem] h-[2.5rem]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
               </svg>
             </div>
-            <h3 class="text-[1.5rem] font-bold text-[#0B33F3] mb-[0.5rem]">{{ baseLicense.title }}</h3>
+            <h3 class="text-[1.5rem] font-bold text-[#0033FF] mb-[0.5rem]">{{ baseLicense.title }}</h3>
             <p class="text-gray-600 font-medium text-[0.9rem] text-center">{{ baseLicense.description }}</p>
           </div>
 

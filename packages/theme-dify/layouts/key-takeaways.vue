@@ -48,15 +48,15 @@ const gridCols = computed(() => {
     <div class="relative z-10 flex flex-col h-full">
       <!-- Header -->
       <div class="flex flex-col items-start w-full">
-        <h1 class="text-[3.75rem] font-extrabold text-[#0B33F3] tracking-tight leading-tight">
+        <h1 class="text-[3rem] font-extrabold text-[#0033FF] tracking-tight leading-tight">
           {{ slideTitle }}
         </h1>
-        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-600 mb-[0.5rem] border-l-[0.375rem] border-[#0B33F3] pl-[1rem]">
+        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-600 mb-[0.5rem] border-l-[0.375rem] border-[#0033FF] pl-[1rem]">
           {{ subtitle }}
         </h2>
 
         <!-- Content/Intro Text -->
-        <div v-if="content.length > 0" class="mt-[0.75rem] text-[1.1rem] text-gray-600 max-w-4xl leading-relaxed border-l-[0.25rem] border-[#0B33F3] pl-[1rem]">
+        <div v-if="content.length > 0" class="mt-[0.75rem] text-[1.1rem] text-gray-600 max-w-4xl leading-relaxed border-l-[0.25rem] border-[#0033FF] pl-[1rem]">
           <p v-for="(text, idx) in content" :key="idx" class="mb-[0.25rem] last:mb-0">
             {{ text }}
           </p>
@@ -75,7 +75,7 @@ const gridCols = computed(() => {
           >
             <div class="flex items-center justify-between mb-[0.75rem]">
               <!-- Icon -->
-              <div class="w-[2.5rem] h-[2.5rem] rounded-lg bg-blue-50 text-[#0B33F3] flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+              <div class="w-[2.5rem] h-[2.5rem] rounded-lg bg-blue-50 text-[#0033FF] flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                 <span v-if="getIconSvg(item.icon)" v-html="getIconSvg(item.icon)" class="w-[1.25rem] h-[1.25rem]"></span>
                 <svg v-else class="w-[1.25rem] h-[1.25rem]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -88,7 +88,7 @@ const gridCols = computed(() => {
             </div>
 
             <!-- Title -->
-            <h3 class="text-[1.1rem] font-bold text-gray-800 mb-[0.375rem] group-hover:text-[#0B33F3] transition-colors">
+            <h3 class="text-[1.1rem] font-bold text-gray-800 mb-[0.375rem] group-hover:text-[#0033FF] transition-colors">
               {{ item.title }}
             </h3>
 
