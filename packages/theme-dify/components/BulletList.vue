@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { parseMarkdown } from '../utils/markdown'
 
 const props = defineProps<{
   items: string[]
@@ -85,9 +86,11 @@ const bulletMargin = computed(() => config.value.bulletMargin)
 const isSub = (item: string) => item.startsWith('  ')
 const isEmpty = (item: string) => item.trim() === ''
 
-// Parse **bold** text
+// Parse Markdown text (supports **bold**, *italic*, `code`, ~~strike~~, [link](url))
 const parseText = (text: string) => {
-  return text.replace(/\*\*(.*?)\*\*/g, '<strong class="text-[#0033FF] font-extrabold">$1</strong>')
+  return parseMarkdown(text, {
+    boldClass: 'text-[#0033FF] font-extrabold',
+  })
 }
 </script>
 

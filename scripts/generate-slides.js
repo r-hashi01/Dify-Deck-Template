@@ -54,8 +54,16 @@ function toYamlValue(value, indent = 0) {
 
 // Convert slide to frontmatter
 function slideToFrontmatter(slide, defaults = {}) {
-  const { slot, ...props } = slide;
+  const { slot, notes, ...props } = slide;
   const mergedProps = { ...defaults, ...props };
+
+  // Remove notes from defaults if present (notes should be per-slide only)
+  delete mergedProps.notes;
+
+  // Auto-add title from slideTitle for Slidev's slide search
+  if (mergedProps.slideTitle && !mergedProps.title) {
+    mergedProps.title = mergedProps.slideTitle;
+  }
 
   const lines = ['---'];
 
@@ -77,6 +85,14 @@ function slideToFrontmatter(slide, defaults = {}) {
     lines.push(slot);
   }
 
+  // Add speaker notes as HTML comment
+  if (notes) {
+    lines.push('');
+    lines.push('<!--');
+    lines.push(notes.trim());
+    lines.push('-->');
+  }
+
   return lines.join('\n');
 }
 
@@ -86,8 +102,12 @@ function generateMarkdown(deck) {
 
   // First slide is merged with headmatter
   const firstSlide = deck.slides[0];
-  const { slot: firstSlot, ...firstProps } = firstSlide;
+  const { slot: firstSlot, notes: firstNotes, ...firstProps } = firstSlide;
   const firstMerged = { ...deck.config.defaults, ...firstProps };
+
+  // Don't add title from slideTitle for first slide (deck title is used instead)
+  // Remove notes from merged props (will be added as HTML comment)
+  delete firstMerged.notes;
 
   parts.push('---');
   parts.push(`theme: ${deck.config.theme || '../theme-dify'}`);
@@ -109,6 +129,14 @@ function generateMarkdown(deck) {
   if (firstSlot) {
     parts.push('');
     parts.push(firstSlot);
+  }
+
+  // Add first slide speaker notes
+  if (firstNotes) {
+    parts.push('');
+    parts.push('<!--');
+    parts.push(firstNotes.trim());
+    parts.push('-->');
   }
 
   // Remaining slides

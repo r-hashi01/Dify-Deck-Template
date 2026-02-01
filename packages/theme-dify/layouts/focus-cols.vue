@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import SlideFooter from '../components/SlideFooter.vue'
 import SlideLogo from '../components/SlideLogo.vue'
 import { getIconSvg } from '../utils/icons'
+import { parseMarkdown } from '../utils/markdown'
 
 interface FocusItem {
   title: string
@@ -112,13 +113,11 @@ const sizeConfig = computed(() => {
               </div>
 
               <!-- Hero Title -->
-              <h2 class="text-[2.5rem] font-extrabold text-gray-900 leading-tight tracking-tight mb-[1rem]">
-                {{ heroItem.title }}
+              <h2 class="text-[2.5rem] font-extrabold text-gray-900 leading-tight tracking-tight mb-[1rem]" v-html="parseMarkdown(heroItem.title)">
               </h2>
 
               <!-- Hero Description -->
-              <p v-if="heroItem.description" class="text-[1.25rem] text-gray-600 font-medium leading-relaxed">
-                {{ heroItem.description }}
+              <p v-if="heroItem.description" class="text-[1.25rem] text-gray-600 font-medium leading-relaxed" v-html="parseMarkdown(heroItem.description)">
               </p>
             </div>
           </div>
@@ -141,11 +140,9 @@ const sizeConfig = computed(() => {
 
             <!-- Content -->
             <div class="flex-grow">
-              <h4 :class="['font-bold text-gray-900 group-hover:text-[#0033FF] transition-colors', sizeConfig.titleSize]">
-                {{ item.title }}
+              <h4 :class="['font-bold text-gray-900 group-hover:text-[#0033FF] transition-colors', sizeConfig.titleSize]" v-html="parseMarkdown(item.title)">
               </h4>
-              <p v-if="item.description" :class="['text-gray-600 leading-relaxed', sizeConfig.descSize]">
-                {{ item.description }}
+              <p v-if="item.description" :class="['text-gray-600 leading-relaxed', sizeConfig.descSize]" v-html="parseMarkdown(item.description)">
               </p>
             </div>
           </div>

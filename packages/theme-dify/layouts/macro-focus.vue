@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import SlideFooter from '../components/SlideFooter.vue'
 import SlideLogo from '../components/SlideLogo.vue'
+import { parseMarkdown } from '../utils/markdown'
 
 const props = defineProps<{
   slideTitle?: string
@@ -46,7 +47,7 @@ const items = computed(() => props.items || [])
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
             </svg>
           </div>
-          <span class="text-[1.25rem] leading-relaxed text-white/90">{{ item }}</span>
+          <span class="text-[1.25rem] leading-relaxed text-white/90" v-html="parseMarkdown(item)"></span>
         </div>
       </div>
     </div>

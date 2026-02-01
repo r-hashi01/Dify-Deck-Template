@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import SlideFooter from '../components/SlideFooter.vue'
 import SlideLogo from '../components/SlideLogo.vue'
 import { getIconSvg } from '../utils/icons'
+import { parseMarkdown } from '../utils/markdown'
 
 interface LicenseItem {
   title: string
@@ -57,8 +58,7 @@ const restrictions = computed(() => items.value.slice(1))
       <div class="flex-grow min-h-0 flex flex-col items-center justify-center overflow-hidden">
         <!-- Description -->
         <div v-if="content.length > 0" class="text-[1.1rem] text-center font-bold mb-[1rem] max-w-4xl text-gray-800">
-          <div v-for="(line, idx) in content" :key="idx" class="mb-[0.25rem]">
-            {{ line }}
+          <div v-for="(line, idx) in content" :key="idx" class="mb-[0.25rem]" v-html="parseMarkdown(line)">
           </div>
         </div>
 
@@ -75,8 +75,8 @@ const restrictions = computed(() => items.value.slice(1))
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
               </svg>
             </div>
-            <h3 class="text-[1.5rem] font-bold text-[#0033FF] mb-[0.5rem]">{{ baseLicense.title }}</h3>
-            <p class="text-gray-600 font-medium text-[0.9rem] text-center">{{ baseLicense.description }}</p>
+            <h3 class="text-[1.5rem] font-bold text-[#0033FF] mb-[0.5rem]" v-html="parseMarkdown(baseLicense.title)"></h3>
+            <p class="text-gray-600 font-medium text-[0.9rem] text-center" v-html="parseMarkdown(baseLicense.description || '')"></p>
           </div>
 
           <!-- Plus Sign -->
@@ -100,8 +100,8 @@ const restrictions = computed(() => items.value.slice(1))
                 </svg>
               </div>
               <div>
-                <h4 class="text-[1rem] font-bold text-red-700 mb-[0.125rem]">{{ item.title }}</h4>
-                <p class="text-gray-600 leading-relaxed text-[0.85rem]">{{ item.description }}</p>
+                <h4 class="text-[1rem] font-bold text-red-700 mb-[0.125rem]" v-html="parseMarkdown(item.title)"></h4>
+                <p class="text-gray-600 leading-relaxed text-[0.85rem]" v-html="parseMarkdown(item.description || '')"></p>
               </div>
             </div>
           </div>

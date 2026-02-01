@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import SlideFooter from '../components/SlideFooter.vue'
 import SlideLogo from '../components/SlideLogo.vue'
 import { getIconSvg } from '../utils/icons'
+import { parseMarkdown } from '../utils/markdown'
 
 interface CardItem {
   title: string
@@ -100,13 +101,11 @@ const getColorClasses = (color?: string) => {
             </div>
 
             <!-- Title -->
-            <div class="text-[1.1rem] font-bold text-gray-900 mb-[0.375rem] leading-tight group-hover:text-[#0033FF] transition-colors">
-              {{ item.title }}
+            <div class="text-[1.1rem] font-bold text-gray-900 mb-[0.375rem] leading-tight group-hover:text-[#0033FF] transition-colors" v-html="parseMarkdown(item.title)">
             </div>
 
             <!-- Description -->
-            <div class="text-[0.8rem] text-gray-500 leading-relaxed flex-grow">
-              {{ item.description }}
+            <div class="text-[0.8rem] text-gray-500 leading-relaxed flex-grow" v-html="parseMarkdown(item.description)">
             </div>
           </div>
         </div>

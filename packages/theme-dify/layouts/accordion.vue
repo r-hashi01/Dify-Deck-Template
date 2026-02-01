@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import SlideFooter from '../components/SlideFooter.vue'
 import SlideLogo from '../components/SlideLogo.vue'
 import { getIconSvg } from '../utils/icons'
+import { parseMarkdown } from '../utils/markdown'
 
 interface AccordionItem {
   title: string
@@ -115,15 +116,13 @@ const sizeConfig = computed(() => {
               </div>
 
               <!-- Title -->
-              <h3 :class="['font-bold text-[#0033FF]', sizeConfig.titleSize]">
-                {{ item.title }}
+              <h3 :class="['font-bold text-[#0033FF]', sizeConfig.titleSize]" v-html="parseMarkdown(item.title)">
               </h3>
             </div>
 
             <!-- Description -->
             <div :class="['px-[0.75rem]', sizeConfig.paddingBottom, sizeConfig.paddingLeft]">
-              <p :class="['text-gray-600 leading-relaxed border-[#0033FF]', sizeConfig.descSize, sizeConfig.borderWidth, sizeConfig.descPadding]">
-                {{ item.description }}
+              <p :class="['text-gray-600 leading-relaxed border-[#0033FF]', sizeConfig.descSize, sizeConfig.borderWidth, sizeConfig.descPadding]" v-html="parseMarkdown(item.description)">
               </p>
             </div>
           </div>

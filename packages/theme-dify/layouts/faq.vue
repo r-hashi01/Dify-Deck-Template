@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import SlideFooter from '../components/SlideFooter.vue'
 import SlideLogo from '../components/SlideLogo.vue'
+import { parseMarkdown } from '../utils/markdown'
 
 interface FAQItem {
   title: string
@@ -88,11 +89,9 @@ const sizeConfig = computed(() => {
 
             <!-- Content -->
             <div class="flex-1">
-              <h3 :class="['font-bold text-[#0033FF] mb-[0.375rem]', sizeConfig.titleSize]">
-                {{ item.title }}
+              <h3 :class="['font-bold text-[#0033FF] mb-[0.375rem]', sizeConfig.titleSize]" v-html="parseMarkdown(item.title)">
               </h3>
-              <div :class="['text-gray-700 leading-relaxed', sizeConfig.descSize]">
-                {{ item.description }}
+              <div :class="['text-gray-700 leading-relaxed', sizeConfig.descSize]" v-html="parseMarkdown(item.description || '')">
               </div>
             </div>
           </div>

@@ -1,5 +1,23 @@
 {
   "buildCommand": "pnpm run build",
   "outputDirectory": "dist",
-  "installCommand": "pnpm install"
+  "installCommand": "pnpm install",
+  "rewrites": [
+    {
+      "source": "/:deck/presenter/:path*",
+      "destination": "/:deck/index.html"
+    },
+    {
+      "source": "/:deck/overview",
+      "destination": "/:deck/index.html"
+    },
+    {
+      "source": "/:deck/export",
+      "destination": "/:deck/index.html"
+    },
+    {
+      "source": "/:deck/:slide(\\d+)",
+      "destination": "/:deck/index.html"
+    }
+  ]
 }
