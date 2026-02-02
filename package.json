@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "pnpm generate && node scripts/dev.js",
     "build": "pnpm generate && pnpm -r --filter './packages/*' --filter '!theme-dify' build && node scripts/generate-index.js",
+    "build:pdf": "pnpm build && npx tsx scripts/export-pdfs.js",
+    "export-pdfs": "npx tsx scripts/export-pdfs.js",
     "serve": "pnpm build && npx serve dist -l 3000",
     "create-deck": "node scripts/create-deck.js",
     "generate": "npx tsx scripts/generate-slides.js",
@@ -15,6 +17,7 @@
     "@slidev/cli": "^52.11.0",
     "@slidev/theme-default": "latest",
     "concurrently": "^9.1.2",
+    "playwright-chromium": "^1.58.1",
     "tsx": "^4.7.0"
   }
 }
