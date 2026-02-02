@@ -33,7 +33,9 @@ const goHome = () => {
 
 const downloadPdf = () => {
   // Download pre-generated PDF
-  window.open('./slides.pdf', '_blank')
+  const currentUrl = window.location.href
+  const presenterUrl = currentUrl.replace(/\/\d+$/, '').replace(/\/$/, '') + '/export'
+  window.open(presenterUrl, '_blank')
 }
 
 const openPresenter = () => {

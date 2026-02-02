@@ -4,7 +4,7 @@ export const deck: Deck = {
   config: {
     title: 'Dify 101B: 技術基礎',
     theme: '../theme-dify',
-    browserExporter: false,
+    browserExporter: true,
     favicon: '/assets/icon/Dify-if.svg',
     defaults: {
       deckName: 'Dify 101B: 技術基礎',
