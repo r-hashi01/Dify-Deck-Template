@@ -5,8 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "pnpm generate && node scripts/dev.js",
-    "build": "pnpm generate && pnpm -r --filter './packages/*' --filter '!theme-dify' build && node scripts/generate-index.js",
-    "build:pdf": "pnpm build && npx tsx scripts/export-pdfs.js",
+    "build": "pnpm generate && pnpm -r --filter './packages/*' --filter '!theme-dify' build && node scripts/generate-index.js && npx tsx scripts/export-pdfs.js",
     "export-pdfs": "npx tsx scripts/export-pdfs.js",
     "serve": "pnpm build && npx serve dist -l 3000",
     "create-deck": "node scripts/create-deck.js",
