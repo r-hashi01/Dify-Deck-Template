@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import SlideFooter from '../components/SlideFooter.vue'
 import SlideLogo from '../components/SlideLogo.vue'
 import { getIconSvg } from '../utils/icons'
+import { parseMarkdown } from '../utils/markdown'
 
 interface PillarItem {
   title: string
@@ -155,15 +156,13 @@ const sizeConfig = computed(() => {
               </div>
 
               <!-- Title -->
-              <h3 :class="['font-black text-center mb-[0.5rem] leading-tight tracking-tight', sizeConfig.titleSize, getStyle(item, idx).text]">
-                {{ item.title }}
+              <h3 :class="['font-black text-center mb-[0.5rem] leading-tight tracking-tight', sizeConfig.titleSize, getStyle(item, idx).text]" v-html="parseMarkdown(item.title)">
               </h3>
 
               <div class="w-[2rem] h-[0.125rem] bg-gray-100 rounded-full mb-[0.5rem]"></div>
 
               <!-- Description -->
-              <p :class="['text-gray-500 text-center leading-relaxed font-medium px-[0.25rem]', sizeConfig.descSize]">
-                {{ item.description }}
+              <p :class="['text-gray-500 text-center leading-relaxed font-medium px-[0.25rem]', sizeConfig.descSize]" v-html="parseMarkdown(item.description || '')">
               </p>
 
               <!-- Features List -->
@@ -175,7 +174,7 @@ const sizeConfig = computed(() => {
                     :class="['text-gray-600 flex items-center gap-[0.375rem] bg-slate-50 p-[0.375rem] rounded-lg border border-slate-100', sizeConfig.featureSize]"
                   >
                     <div :class="['w-[0.375rem] h-[0.375rem] rounded-full shrink-0', getStyle(item, idx).bg]"></div>
-                    {{ feature }}
+                    <span v-html="parseMarkdown(feature)"></span>
                   </li>
                 </ul>
               </div>

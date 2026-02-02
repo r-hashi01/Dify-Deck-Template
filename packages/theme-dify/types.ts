@@ -8,11 +8,19 @@ export interface BaseSlideProps {
   copyright?: string;
   authorName?: string;
   logoVariant?: LogoVariant;
+  notes?: string; // Speaker notes for presenter mode
 }
 
 // ===================
 // Item Types
 // ===================
+
+// ネスト可能な箇条書き項目
+export interface BulletItem {
+  text: string;
+  children?: (string | BulletItem)[];
+}
+export type BulletEntry = string | BulletItem;
 
 export interface AccordionItem {
   title: string;
@@ -101,14 +109,14 @@ export interface ContentSlide extends BaseSlideProps {
   layout: 'content';
   slideTitle?: string;
   subtitle?: string;
-  items?: string[];
+  items?: BulletEntry[];
 }
 
 export interface SplitSlide extends BaseSlideProps {
   layout: 'split';
   slideTitle?: string;
   subtitle?: string;
-  items?: string[];
+  items?: BulletEntry[];
   imageUrl?: string;
   imageAlt?: string;
   imageClass?: string;
@@ -119,7 +127,7 @@ export interface AdaptiveContentSlide extends BaseSlideProps {
   layout: 'adaptive-content';
   slideTitle?: string;
   subtitle?: string;
-  items?: string[];
+  items?: BulletEntry[];
 }
 
 export interface CardsSlide extends BaseSlideProps {
@@ -272,6 +280,8 @@ export interface DeckConfig {
   title: string;
   theme?: string;
   defaults?: BaseSlideProps;
+  browserExporter?: boolean;
+  favicon?: string;
 }
 
 // Full deck definition

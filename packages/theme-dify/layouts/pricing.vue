@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import SlideFooter from '../components/SlideFooter.vue'
 import SlideLogo from '../components/SlideLogo.vue'
 import { getIconSvg } from '../utils/icons'
+import { parseMarkdown } from '../utils/markdown'
 
 interface PricingItem {
   title: string
@@ -142,7 +143,7 @@ const cardWidth = computed(() => {
                   class="flex items-start text-[0.75rem] text-gray-700 font-medium"
                 >
                   <div class="mr-[0.375rem] mt-[0.4rem] w-[0.25rem] h-[0.25rem] rounded-full bg-black shrink-0"></div>
-                  <span>{{ feature }}</span>
+                  <span v-html="parseMarkdown(feature)"></span>
                 </li>
               </ul>
             </div>
@@ -158,12 +159,11 @@ const cardWidth = computed(() => {
         <div class="bg-red-600 text-white rounded-full w-[1.25rem] h-[1.25rem] flex items-center justify-center mr-[0.5rem] text-[0.75rem] font-black">
           !
         </div>
-        {{ bottomBanner }}
+        <span v-html="parseMarkdown(bottomBanner)"></span>
       </div>
 
       <!-- Footer Note -->
-      <div v-if="footerNote" class="pt-[2.2rem] w-full text-center text-slate-500 text-[0.875rem] font-medium italic">
-        {{ footerNote }}
+      <div v-if="footerNote" class="pt-[2.2rem] w-full text-center text-slate-500 text-[0.875rem] font-medium italic" v-html="parseMarkdown(footerNote)">
       </div>
     </div>
 

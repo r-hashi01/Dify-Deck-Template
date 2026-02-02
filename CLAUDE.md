@@ -45,7 +45,7 @@ pnpm run serve   # ビルド後にローカルで確認
 
 ## デザインカラー
 
-- `dify-blue`: `#0B33F3`
+- `dify-blue`: `#0033FF`
 
 ---
 

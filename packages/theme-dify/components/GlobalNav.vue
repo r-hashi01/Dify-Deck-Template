@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { useNav, useSlideContext } from '@slidev/client'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 
 const { $slidev } = useSlideContext()
 const { currentSlideNo, total, go, next, prev } = useNav()
 
 const deckTitle = computed(() => $slidev?.configs?.title || 'Dify Deck')
+const showShortcuts = ref(false)
 
 const goToSlide = (e: KeyboardEvent) => {
   if (e.key === 'Enter') {
@@ -24,6 +25,39 @@ const toggleFullscreen = () => {
     document.exitFullscreen()
   }
 }
+
+const goHome = () => {
+  const homeUrl = (import.meta as any).env?.VITE_HOME_URL || 'http://localhost:3000'
+  window.location.href = homeUrl
+}
+
+const downloadPdf = () => {
+  // Download pre-generated PDF
+  const currentUrl = window.location.href
+  const presenterUrl = currentUrl.replace(/\/\d+$/, '').replace(/\/$/, '') + '/export'
+  window.open(presenterUrl, '_blank')
+}
+
+const openPresenter = () => {
+  const currentUrl = window.location.href
+  const presenterUrl = currentUrl.replace(/\/\d+$/, '').replace(/\/$/, '') + '/presenter'
+  window.open(presenterUrl, '_blank')
+}
+
+const toggleShortcuts = () => {
+  showShortcuts.value = !showShortcuts.value
+}
+
+const shortcuts = [
+  { key: '← / →', desc: '前/次のスライド' },
+  { key: 'Space', desc: '次のスライド' },
+  { key: 'g', desc: 'スライド番号指定' },
+  { key: 'o', desc: 'スライド一覧' },
+  { key: 'p', desc: 'プレゼンターモード' },
+  { key: 'd', desc: 'ダークモード切替' },
+  { key: 'f', desc: 'フルスクリーン' },
+  { key: 'Esc', desc: '終了/閉じる' },
+]
 </script>
 
 <template>
@@ -75,18 +109,86 @@ const toggleFullscreen = () => {
 
       <div class="nav-divider"></div>
 
+      <!-- Presenter Mode -->
+      <button
+        @click="openPresenter"
+        class="nav-btn"
+        title="Presenter mode (P)"
+      >
+        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+        </svg>
+      </button>
+
       <!-- Fullscreen -->
       <button
         @click="toggleFullscreen"
         class="nav-btn"
-        title="Toggle fullscreen"
+        title="Fullscreen (F)"
       >
         <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
         </svg>
       </button>
+
+      <div class="nav-divider"></div>
+
+      <!-- Keyboard Shortcuts -->
+      <button
+        @click="toggleShortcuts"
+        class="nav-btn"
+        title="Keyboard shortcuts"
+      >
+        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+      </button>
+
+      <!-- Download PDF -->
+      <button
+        @click="downloadPdf"
+        class="nav-btn"
+        title="Download PDF"
+      >
+        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4m4-5l5 5 5-5m-5 5V3" />
+        </svg>
+      </button>
+
+      <!-- Home -->
+      <button
+        @click="goHome"
+        class="nav-btn nav-btn-home"
+        title="Back to Home"
+      >
+        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+        </svg>
+      </button>
     </div>
   </div>
+
+  <!-- Shortcuts Modal -->
+  <Teleport to="body">
+    <div v-if="showShortcuts" class="shortcuts-overlay" @click="toggleShortcuts">
+      <div class="shortcuts-modal" @click.stop>
+        <div class="shortcuts-header">
+          <h2>Keyboard Shortcuts</h2>
+          <button @click="toggleShortcuts" class="shortcuts-close">
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <div class="shortcuts-list">
+          <div v-for="s in shortcuts" :key="s.key" class="shortcut-item">
+            <kbd class="shortcut-key">{{ s.key }}</kbd>
+            <span class="shortcut-desc">{{ s.desc }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </Teleport>
 </template>
 
 <style scoped>
@@ -216,5 +318,95 @@ const toggleFullscreen = () => {
   height: 1.5rem;
   background: #374151;
   margin: 0 0.5rem;
+}
+
+.nav-btn-home:hover:not(:disabled) {
+  background: rgba(0, 51, 255, 0.2);
+  color: #60a5fa;
+}
+
+/* Shortcuts Modal */
+.shortcuts-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.shortcuts-modal {
+  background: #1f2937;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  min-width: 320px;
+  max-width: 90vw;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  border: 1px solid #374151;
+}
+
+.shortcuts-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #374151;
+}
+
+.shortcuts-header h2 {
+  color: white;
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.shortcuts-close {
+  background: transparent;
+  border: none;
+  color: #9CA3AF;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.shortcuts-close:hover {
+  background: rgba(55, 65, 81, 0.5);
+  color: white;
+}
+
+.shortcuts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.shortcut-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.shortcut-key {
+  background: #374151;
+  color: #e5e7eb;
+  padding: 0.25rem 0.625rem;
+  border-radius: 0.375rem;
+  font-family: ui-monospace, monospace;
+  font-size: 0.8rem;
+  min-width: 5rem;
+  text-align: center;
+  border: 1px solid #4b5563;
+}
+
+.shortcut-desc {
+  color: #9CA3AF;
+  font-size: 0.875rem;
 }
 </style>

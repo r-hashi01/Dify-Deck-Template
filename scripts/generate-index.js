@@ -75,7 +75,6 @@ function generateIndexHtml(decks, isDev = false) {
           <a
             href="${isDev ? `http://localhost:${deck.port}` : deck.path}"
             class="deck-card"
-            ${isDev ? 'target="_blank"' : ''}
           >
             <div class="deck-card-content">
               <div class="deck-icon">

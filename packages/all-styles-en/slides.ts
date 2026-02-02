@@ -4,6 +4,8 @@ export const deck: Deck = {
   config: {
     title: 'Dify Template Gallery',
     theme: '../theme-dify',
+    browserExporter: true,
+    favicon: '/assets/icon/Dify-if.svg',
     defaults: {
       deckName: 'Dify Deck',
       copyright: '© 2026 Dify. All rights reserved.',

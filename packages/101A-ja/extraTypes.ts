@@ -18,6 +18,21 @@ export interface DetailItem {
 // 詳細項目の型（文字列またはネスト構造）
 export type DetailEntry = string | DetailItem;
 
+// ポップアップの機能項目
+export interface PopupFeature {
+  title: string;
+  description: string;
+}
+
+// ポップアップ設定
+export interface PopupConfig {
+  title?: string;
+  description?: string;
+  features?: PopupFeature[];
+  hint?: string;
+  linkText?: string;
+}
+
 // ハイライトカード
 export interface HighlightItem {
   icon: string;
@@ -25,6 +40,20 @@ export interface HighlightItem {
   subtitle?: string;
   features?: string[];
   color?: 'blue' | 'purple' | 'green' | 'red' | 'orange' | 'cyan' | 'indigo' | 'gray';
+  link?: string;
+  popup?: PopupConfig;
+}
+
+// ターミナル行の型
+export interface TerminalLine {
+  type: 'command' | 'output';
+  text: string;
+}
+
+// ターミナル設定の型
+export interface TerminalConfig {
+  title?: string;
+  lines: TerminalLine[];
 }
 
 // presenter-compact レイアウト
@@ -37,6 +66,7 @@ export interface PresenterCompactSlide extends BaseSlideProps {
   description?: string;
   imageUrl?: string;
   highlights?: HighlightItem[];
+  terminal?: TerminalConfig;
 }
 
 // ===================

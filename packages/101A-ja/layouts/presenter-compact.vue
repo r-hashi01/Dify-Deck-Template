@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import SlideFooter from '../../theme-dify/components/SlideFooter.vue'
 import SlideLogo from '../../theme-dify/components/SlideLogo.vue'
+import TerminalBlock from '../../theme-dify/components/TerminalBlock.vue'
 import { getIconSvg } from '../../theme-dify/utils/icons'
+import { parseMarkdown } from '../../theme-dify/utils/markdown'
 
 // 詳細項目の型
 interface DetailItem {
@@ -11,6 +13,24 @@ interface DetailItem {
 }
 type DetailEntry = string | DetailItem
 
+// ポップアップの機能項目
+interface PopupFeature {
+  title: string
+  description: string
+}
+
+// ターミナル行の型
+interface TerminalLine {
+  type: 'command' | 'output'
+  text: string
+}
+
+// ターミナル設定の型
+interface TerminalConfig {
+  title?: string
+  lines: TerminalLine[]
+}
+
 // ハイライトカードの型
 interface HighlightItem {
   icon: string
@@ -18,6 +38,26 @@ interface HighlightItem {
   subtitle?: string
   features?: string[]
   color?: string
+  link?: string
+  // ポップアップ関連
+  popup?: {
+    title?: string
+    description?: string
+    features?: PopupFeature[]
+    hint?: string
+    linkText?: string
+  }
+}
+
+// モーダルの状態管理
+const activeModal = ref<HighlightItem | null>(null)
+const openModal = (item: HighlightItem) => {
+  if (item.popup) {
+    activeModal.value = item
+  }
+}
+const closeModal = () => {
+  activeModal.value = null
 }
 
 // カラーマップ
@@ -44,6 +84,7 @@ const props = defineProps<{
   description?: string
   imageUrl?: string
   highlights?: HighlightItem[]
+  terminal?: TerminalConfig
   deckName?: string
   copyright?: string
   authorName?: string
@@ -68,6 +109,7 @@ const details = computed(() => props.details || [])
 const description = computed(() => props.description || '')
 const imageUrl = computed(() => props.imageUrl)
 const highlights = computed(() => props.highlights || [])
+const terminal = computed(() => props.terminal)
 
 // Dynamic text sizing based on total item count (including children)
 const detailsCount = computed(() => {
@@ -158,13 +200,13 @@ const highlightConfig = computed(() => {
       </div>
 
       <!-- Content Area -->
-      <div class="flex-1 flex flex-row gap-[3rem] items-start justify-center min-h-0 py-[2rem]">
+      <div class="flex flex-row gap-[3rem] items-start min-h-0 mt-[0.5rem]">
         <!-- Left: Presenter Bio -->
-        <div class="w-7/12 flex flex-col justify-center min-h-0">
+        <div class="w-7/12">
           <div :class="spacing">
             <!-- Name (smaller) -->
             <div v-if="name">
-              <span :class="[nameSize, 'font-bold text-[#0033FF]']">{{ name }}</span>
+              <span :class="[nameSize, 'font-bold text-[#0033FF]']" v-html="parseMarkdown(name)"></span>
             </div>
             <!-- Additional details -->
             <template v-for="(detail, index) in details" :key="index">
@@ -172,20 +214,19 @@ const highlightConfig = computed(() => {
                 <!-- Parent item -->
                 <div class="flex items-start gap-[0.75rem]">
                   <div class="w-[0.4rem] h-[0.4rem] rounded-full bg-[#0033FF] mt-[0.6rem] shrink-0"></div>
-                  <span :class="[detailSize, 'text-gray-800']">{{ getDetailText(detail) }}</span>
+                  <span :class="[detailSize, 'text-gray-800']" v-html="parseMarkdown(getDetailText(detail))"></span>
                 </div>
                 <!-- Children items -->
                 <div v-if="getDetailChildren(detail).length > 0" class="ml-[1.5rem] mt-[0.25rem] space-y-[0.25rem]">
                   <div v-for="(child, childIndex) in getDetailChildren(detail)" :key="childIndex" class="flex items-start gap-[0.5rem]">
                     <div class="w-[0.3rem] h-[0.3rem] rounded-full bg-gray-400 mt-[0.7rem] shrink-0"></div>
-                    <span :class="[detailSize, 'text-gray-800 text-[0.9em]']">{{ child }}</span>
+                    <span :class="[detailSize, 'text-gray-800 text-[0.9em]']" v-html="parseMarkdown(child)"></span>
                   </div>
                 </div>
               </div>
             </template>
             <!-- Description (new) -->
-            <div v-if="description" :class="[descriptionSize, 'text-gray-900 leading-relaxed font-extrabold w-11/12']">
-              {{ description }}
+            <div v-if="description" :class="[descriptionSize, 'text-gray-900 leading-relaxed font-extrabold w-11/12']" v-html="parseMarkdown(description)">
             </div>
           </div>
         </div>
@@ -194,10 +235,20 @@ const highlightConfig = computed(() => {
         <div class="w-7/12 flex items-center justify-center">
           <!-- Highlights Cards -->
           <div v-if="highlights.length > 0" :class="['w-full', highlightConfig.gap]">
-            <div
+            <component
+              :is="item.link && !item.popup ? 'a' : 'div'"
               v-for="(item, idx) in highlights"
               :key="idx"
-              :class="['flex items-center gap-[0.75rem] rounded-xl border', highlightConfig.padding, getHighlightStyle(item.color).bg]"
+              :href="item.link && !item.popup ? item.link : undefined"
+              :target="item.link && !item.popup ? '_blank' : undefined"
+              :rel="item.link && !item.popup ? 'noopener noreferrer' : undefined"
+              @click="item.popup ? openModal(item) : undefined"
+              :class="[
+                'flex items-center gap-[0.75rem] rounded-xl border no-underline',
+                highlightConfig.padding,
+                getHighlightStyle(item.color).bg,
+                (item.link || item.popup) ? 'cursor-pointer hover:shadow-md hover:scale-[1.02] transition-all duration-200' : ''
+              ]"
             >
               <!-- Icon -->
               <div :class="[highlightConfig.iconSize, 'shrink-0', getHighlightStyle(item.color).icon]">
@@ -205,17 +256,23 @@ const highlightConfig = computed(() => {
               </div>
               <!-- Text -->
               <div class="flex flex-col flex-1">
-                <span :class="[highlightConfig.titleSize, 'font-bold', getHighlightStyle(item.color).title]">{{ item.title }}</span>
-                <span v-if="item.subtitle" :class="[highlightConfig.subtitleSize, 'text-gray-600']">{{ item.subtitle }}</span>
+                <span :class="[highlightConfig.titleSize, 'font-bold', getHighlightStyle(item.color).title]" v-html="parseMarkdown(item.title)"></span>
+                <span v-if="item.subtitle" :class="[highlightConfig.subtitleSize, 'text-gray-600']" v-html="parseMarkdown(item.subtitle)"></span>
                 <div v-if="item.features && item.features.length > 0" class="flex flex-wrap gap-[0.375rem] mt-[0.25rem]">
                   <span
                     v-for="(feature, fIdx) in item.features"
                     :key="fIdx"
                     :class="[highlightConfig.featureSize, 'px-[0.5rem] py-[0.125rem] bg-white/50 rounded text-gray-600']"
-                  >{{ feature }}</span>
+                    v-html="parseMarkdown(feature)"
+                  ></span>
                 </div>
               </div>
-            </div>
+            </component>
+          </div>
+
+          <!-- Terminal -->
+          <div v-else-if="terminal" class="w-full">
+            <TerminalBlock :title="terminal.title" :lines="terminal.lines" />
           </div>
 
           <!-- Image or Default -->
@@ -248,5 +305,92 @@ const highlightConfig = computed(() => {
       :copyright="copyright"
       :author-name="authorName"
     />
+
+    <!-- Popup Modal -->
+    <Teleport to="body">
+      <Transition name="modal">
+        <div
+          v-if="activeModal"
+          class="fixed inset-0 z-[9999] flex items-center justify-center p-4"
+          @click.self="closeModal"
+        >
+          <!-- Backdrop -->
+          <div class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+
+          <!-- Modal Content -->
+          <div class="relative bg-white rounded-2xl shadow-2xl max-w-[32rem] w-full max-h-[80vh] overflow-hidden flex flex-col">
+            <!-- Header -->
+            <div class="flex items-center gap-3 p-4 border-b border-gray-100">
+              <div :class="['w-10 h-10 rounded-xl flex items-center justify-center', getHighlightStyle(activeModal.color).bg]">
+                <span
+                  v-if="getIconSvg(activeModal.icon)"
+                  v-html="getIconSvg(activeModal.icon)"
+                  :class="['w-6 h-6', getHighlightStyle(activeModal.color).icon]"
+                ></span>
+              </div>
+              <h3 class="flex-1 text-xl font-bold text-gray-900">
+                {{ activeModal.popup?.title || activeModal.title }}
+              </h3>
+              <button
+                @click="closeModal"
+                class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-colors"
+              >
+                <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            <!-- Body -->
+            <div class="flex-1 overflow-y-auto p-4 space-y-4">
+              <!-- Description -->
+              <p v-if="activeModal.popup?.description" class="text-gray-700 leading-relaxed">
+                {{ activeModal.popup.description }}
+              </p>
+
+              <!-- Features List -->
+              <ul v-if="activeModal.popup?.features && activeModal.popup.features.length > 0" class="space-y-3">
+                <li v-for="(feature, fIdx) in activeModal.popup.features" :key="fIdx" class="flex items-start gap-2">
+                  <div class="w-1.5 h-1.5 rounded-full bg-gray-800 mt-2 shrink-0"></div>
+                  <div>
+                    <span class="font-bold text-gray-900">{{ feature.title }}：</span>
+                    <span class="text-gray-700">{{ feature.description }}</span>
+                  </div>
+                </li>
+              </ul>
+
+              <!-- Hint -->
+              <div v-if="activeModal.popup?.hint" class="border-l-4 border-blue-400 bg-blue-50 p-3 text-sm text-blue-800 italic">
+                ヒント：{{ activeModal.popup.hint }}
+              </div>
+            </div>
+
+            <!-- Footer with Link Button -->
+            <div v-if="activeModal.link" class="p-4 bg-slate-800 flex justify-end">
+              <a
+                :href="activeModal.link"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg transition-colors no-underline"
+              >
+                <span v-html="getIconSvg('globe')" class="w-4 h-4 inline-flex items-center justify-center [&>svg]:w-full [&>svg]:h-full"></span>
+                {{ activeModal.popup?.linkText || 'Visit Project' }}
+              </a>
+            </div>
+          </div>
+        </div>
+      </Transition>
+    </Teleport>
   </div>
 </template>
+
+<style scoped>
+.modal-enter-active,
+.modal-leave-active {
+  transition: opacity 0.2s ease;
+}
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
+}
+</style>

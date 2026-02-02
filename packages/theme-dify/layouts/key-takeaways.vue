@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import SlideFooter from '../components/SlideFooter.vue'
 import SlideLogo from '../components/SlideLogo.vue'
 import { getIconSvg } from '../utils/icons'
+import { parseMarkdown } from '../utils/markdown'
 
 interface TakeawayItem {
   title: string
@@ -57,8 +58,7 @@ const gridCols = computed(() => {
 
         <!-- Content/Intro Text -->
         <div v-if="content.length > 0" class="mt-[0.75rem] text-[1.1rem] text-gray-600 max-w-4xl leading-relaxed border-l-[0.25rem] border-[#0033FF] pl-[1rem]">
-          <p v-for="(text, idx) in content" :key="idx" class="mb-[0.25rem] last:mb-0">
-            {{ text }}
+          <p v-for="(text, idx) in content" :key="idx" class="mb-[0.25rem] last:mb-0" v-html="parseMarkdown(text)">
           </p>
         </div>
 
@@ -88,13 +88,11 @@ const gridCols = computed(() => {
             </div>
 
             <!-- Title -->
-            <h3 class="text-[1.1rem] font-bold text-gray-800 mb-[0.375rem] group-hover:text-[#0033FF] transition-colors">
-              {{ item.title }}
+            <h3 class="text-[1.1rem] font-bold text-gray-800 mb-[0.375rem] group-hover:text-[#0033FF] transition-colors" v-html="parseMarkdown(item.title)">
             </h3>
 
             <!-- Description -->
-            <p v-if="item.description" class="text-gray-500 text-[0.875rem] leading-relaxed">
-              {{ item.description }}
+            <p v-if="item.description" class="text-gray-500 text-[0.875rem] leading-relaxed" v-html="parseMarkdown(item.description)">
             </p>
           </div>
         </div>

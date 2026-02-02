@@ -1,5 +1,11 @@
 {
-  "buildCommand": "pnpm run build",
+  "installCommand": "pnpm install",
+  "buildCommand": "pnpm generate && pnpm -r --filter './packages/*' --filter '!theme-dify' build && node scripts/generate-index.js",
   "outputDirectory": "dist",
-  "installCommand": "pnpm install"
+  "rewrites": [
+    {
+      "source": "/:deck/:path*",
+      "destination": "/:deck/index.html"
+    }
+  ]
 }
