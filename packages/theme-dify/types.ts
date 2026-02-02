@@ -274,6 +274,7 @@ export interface DeckConfig {
   theme?: string;
   defaults?: BaseSlideProps;
   browserExporter?: boolean;
+  favicon?: string;
 }
 
 // Full deck definition

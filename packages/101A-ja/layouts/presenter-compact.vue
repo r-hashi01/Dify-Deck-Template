@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import SlideFooter from '../../theme-dify/components/SlideFooter.vue'
 import SlideLogo from '../../theme-dify/components/SlideLogo.vue'
 import { getIconSvg } from '../../theme-dify/utils/icons'
+import { parseMarkdown } from '../../theme-dify/utils/markdown'
 
 // 詳細項目の型
 interface DetailItem {
@@ -164,7 +165,7 @@ const highlightConfig = computed(() => {
           <div :class="spacing">
             <!-- Name (smaller) -->
             <div v-if="name">
-              <span :class="[nameSize, 'font-bold text-[#0033FF]']">{{ name }}</span>
+              <span :class="[nameSize, 'font-bold text-[#0033FF]']" v-html="parseMarkdown(name)"></span>
             </div>
             <!-- Additional details -->
             <template v-for="(detail, index) in details" :key="index">
@@ -172,20 +173,19 @@ const highlightConfig = computed(() => {
                 <!-- Parent item -->
                 <div class="flex items-start gap-[0.75rem]">
                   <div class="w-[0.4rem] h-[0.4rem] rounded-full bg-[#0033FF] mt-[0.6rem] shrink-0"></div>
-                  <span :class="[detailSize, 'text-gray-800']">{{ getDetailText(detail) }}</span>
+                  <span :class="[detailSize, 'text-gray-800']" v-html="parseMarkdown(getDetailText(detail))"></span>
                 </div>
                 <!-- Children items -->
                 <div v-if="getDetailChildren(detail).length > 0" class="ml-[1.5rem] mt-[0.25rem] space-y-[0.25rem]">
                   <div v-for="(child, childIndex) in getDetailChildren(detail)" :key="childIndex" class="flex items-start gap-[0.5rem]">
                     <div class="w-[0.3rem] h-[0.3rem] rounded-full bg-gray-400 mt-[0.7rem] shrink-0"></div>
-                    <span :class="[detailSize, 'text-gray-800 text-[0.9em]']">{{ child }}</span>
+                    <span :class="[detailSize, 'text-gray-800 text-[0.9em]']" v-html="parseMarkdown(child)"></span>
                   </div>
                 </div>
               </div>
             </template>
             <!-- Description (new) -->
-            <div v-if="description" :class="[descriptionSize, 'text-gray-900 leading-relaxed font-extrabold w-11/12']">
-              {{ description }}
+            <div v-if="description" :class="[descriptionSize, 'text-gray-900 leading-relaxed font-extrabold w-11/12']" v-html="parseMarkdown(description)">
             </div>
           </div>
         </div>
@@ -205,14 +205,15 @@ const highlightConfig = computed(() => {
               </div>
               <!-- Text -->
               <div class="flex flex-col flex-1">
-                <span :class="[highlightConfig.titleSize, 'font-bold', getHighlightStyle(item.color).title]">{{ item.title }}</span>
-                <span v-if="item.subtitle" :class="[highlightConfig.subtitleSize, 'text-gray-600']">{{ item.subtitle }}</span>
+                <span :class="[highlightConfig.titleSize, 'font-bold', getHighlightStyle(item.color).title]" v-html="parseMarkdown(item.title)"></span>
+                <span v-if="item.subtitle" :class="[highlightConfig.subtitleSize, 'text-gray-600']" v-html="parseMarkdown(item.subtitle)"></span>
                 <div v-if="item.features && item.features.length > 0" class="flex flex-wrap gap-[0.375rem] mt-[0.25rem]">
                   <span
                     v-for="(feature, fIdx) in item.features"
                     :key="fIdx"
                     :class="[highlightConfig.featureSize, 'px-[0.5rem] py-[0.125rem] bg-white/50 rounded text-gray-600']"
-                  >{{ feature }}</span>
+                    v-html="parseMarkdown(feature)"
+                  ></span>
                 </div>
               </div>
             </div>
