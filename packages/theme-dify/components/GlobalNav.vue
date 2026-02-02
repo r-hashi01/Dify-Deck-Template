@@ -31,10 +31,9 @@ const goHome = () => {
   window.location.href = homeUrl
 }
 
-const exportPdf = () => {
-  const currentUrl = window.location.href
-  const exportUrl = currentUrl.replace(/\/\d+$/, '').replace(/\/$/, '') + '/export'
-  window.open(exportUrl, '_blank')
+const downloadPdf = () => {
+  // Download pre-generated PDF
+  window.open('./slides.pdf', '_blank')
 }
 
 const openPresenter = () => {
@@ -143,14 +142,14 @@ const shortcuts = [
         </svg>
       </button>
 
-      <!-- Export PDF -->
+      <!-- Download PDF -->
       <button
-        @click="exportPdf"
+        @click="downloadPdf"
         class="nav-btn"
-        title="Export to PDF"
+        title="Download PDF"
       >
         <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4m4-5l5 5 5-5m-5 5V3" />
         </svg>
       </button>
 
