@@ -32,21 +32,51 @@ function toYamlValue(value, indent = 0) {
   if (Array.isArray(value)) {
     if (value.length === 0) return '[]';
 
-    if (typeof value[0] === 'object' && value[0] !== null) {
+    // Check if any item is an object (mixed arrays supported)
+    const hasObjects = value.some(item => typeof item === 'object' && item !== null);
+
+    if (hasObjects) {
       return '\n' + value.map(item => {
+        // Handle string items in mixed arrays
+        if (typeof item === 'string') {
+          return `${spaces}  - ${toYamlValue(item)}`;
+        }
+        // Handle object items
         const entries = Object.entries(item).filter(([_, v]) => v !== undefined);
         const lines = entries.map(([k, v], i) => {
           const prefix = i === 0 ? `${spaces}  - ` : `${spaces}    `;
           if (Array.isArray(v)) {
-            return `${prefix}${k}:\n${v.map(x => `${spaces}      - ${toYamlValue(x)}`).join('\n')}`;
+            // Recursively handle nested arrays (e.g., children in BulletItem)
+            const nestedYaml = toYamlValue(v, indent + 2);
+            if (nestedYaml.startsWith('\n')) {
+              return `${prefix}${k}:${nestedYaml}`;
+            }
+            return `${prefix}${k}: ${nestedYaml}`;
           }
-          return `${prefix}${k}: ${toYamlValue(v)}`;
+          const nestedValue = toYamlValue(v, indent + 2);
+          if (nestedValue.startsWith('\n')) {
+            return `${prefix}${k}:${nestedValue}`;
+          }
+          return `${prefix}${k}: ${nestedValue}`;
         });
         return lines.join('\n');
       }).join('\n');
     } else {
-      return '\n' + value.map(item => `${spaces}  - ${toYamlValue(item)}`).join('\n');
+      return '\n' + value.map(item => `${spaces}  - ${toYamlValue(item, indent + 1)}`).join('\n');
     }
+  }
+
+  // Handle plain objects (not arrays)
+  if (typeof value === 'object' && value !== null) {
+    const entries = Object.entries(value).filter(([_, v]) => v !== undefined);
+    if (entries.length === 0) return '{}';
+    return '\n' + entries.map(([k, v]) => {
+      const nestedValue = toYamlValue(v, indent + 1);
+      if (nestedValue.startsWith('\n')) {
+        return `${spaces}  ${k}:${nestedValue}`;
+      }
+      return `${spaces}  ${k}: ${nestedValue}`;
+    }).join('\n');
   }
 
   return String(value);

@@ -4,10 +4,17 @@ import SlideFooter from '../components/SlideFooter.vue'
 import SlideLogo from '../components/SlideLogo.vue'
 import BulletList from '../components/BulletList.vue'
 
+// ネスト可能な箇条書き項目
+interface BulletItem {
+  text: string
+  children?: (string | BulletItem)[]
+}
+type BulletEntry = string | BulletItem
+
 const props = defineProps<{
   slideTitle?: string
   subtitle?: string
-  items?: string[]
+  items?: BulletEntry[]
   deckName?: string
   copyright?: string
   authorName?: string

@@ -15,6 +15,13 @@ export interface BaseSlideProps {
 // Item Types
 // ===================
 
+// ネスト可能な箇条書き項目
+export interface BulletItem {
+  text: string;
+  children?: (string | BulletItem)[];
+}
+export type BulletEntry = string | BulletItem;
+
 export interface AccordionItem {
   title: string;
   description: string;
@@ -102,14 +109,14 @@ export interface ContentSlide extends BaseSlideProps {
   layout: 'content';
   slideTitle?: string;
   subtitle?: string;
-  items?: string[];
+  items?: BulletEntry[];
 }
 
 export interface SplitSlide extends BaseSlideProps {
   layout: 'split';
   slideTitle?: string;
   subtitle?: string;
-  items?: string[];
+  items?: BulletEntry[];
   imageUrl?: string;
   imageAlt?: string;
   imageClass?: string;
@@ -120,7 +127,7 @@ export interface AdaptiveContentSlide extends BaseSlideProps {
   layout: 'adaptive-content';
   slideTitle?: string;
   subtitle?: string;
-  items?: string[];
+  items?: BulletEntry[];
 }
 
 export interface CardsSlide extends BaseSlideProps {

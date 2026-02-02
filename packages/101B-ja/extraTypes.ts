@@ -40,6 +40,8 @@ export interface HighlightItem {
   subtitle?: string;
   features?: string[];
   color?: 'blue' | 'purple' | 'green' | 'red' | 'orange' | 'cyan' | 'indigo' | 'gray';
+  badge?: string;  // タイトル横のバッジ
+  badgeColor?: string;  // バッジの色 ('dark'で黒)
   link?: string;
   popup?: PopupConfig;
 }

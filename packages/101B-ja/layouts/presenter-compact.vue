@@ -38,6 +38,8 @@ interface HighlightItem {
   subtitle?: string
   features?: string[]
   color?: string
+  badge?: string  // タイトル横のバッジ (e.g., "Partner", "Dify Official")
+  badgeColor?: string  // バッジの色 (デフォルトはcolorと同じ、'dark'で黒)
   link?: string
   // ポップアップ関連
   popup?: {
@@ -61,15 +63,15 @@ const closeModal = () => {
 }
 
 // カラーマップ
-const colorMap: Record<string, { bg: string, icon: string, title: string }> = {
-  'blue': { bg: 'bg-blue-50', icon: 'text-blue-500', title: 'text-blue-700' },
-  'purple': { bg: 'bg-purple-50', icon: 'text-purple-500', title: 'text-purple-700' },
-  'green': { bg: 'bg-emerald-50', icon: 'text-emerald-500', title: 'text-emerald-700' },
-  'red': { bg: 'bg-rose-50', icon: 'text-rose-500', title: 'text-rose-700' },
-  'orange': { bg: 'bg-orange-50', icon: 'text-orange-500', title: 'text-orange-700' },
-  'cyan': { bg: 'bg-cyan-50', icon: 'text-cyan-500', title: 'text-cyan-700' },
-  'indigo': { bg: 'bg-indigo-50', icon: 'text-indigo-500', title: 'text-indigo-700' },
-  'gray': { bg: 'bg-gray-50', icon: 'text-gray-500', title: 'text-gray-700' },
+const colorMap: Record<string, { bg: string, icon: string, title: string, featureBg: string }> = {
+  'blue': { bg: 'bg-blue-50', icon: 'text-blue-500', title: 'text-blue-700', featureBg: 'bg-blue-100' },
+  'purple': { bg: 'bg-purple-50', icon: 'text-purple-500', title: 'text-purple-700', featureBg: 'bg-purple-100' },
+  'green': { bg: 'bg-emerald-50', icon: 'text-emerald-500', title: 'text-emerald-700', featureBg: 'bg-emerald-100' },
+  'red': { bg: 'bg-rose-50', icon: 'text-rose-500', title: 'text-rose-700', featureBg: 'bg-rose-100' },
+  'orange': { bg: 'bg-orange-50', icon: 'text-orange-500', title: 'text-orange-700', featureBg: 'bg-orange-100' },
+  'cyan': { bg: 'bg-cyan-50', icon: 'text-cyan-500', title: 'text-cyan-700', featureBg: 'bg-cyan-100' },
+  'indigo': { bg: 'bg-indigo-50', icon: 'text-indigo-500', title: 'text-indigo-700', featureBg: 'bg-indigo-100' },
+  'gray': { bg: 'bg-gray-50', icon: 'text-gray-500', title: 'text-gray-700', featureBg: 'bg-gray-100' },
 }
 
 const getHighlightStyle = (color?: string) => {
@@ -256,13 +258,27 @@ const highlightConfig = computed(() => {
               </div>
               <!-- Text -->
               <div class="flex flex-col flex-1">
-                <span :class="[highlightConfig.titleSize, 'font-bold', getHighlightStyle(item.color).title]" v-html="parseMarkdown(item.title)"></span>
+                <div class="flex items-center justify-between">
+                  <span :class="[highlightConfig.titleSize, 'font-bold', getHighlightStyle(item.color).title]" v-html="parseMarkdown(item.title)"></span>
+                  <span
+                    v-if="item.badge"
+                    :class="[
+                      'text-xs font-semibold px-2 py-0.5 rounded-full text-white shrink-0 ml-2',
+                      item.badgeColor === 'dark' ? 'bg-gray-800' : getHighlightStyle(item.color).icon.replace('text-', 'bg-')
+                    ]"
+                  >{{ item.badge }}</span>
+                </div>
                 <span v-if="item.subtitle" :class="[highlightConfig.subtitleSize, 'text-gray-600']" v-html="parseMarkdown(item.subtitle)"></span>
                 <div v-if="item.features && item.features.length > 0" class="flex flex-wrap gap-[0.375rem] mt-[0.25rem]">
                   <span
                     v-for="(feature, fIdx) in item.features"
                     :key="fIdx"
-                    :class="[highlightConfig.featureSize, 'px-[0.5rem] py-[0.125rem] bg-white/50 rounded text-gray-600']"
+                    :class="[
+                      highlightConfig.featureSize,
+                      'font-medium px-2 py-0.5 rounded-full',
+                      getHighlightStyle(item.color).featureBg,
+                      getHighlightStyle(item.color).title
+                    ]"
                     v-html="parseMarkdown(feature)"
                   ></span>
                 </div>
@@ -273,6 +289,11 @@ const highlightConfig = computed(() => {
           <!-- Terminal -->
           <div v-else-if="terminal" class="w-full">
             <TerminalBlock :title="terminal.title" :lines="terminal.lines" />
+          </div>
+
+          <!-- Custom Slot Content -->
+          <div v-else-if="$slots.default" class="w-full">
+            <slot />
           </div>
 
           <!-- Image or Default -->
