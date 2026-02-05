@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "slidev --port 3004",
-    "build": "slidev build --base /101B-ja/ --out ../../dist/101B-ja",
+    "build": "slidev build --base /201A-ja/ --out ../../dist/201A-ja",
     "export": "slidev export"
   }
 }
