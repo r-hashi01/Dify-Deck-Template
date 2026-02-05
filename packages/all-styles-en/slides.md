@@ -1,6 +1,8 @@
 ---
 theme: ../theme-dify
 title: "Dify Template Gallery"
+browserExporter: true
+favicon: /assets/icon/Dify-if.svg
 deckName: Dify Deck
 copyright: © 2026 Dify. All rights reserved.
 authorName: Dify Team
@@ -26,6 +28,7 @@ details:
   - Open source enthusiast
   - Community driven development
 imageUrl: /assets/icon/dify-logo.svg
+title: About the Presenter
 ---
 
 ---
@@ -38,6 +41,7 @@ subtitle: What you will learn
 objective: Master all Dify Deck slide layouts and create stunning presentations
 value: Save time with pre-built, professionally designed templates
 scope: All 21 layouts with examples and best practices
+title: Course Overview
 ---
 
 ---
@@ -49,6 +53,7 @@ part: Part
 partNumber: 1
 slideTitle: Content Layouts
 subtitle: Basic building blocks
+title: Content Layouts
 ---
 
 ---
@@ -59,11 +64,12 @@ layout: content
 slideTitle: Content Layout
 subtitle: Standard bullet points
 items:
-  - First point with **bold** text
+  - "First point with **bold** text"
   - Second point with details
   - "  Sub-item with indentation"
   - "  Another sub-item"
   - Third main point
+title: Content Layout
 ---
 
 ---
@@ -77,6 +83,7 @@ items:
   - Centered content for focus
   - Great for key messages
   - Scales based on content amount
+title: Adaptive Content
 ---
 
 ---
@@ -89,6 +96,7 @@ items:
   - Cards and grids
   - Data visualization
   - Interactive elements
+title: "Chapter: Advanced Layouts"
 ---
 
 ---
@@ -115,6 +123,7 @@ items:
     description: Optimized performance
     icon: Rocket
     color: purple
+title: Cards Layout
 ---
 
 ---
@@ -134,6 +143,7 @@ items:
   - title: Use Cases
     description: Chatbots, content generation, data analysis
     icon: Target
+title: Accordion Layout
 ---
 
 ---
@@ -156,6 +166,7 @@ items:
     description: One-click publish
     tag: "03"
     icon: Rocket
+title: Focus Columns
 ---
 
 ---
@@ -188,6 +199,7 @@ items:
       - Modular
       - Extensible
       - Enterprise-ready
+title: Pillars Layout
 ---
 
 ---
@@ -219,6 +231,7 @@ rows:
     1: Community
     2: Email
     3: 24/7
+title: Comparison Matrix
 ---
 
 ---
@@ -259,6 +272,7 @@ items:
       - SLA
     topBarColor: purple
 footerNote: All plans include a 14-day free trial
+title: Pricing Plans
 ---
 
 ---
@@ -277,6 +291,7 @@ items:
     description: Yes, MIT licensed
   - title: Need help?
     description: Join our community Discord
+title: FAQ
 ---
 
 ---
@@ -296,6 +311,7 @@ items:
   - title: Fast
     description: Quick development
     icon: Zap
+title: Key Takeaways
 ---
 
 ---
@@ -308,6 +324,7 @@ items:
   - Build presentations faster
   - Focus on content, not design
   - Ship with confidence
+title: The Big Picture
 ---
 
 ---
@@ -329,6 +346,7 @@ items:
   - title: Distribution
     description: Share with others
     icon: Share
+title: License
 ---
 
 ---

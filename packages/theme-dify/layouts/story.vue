@@ -2,16 +2,21 @@
 import { computed } from 'vue'
 import SlideLogo from '../components/SlideLogo.vue'
 import SlideFooter from '../components/SlideFooter.vue'
+import { parseMarkdown } from '../utils/markdown'
 
 const props = defineProps<{
   slideTitle?: string
   subtitle?: string
   content?: string[]
+  imageUrl?: string
+  imagePosition?: 'left' | 'right'
   deckName?: string
   copyright?: string
   authorName?: string
   logoVariant?: 'default' | 'white' | 'black' | 'dark-mode' | 'on-blue'
 }>()
+
+const imageOnRight = computed(() => props.imagePosition === 'right')
 
 const slideTitle = computed(() => props.slideTitle || 'The Origin Story')
 const subtitle = computed(() => props.subtitle || '')
@@ -20,9 +25,9 @@ const content = computed(() => props.content || [])
 
 <template>
   <div class="h-full w-full bg-white relative overflow-hidden">
-    <div class="flex" style="height: calc(100% - 2.5rem);">
-      <!-- Left: Visual / Image Area (50%) -->
-      <div class="w-1/2 h-full relative bg-gray-100 overflow-hidden border-r border-gray-200">
+    <div :class="['flex', imageOnRight ? 'flex-row-reverse' : '']" style="height: calc(100% - 2.5rem);">
+      <!-- Visual / Image Area (50%) -->
+      <div :class="['w-1/2 h-full relative bg-gray-100 overflow-hidden', imageOnRight ? 'border-l border-gray-200' : 'border-r border-gray-200']">
         <!-- Noise Overlay for "Retro" feel -->
         <div
           class="absolute inset-0 opacity-10 pointer-events-none z-20"
@@ -32,24 +37,28 @@ const content = computed(() => props.content || [])
         <!-- Visual Content with Grayscale Filter -->
         <div class="w-full h-full grayscale contrast-125 brightness-95 scale-90 transition-all duration-1000 hover:grayscale-0 hover:scale-100 origin-center flex items-center justify-center">
           <slot>
-            <div class="text-[5rem]">🚀</div>
+            <img
+              v-if="imageUrl"
+              :src="imageUrl"
+              alt="Story visual"
+              class="max-w-full max-h-full object-contain"
+            />
+            <div v-else class="text-[5rem]">🚀</div>
           </slot>
         </div>
       </div>
 
-      <!-- Right: Text Area (50%) -->
+      <!-- Text Area (50%) -->
       <div class="w-1/2 h-full p-[2rem] flex flex-col justify-center relative">
         <!-- Dify Logo Top Right -->
         <SlideLogo :variant="logoVariant || 'default'" />
 
         <!-- Main Content -->
         <div class="space-y-[1.25rem]">
-          <h1 class="text-[2.5rem] font-black tracking-tighter text-[#0033FF] leading-none">
-            {{ slideTitle }}
+          <h1 class="text-[2.5rem] font-black tracking-tighter text-[#0033FF] leading-none" v-html="parseMarkdown(slideTitle)">
           </h1>
 
-          <h2 v-if="subtitle" class="text-[1.25rem] font-bold text-gray-900 leading-tight tracking-tight">
-            {{ subtitle }}
+          <h2 v-if="subtitle" class="text-[1.25rem] font-bold text-gray-900 leading-tight tracking-tight" v-html="parseMarkdown(subtitle)">
           </h2>
 
           <div class="w-[5rem] h-[0.375rem] bg-black"></div>
@@ -59,8 +68,8 @@ const content = computed(() => props.content || [])
               v-for="(paragraph, idx) in content"
               :key="idx"
               class="mb-[1rem] last:mb-0"
+              v-html="parseMarkdown(paragraph)"
             >
-              {{ paragraph }}
             </p>
           </div>
         </div>

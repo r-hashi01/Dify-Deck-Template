@@ -18,6 +18,8 @@ const props = defineProps<{
   subtitle?: string
   positioning?: string
   items?: PillarItem[]
+  pillarSize?: 'xs' | 'small' | 'medium' | 'large'
+  showEmptyIconBox?: boolean
   deckName?: string
   copyright?: string
   authorName?: string
@@ -64,30 +66,77 @@ const getStyle = (item: PillarItem, idx: number) => {
   return defaultStyles[idx % defaultStyles.length]
 }
 
-// Size config based on item count
-const sizeConfig = computed(() => {
+// Size presets
+const sizePresets = {
+  large: {
+    gap: 'gap-[1.5rem]',
+    padding: 'p-[1rem]',
+    iconBox: 'p-[0.75rem]',
+    iconSize: 'w-[1.5rem] h-[1.5rem]',
+    titleSize: 'text-[1.1rem]',
+    descSize: 'text-[0.85rem]',
+    featureSize: 'text-[0.75rem]',
+    itemWidth: 'w-[calc(33.333%-1rem)]',
+    itemHeight: 'h-[85%]',
+    maxCols: 3,
+  },
+  medium: {
+    gap: 'gap-[1rem]',
+    padding: 'p-[0.75rem]',
+    iconBox: 'p-[0.5rem]',
+    iconSize: 'w-[1.25rem] h-[1.25rem]',
+    titleSize: 'text-[0.95rem]',
+    descSize: 'text-[0.75rem]',
+    featureSize: 'text-[0.7rem]',
+    itemWidth: 'w-[calc(25%-0.75rem)]',
+    itemHeight: 'h-[80%]',
+    maxCols: 4,
+  },
+  small: {
+    gap: 'gap-[0.5rem]',
+    padding: 'p-[0.6rem]',
+    iconBox: 'p-[0.4rem]',
+    iconSize: 'w-[1rem] h-[1rem]',
+    titleSize: 'text-[1.05rem]',
+    descSize: 'text-[0.8rem]',
+    featureSize: 'text-[0.7rem]',
+    itemWidth: 'w-[calc(25%-0.375rem)]',
+    itemHeight: 'min-h-[8.5rem]',
+    maxCols: 4,
+  },
+  xs: {
+    gap: 'gap-[0.5rem]',
+    padding: 'p-[0.4rem]',
+    iconBox: 'p-[0.25rem]',
+    iconSize: 'w-[0.75rem] h-[0.75rem]',
+    titleSize: 'text-[0.7rem]',
+    descSize: 'text-[0.55rem]',
+    featureSize: 'text-[0.5rem]',
+    itemWidth: 'w-[calc(25%-0.375rem)]',
+    itemHeight: 'min-h-[5rem]',
+    maxCols: 4,
+  },
+}
+
+// Determine effective size
+const effectiveSize = computed(() => {
+  if (props.pillarSize) return props.pillarSize
   const count = items.value.length
-  if (count <= 3) {
-    return {
-      gap: 'gap-[1.5rem]',
-      padding: 'p-[1rem]',
-      iconBox: 'p-[0.75rem]',
-      iconSize: 'w-[1.5rem] h-[1.5rem]',
-      titleSize: 'text-[1.1rem]',
-      descSize: 'text-[0.85rem]',
-      featureSize: 'text-[0.75rem]',
-    }
-  } else {
-    return {
-      gap: 'gap-[1rem]',
-      padding: 'p-[0.75rem]',
-      iconBox: 'p-[0.5rem]',
-      iconSize: 'w-[1.25rem] h-[1.25rem]',
-      titleSize: 'text-[0.95rem]',
-      descSize: 'text-[0.75rem]',
-      featureSize: 'text-[0.7rem]',
-    }
-  }
+  if (count <= 3) return 'large'
+  if (count <= 5) return 'medium'
+  if (count <= 8) return 'small'
+  return 'xs'
+})
+
+// Size config based on pillarSize prop or item count
+const sizeConfig = computed(() => sizePresets[effectiveSize.value])
+
+// Check if we need to wrap (more than 4 items for medium/large, more than 8 for small)
+const needsWrap = computed(() => {
+  const count = items.value.length
+  if (effectiveSize.value === 'large') return count > 3
+  if (effectiveSize.value === 'medium') return count > 4
+  return count > 4
 })
 </script>
 
@@ -101,14 +150,12 @@ const sizeConfig = computed(() => {
     <!-- Dify Logo Top Right -->
     <SlideLogo :variant="logoVariant || 'default'" />
 
-    <div class="relative z-10 flex flex-col h-full">
+    <div :class="['relative z-10 flex flex-col', ['small', 'xs'].includes(effectiveSize) ? '' : 'h-full']">
       <!-- Header -->
       <div class="flex flex-col items-start w-full">
-        <h1 class="text-[3rem] font-extrabold text-[#0033FF] tracking-tight leading-tight">
-          {{ slideTitle }}
+        <h1 class="text-[3rem] font-extrabold text-[#0033FF] tracking-tight leading-tight" v-html="parseMarkdown(slideTitle)">
         </h1>
-        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-600 mb-[0.5rem] border-l-[0.375rem] border-[#0033FF] pl-[1rem]">
-          {{ subtitle }}
+        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-600 mb-[0.5rem] border-l-[0.375rem] border-[#0033FF] pl-[1rem]" v-html="parseMarkdown(subtitle)">
         </h2>
 
         <!-- Positioning Hero -->
@@ -120,19 +167,18 @@ const sizeConfig = computed(() => {
             <span class="px-[0.75rem] py-[0.375rem] bg-[#0033FF] text-white rounded-lg text-[0.75rem] font-bold uppercase tracking-widest">
               POSITIONING
             </span>
-            <h3 class="text-[1.5rem] font-extrabold text-slate-900 leading-tight">
-              {{ positioning }}
+            <h3 class="text-[1.5rem] font-extrabold text-slate-900 leading-tight" v-html="parseMarkdown(positioning)">
             </h3>
           </div>
         </div>
       </div>
 
       <!-- Pillars -->
-      <div :class="['flex-grow min-h-0 flex items-end justify-center mt-[0.5rem]', sizeConfig.gap]">
+      <div :class="[['small', 'xs'].includes(effectiveSize) ? 'grid grid-cols-4' : 'flex flex-wrap flex-grow min-h-0 items-end content-end justify-center mt-[0.5rem]', sizeConfig.gap]">
         <div
           v-for="(item, idx) in items"
           :key="idx"
-          class="flex-1 h-[90%] flex flex-col items-center relative group"
+          :class="['flex flex-col items-center relative group', ['small', 'xs'].includes(effectiveSize) ? '' : (needsWrap ? sizeConfig.itemWidth : 'flex-1'), ['small', 'xs'].includes(effectiveSize) ? '' : sizeConfig.itemHeight]"
         >
           <!-- Pillar Body -->
           <div :class="['flex-1 w-full bg-white border border-gray-200 rounded-sm shadow-sm flex flex-col items-center relative overflow-hidden hover:-translate-y-1 transition-all duration-300 group-hover:shadow-lg group-hover:border-gray-300', sizeConfig.padding]">
@@ -145,35 +191,66 @@ const sizeConfig = computed(() => {
             <!-- Top Color Line -->
             <div :class="['absolute top-0 left-0 w-full h-[0.25rem]', getStyle(item, idx).bg]"></div>
 
-            <!-- Content -->
-            <div class="relative z-10 flex flex-col items-center h-full pt-[1rem] w-full">
-              <!-- Icon Box -->
-              <div :class="['mb-[0.75rem] rounded-sm bg-white border border-gray-100 shadow-sm group-hover:scale-110 transition-transform duration-300', sizeConfig.iconBox, getStyle(item, idx).text]">
+            <!-- Content: Horizontal layout for small/xs, vertical for others -->
+            <!-- Small/XS: Horizontal Layout (with icon) or Full Width (no icon) -->
+            <div v-if="['small', 'xs'].includes(effectiveSize)" :class="['relative z-10 h-full w-full pt-[0.5rem]', (getIconSvg(item.icon) || showEmptyIconBox) ? 'flex items-start gap-[0.5rem]' : '']">
+              <!-- Icon Box (Left) - only if icon exists -->
+              <div v-if="getIconSvg(item.icon) || showEmptyIconBox" :class="['rounded-sm bg-white border border-gray-100 shadow-sm shrink-0', sizeConfig.iconBox, getStyle(item, idx).text]">
                 <span v-if="getIconSvg(item.icon)" v-html="getIconSvg(item.icon)" :class="sizeConfig.iconSize"></span>
-                <svg v-else :class="sizeConfig.iconSize" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
+              </div>
+
+              <!-- Text Content -->
+              <div :class="(getIconSvg(item.icon) || showEmptyIconBox) ? 'flex-1 min-w-0' : 'w-full'">
+                <!-- Title -->
+                <h3 :class="['font-black leading-tight tracking-tight', sizeConfig.titleSize, getStyle(item, idx).text, 'mb-[0.125rem]']" v-html="parseMarkdown(item.title)">
+                </h3>
+
+                <!-- Description -->
+                <p :class="['text-gray-500 leading-snug font-medium', sizeConfig.descSize]" v-html="parseMarkdown(item.description || '')">
+                </p>
+
+                <!-- Features List -->
+                <div v-if="item.features && item.features.length > 0" class="mt-[0.25rem]">
+                  <ul class="space-y-[0.125rem]">
+                    <li
+                      v-for="(feature, fIdx) in item.features"
+                      :key="fIdx"
+                      :class="['text-gray-600 flex items-start gap-[0.25rem]', sizeConfig.featureSize]"
+                    >
+                      <div :class="['rounded-full shrink-0 w-[0.25rem] h-[0.25rem] mt-[0.6em]', getStyle(item, idx).bg]"></div>
+                      <span v-html="parseMarkdown(feature)"></span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Medium/Large: Vertical Layout -->
+            <div v-else class="relative z-10 flex flex-col items-center h-full w-full pt-[1rem]">
+              <!-- Icon Box -->
+              <div v-if="getIconSvg(item.icon) || showEmptyIconBox" :class="['rounded-sm bg-white border border-gray-100 shadow-sm group-hover:scale-110 transition-transform duration-300 mb-[0.75rem]', sizeConfig.iconBox, getStyle(item, idx).text]">
+                <span v-if="getIconSvg(item.icon)" v-html="getIconSvg(item.icon)" :class="sizeConfig.iconSize"></span>
               </div>
 
               <!-- Title -->
-              <h3 :class="['font-black text-center mb-[0.5rem] leading-tight tracking-tight', sizeConfig.titleSize, getStyle(item, idx).text]" v-html="parseMarkdown(item.title)">
+              <h3 :class="['font-black text-center leading-tight tracking-tight mb-[0.5rem]', sizeConfig.titleSize, getStyle(item, idx).text]" v-html="parseMarkdown(item.title)">
               </h3>
 
               <div class="w-[2rem] h-[0.125rem] bg-gray-100 rounded-full mb-[0.5rem]"></div>
 
               <!-- Description -->
-              <p :class="['text-gray-500 text-center leading-relaxed font-medium px-[0.25rem]', sizeConfig.descSize]" v-html="parseMarkdown(item.description || '')">
+              <p :class="['text-gray-500 text-center leading-snug font-medium px-[0.25rem]', sizeConfig.descSize]" v-html="parseMarkdown(item.description || '')">
               </p>
 
               <!-- Features List -->
-              <div v-if="item.features && item.features.length > 0" class="mt-auto pt-[0.5rem] w-full">
+              <div v-if="item.features && item.features.length > 0" class="mt-auto w-full pt-[0.5rem]">
                 <ul class="space-y-[0.25rem]">
                   <li
                     v-for="(feature, fIdx) in item.features"
                     :key="fIdx"
-                    :class="['text-gray-600 flex items-center gap-[0.375rem] bg-slate-50 p-[0.375rem] rounded-lg border border-slate-100', sizeConfig.featureSize]"
+                    :class="['text-gray-600 flex items-center gap-[0.25rem] bg-slate-50 rounded border border-slate-100 p-[0.375rem]', sizeConfig.featureSize]"
                   >
-                    <div :class="['w-[0.375rem] h-[0.375rem] rounded-full shrink-0', getStyle(item, idx).bg]"></div>
+                    <div :class="['rounded-full shrink-0 w-[0.375rem] h-[0.375rem]', getStyle(item, idx).bg]"></div>
                     <span v-html="parseMarkdown(feature)"></span>
                   </li>
                 </ul>

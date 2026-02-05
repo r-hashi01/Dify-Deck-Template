@@ -9,6 +9,7 @@ interface AccordionItem {
   title: string
   description: string
   icon?: string
+  color?: string
 }
 
 const props = defineProps<{
@@ -75,6 +76,23 @@ const sizeConfig = computed(() => {
     }
   }
 })
+
+// Color mapping for icons
+const colorClasses: Record<string, { bg: string, text: string, border: string }> = {
+  yellow: { bg: 'bg-yellow-50', text: 'text-yellow-500', border: 'border-yellow-100' },
+  green: { bg: 'bg-green-50', text: 'text-green-500', border: 'border-green-100' },
+  blue: { bg: 'bg-blue-50', text: 'text-blue-500', border: 'border-blue-100' },
+  purple: { bg: 'bg-purple-50', text: 'text-purple-500', border: 'border-purple-100' },
+  red: { bg: 'bg-red-50', text: 'text-red-500', border: 'border-red-100' },
+  orange: { bg: 'bg-orange-50', text: 'text-orange-500', border: 'border-orange-100' },
+  indigo: { bg: 'bg-indigo-50', text: 'text-indigo-500', border: 'border-indigo-100' },
+  cyan: { bg: 'bg-cyan-50', text: 'text-cyan-500', border: 'border-cyan-100' },
+  black: { bg: 'bg-gray-100', text: 'text-gray-900', border: 'border-gray-100' },
+}
+
+const getColorClasses = (color?: string) => {
+  return colorClasses[color || 'blue'] || colorClasses.blue
+}
 </script>
 
 <template>
@@ -90,11 +108,9 @@ const sizeConfig = computed(() => {
     <div class="relative z-10 flex flex-col h-full">
       <!-- Header -->
       <div class="flex flex-col items-start w-full">
-        <h1 class="text-[3.75rem] font-extrabold text-[#0033FF] tracking-tight leading-tight">
-          {{ slideTitle }}
+        <h1 class="text-[3.75rem] font-extrabold text-[#0033FF] tracking-tight leading-tight" v-html="parseMarkdown(slideTitle)">
         </h1>
-        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-600 mb-[1rem] border-l-[0.375rem] border-[#0033FF] pl-[1rem]">
-          {{ subtitle }}
+        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-600 mb-[1rem] border-l-[0.375rem] border-[#0033FF] pl-[1rem]" v-html="parseMarkdown(subtitle)">
         </h2>
         <div class="w-full h-px bg-gray-200"></div>
       </div>
@@ -110,9 +126,9 @@ const sizeConfig = computed(() => {
             <!-- Header -->
             <div :class="['flex items-center', sizeConfig.padding]">
               <!-- Icon Box -->
-              <div :class="['flex items-center justify-center bg-blue-50 rounded-lg border border-blue-100 shrink-0', sizeConfig.iconBox, sizeConfig.iconMargin]">
-                <span v-if="getIconSvg(item.icon)" v-html="getIconSvg(item.icon)" :class="['text-[#0033FF]', sizeConfig.iconSize]"></span>
-                <span v-else :class="['font-bold text-[#0033FF]', sizeConfig.iconText]">{{ idx + 1 }}</span>
+              <div :class="['flex items-center justify-center rounded-lg border shrink-0', sizeConfig.iconBox, sizeConfig.iconMargin, getColorClasses(item.color).bg, getColorClasses(item.color).border]">
+                <span v-if="getIconSvg(item.icon)" v-html="getIconSvg(item.icon)" :class="[sizeConfig.iconSize, getColorClasses(item.color).text]"></span>
+                <span v-else :class="['font-bold', sizeConfig.iconText, getColorClasses(item.color).text]">{{ idx + 1 }}</span>
               </div>
 
               <!-- Title -->

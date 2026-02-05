@@ -27,8 +27,14 @@ const toggleFullscreen = () => {
 }
 
 const goHome = () => {
-  const homeUrl = (import.meta as any).env?.VITE_HOME_URL || 'http://localhost:3000'
-  window.location.href = homeUrl
+  const isDev = (import.meta as any).env?.DEV
+  if (isDev) {
+    // Development: go to dev server index
+    window.location.href = 'http://localhost:3000'
+  } else {
+    // Production: go to site root
+    window.location.href = window.location.origin
+  }
 }
 
 const downloadPdf = () => {

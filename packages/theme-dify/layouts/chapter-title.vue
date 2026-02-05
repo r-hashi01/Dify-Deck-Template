@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import SlideFooter from '../components/SlideFooter.vue'
 import SlideLogo from '../components/SlideLogo.vue'
+import { parseMarkdown } from '../utils/markdown'
 
 const props = defineProps<{
   slideTitle?: string
@@ -26,8 +27,7 @@ const items = computed(() => props.items || [])
       <div class="mb-[2rem] mx-auto w-[6rem] h-[0.25rem] bg-white"></div>
 
       <!-- Title -->
-      <h1 class="text-[4.375rem] font-bold mb-[2.5rem] leading-none tracking-tight max-w-2xl mx-auto">
-        {{ slideTitle }}
+      <h1 class="text-[4.375rem] font-bold mb-[2.5rem] leading-none tracking-tight max-w-2xl mx-auto" v-html="parseMarkdown(slideTitle)">
       </h1>
 
       <!-- Content Items -->
@@ -37,7 +37,7 @@ const items = computed(() => props.items || [])
           :key="index"
           class="border-b border-white/30 p-[1.25rem] flex items-center hover:bg-white/10 transition-colors"
         >
-          <span class="text-[1.5rem] font-medium text-white">{{ item }}</span>
+          <span class="text-[1.5rem] font-medium text-white" v-html="parseMarkdown(item)"></span>
         </div>
       </div>
     </div>

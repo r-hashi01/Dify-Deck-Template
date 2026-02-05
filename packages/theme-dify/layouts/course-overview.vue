@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import SlideFooter from '../components/SlideFooter.vue'
 import SlideLogo from '../components/SlideLogo.vue'
+import { parseMarkdown } from '../utils/markdown'
 
 const props = defineProps<{
   slideTitle?: string
@@ -20,6 +21,28 @@ const subtitle = computed(() => props.subtitle || '')
 const objective = computed(() => props.objective || '')
 const value = computed(() => props.value || '')
 const scope = computed(() => props.scope || '')
+
+// 文字数に応じてテキストサイズを動的に調整
+const objectiveTextSize = computed(() => {
+  const len = objective.value.length
+  if (len > 80) return 'text-[1rem]'
+  if (len > 50) return 'text-[1.2rem]'
+  return 'text-[1.4rem]'
+})
+
+const valueTextSize = computed(() => {
+  const len = value.value.length
+  if (len > 80) return 'text-[1rem]'
+  if (len > 50) return 'text-[1.2rem]'
+  return 'text-[1.4rem]'
+})
+
+const scopeTextSize = computed(() => {
+  const len = scope.value.length
+  if (len > 100) return 'text-[0.8rem]'
+  if (len > 60) return 'text-[0.9rem]'
+  return 'text-[1rem]'
+})
 </script>
 
 <template>
@@ -35,11 +58,9 @@ const scope = computed(() => props.scope || '')
     <div class="relative z-10 flex flex-col h-full">
       <!-- Header -->
       <div class="flex flex-col items-start w-full">
-        <h1 class="text-[3rem] font-extrabold text-[#0033FF] tracking-tight leading-tight">
-          {{ slideTitle }}
+        <h1 class="text-[3rem] font-extrabold text-[#0033FF] tracking-tight leading-tight" v-html="parseMarkdown(slideTitle)">
         </h1>
-        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-600 mb-[1rem] border-l-[0.375rem] border-[#0033FF] pl-[1rem]">
-          {{ subtitle }}
+        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-600 mb-[1rem] border-l-[0.375rem] border-[#0033FF] pl-[1rem]" v-html="parseMarkdown(subtitle)">
         </h2>
         <div class="w-full h-px bg-gray-200"></div>
       </div>
@@ -55,8 +76,7 @@ const scope = computed(() => props.scope || '')
                 Course Objective
               </h3>
             </div>
-            <p class="text-[1.4rem] text-gray-900 leading-tight">
-              {{ objective }}
+            <p :class="[objectiveTextSize, 'text-gray-900 leading-tight']" v-html="parseMarkdown(objective)">
             </p>
           </div>
 
@@ -67,8 +87,7 @@ const scope = computed(() => props.scope || '')
                 Core Value
               </h3>
             </div>
-            <p class="text-[1.4rem] text-white leading-tight">
-              {{ value }}
+            <p :class="[valueTextSize, 'text-white leading-tight']" v-html="parseMarkdown(value)">
             </p>
           </div>
         </div>
@@ -77,7 +96,7 @@ const scope = computed(() => props.scope || '')
         <div class="h-[5rem] bg-white border-t-[0.25rem] border-gray-100 flex items-center pt-[0.5rem] relative shrink-0">
           <div class="absolute left-0 top-0 h-[0.25rem] w-[3rem] bg-[#0033FF]"></div>
           <span class="text-[0.7rem] font-bold text-gray-400 uppercase tracking-widest mr-[1.5rem] shrink-0">Scope</span>
-          <p class="text-[1rem] text-gray-600 flex-1">{{ scope }}</p>
+          <p :class="[scopeTextSize, 'text-gray-600 flex-1']" v-html="parseMarkdown(scope)"></p>
         </div>
       </div>
     </div>

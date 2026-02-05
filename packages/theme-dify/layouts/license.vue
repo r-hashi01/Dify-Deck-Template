@@ -9,6 +9,7 @@ interface LicenseItem {
   title: string
   description?: string
   icon?: string
+  color?: string
 }
 
 const props = defineProps<{
@@ -16,6 +17,7 @@ const props = defineProps<{
   subtitle?: string
   content?: string[]
   items?: LicenseItem[]
+  showEmptyIconBox?: boolean
   deckName?: string
   copyright?: string
   authorName?: string
@@ -30,6 +32,23 @@ const items = computed(() => props.items || [])
 // First item is base license, rest are restrictions
 const baseLicense = computed(() => items.value[0])
 const restrictions = computed(() => items.value.slice(1))
+
+// Color mapping for icons
+const colorClasses: Record<string, { bg: string, text: string, border: string, solidBg: string, solidText: string }> = {
+  yellow: { bg: 'bg-yellow-50', text: 'text-yellow-500', border: 'border-yellow-100', solidBg: 'bg-yellow-500', solidText: 'text-white' },
+  green: { bg: 'bg-green-50', text: 'text-green-500', border: 'border-green-100', solidBg: 'bg-green-500', solidText: 'text-white' },
+  blue: { bg: 'bg-blue-50/30', text: 'text-[#0033FF]', border: 'border-[#0033FF]', solidBg: 'bg-[#0033FF]', solidText: 'text-white' },
+  purple: { bg: 'bg-purple-50', text: 'text-purple-500', border: 'border-purple-100', solidBg: 'bg-purple-500', solidText: 'text-white' },
+  red: { bg: 'bg-red-50/30', text: 'text-red-700', border: 'border-red-400', solidBg: 'bg-red-600', solidText: 'text-white' },
+  orange: { bg: 'bg-orange-50', text: 'text-orange-500', border: 'border-orange-100', solidBg: 'bg-orange-500', solidText: 'text-white' },
+  indigo: { bg: 'bg-indigo-50', text: 'text-indigo-500', border: 'border-indigo-100', solidBg: 'bg-indigo-500', solidText: 'text-white' },
+  cyan: { bg: 'bg-cyan-50', text: 'text-cyan-500', border: 'border-cyan-100', solidBg: 'bg-cyan-500', solidText: 'text-white' },
+  black: { bg: 'bg-gray-100', text: 'text-gray-900', border: 'border-gray-100', solidBg: 'bg-gray-900', solidText: 'text-white' },
+}
+
+const getColorClasses = (color?: string, defaultColor: string = 'blue') => {
+  return colorClasses[color || defaultColor] || colorClasses[defaultColor]
+}
 </script>
 
 <template>
@@ -45,11 +64,9 @@ const restrictions = computed(() => items.value.slice(1))
     <div class="relative z-10 flex flex-col h-full">
       <!-- Header -->
       <div class="flex flex-col items-start w-full">
-        <h1 class="text-[3rem] font-extrabold text-[#0033FF] tracking-tight leading-tight">
-          {{ slideTitle }}
+        <h1 class="text-[3rem] font-extrabold text-[#0033FF] tracking-tight leading-tight" v-html="parseMarkdown(slideTitle)">
         </h1>
-        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-600 mb-[1rem] border-l-[0.375rem] border-[#0033FF] pl-[1rem]">
-          {{ subtitle }}
+        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-600 mb-[1rem] border-l-[0.375rem] border-[#0033FF] pl-[1rem]" v-html="parseMarkdown(subtitle)">
         </h2>
         <div class="w-full h-px bg-gray-200"></div>
       </div>
@@ -67,15 +84,12 @@ const restrictions = computed(() => items.value.slice(1))
           <!-- Left: Base License -->
           <div
             v-if="baseLicense"
-            class="flex flex-col items-center justify-center w-5/12 border-2 border-[#0033FF] rounded-xl bg-blue-50/30 p-[1.5rem] shadow-sm hover:shadow-lg transition-shadow"
+            :class="['flex flex-col items-center justify-center w-5/12 border-2 rounded-xl p-[1.5rem] shadow-sm hover:shadow-lg transition-shadow', getColorClasses(baseLicense.color, 'blue').border, getColorClasses(baseLicense.color, 'blue').bg]"
           >
-            <div class="text-[#0033FF]">
+            <div v-if="getIconSvg(baseLicense.icon) || showEmptyIconBox" :class="['w-[2.5rem] h-[2.5rem]', getColorClasses(baseLicense.color, 'blue').text]">
               <span v-if="getIconSvg(baseLicense.icon)" v-html="getIconSvg(baseLicense.icon)" class="w-[2.5rem] h-[2.5rem]"></span>
-              <svg v-else class="w-[2.5rem] h-[2.5rem]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-              </svg>
             </div>
-            <h3 class="text-[1.5rem] font-bold text-[#0033FF] mb-[0.5rem]" v-html="parseMarkdown(baseLicense.title)"></h3>
+            <h3 :class="['text-[1.5rem] font-bold mb-[0.5rem]', getColorClasses(baseLicense.color, 'blue').text]" v-html="parseMarkdown(baseLicense.title)"></h3>
             <p class="text-gray-600 font-medium text-[0.9rem] text-center" v-html="parseMarkdown(baseLicense.description || '')"></p>
           </div>
 
@@ -91,16 +105,13 @@ const restrictions = computed(() => items.value.slice(1))
             <div
               v-for="(item, idx) in restrictions"
               :key="idx"
-              class="flex items-start p-[1rem] border-2 border-red-400 rounded-xl bg-red-50/30 shadow-sm hover:shadow-md transition-shadow"
+              :class="['flex items-start p-[1rem] border-2 rounded-xl shadow-sm hover:shadow-md transition-shadow', getColorClasses(item.color, 'red').border, getColorClasses(item.color, 'red').bg]"
             >
-              <div class="mr-[0.75rem] mt-[0.125rem] bg-red-600 text-white rounded-full p-[0.5rem] shrink-0 shadow-sm">
+              <div v-if="getIconSvg(item.icon) || showEmptyIconBox" :class="['mr-[0.75rem] mt-[0.125rem] rounded-full p-[0.5rem] shrink-0 shadow-sm', getColorClasses(item.color, 'red').solidBg, getColorClasses(item.color, 'red').solidText]">
                 <span v-if="getIconSvg(item.icon)" v-html="getIconSvg(item.icon)" class="w-[1rem] h-[1rem]"></span>
-                <svg v-else class="w-[1rem] h-[1rem]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                </svg>
               </div>
               <div>
-                <h4 class="text-[1rem] font-bold text-red-700 mb-[0.125rem]" v-html="parseMarkdown(item.title)"></h4>
+                <h4 :class="['text-[1rem] font-bold mb-[0.125rem]', getColorClasses(item.color, 'red').text]" v-html="parseMarkdown(item.title)"></h4>
                 <p class="text-gray-600 leading-relaxed text-[0.85rem]" v-html="parseMarkdown(item.description || '')"></p>
               </div>
             </div>

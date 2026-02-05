@@ -30,8 +30,7 @@ const items = computed(() => props.items || [])
       <div class="mb-[1rem] mx-auto w-[6rem] h-[0.25rem] bg-[#0033FF]"></div>
 
       <!-- Title -->
-      <h1 class="text-[3rem] font-bold mb-[2rem] leading-tight tracking-tight">
-        {{ slideTitle }}
+      <h1 class="text-[3rem] font-bold mb-[2rem] leading-tight tracking-tight" v-html="parseMarkdown(slideTitle)">
       </h1>
 
       <!-- Content Items -->
