@@ -10,9 +10,18 @@ function toYamlValue(value: unknown, indent = 0): string {
 
   if (typeof value === 'string') {
     // Check if string needs quoting
+    // * is YAML alias reference, so needs quoting
     if (value.includes('\n') || value.includes(':') || value.includes('#') ||
-        value.includes("'") || value.includes('"') || value.startsWith(' ')) {
-      return `"${value.replace(/"/g, '\\"')}"`;
+        value.includes("'") || value.includes('"') || value.startsWith(' ') ||
+        value.includes('*')) {
+      // Escape special characters for YAML double-quoted strings
+      const escaped = value
+        .replace(/\\/g, '\\\\')  // Escape backslashes first
+        .replace(/"/g, '\\"')    // Escape double quotes
+        .replace(/\n/g, '\\n')   // Escape newlines
+        .replace(/\r/g, '\\r')   // Escape carriage returns
+        .replace(/\t/g, '\\t');  // Escape tabs
+      return `"${escaped}"`;
     }
     return value;
   }

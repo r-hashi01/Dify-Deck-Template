@@ -14,6 +14,7 @@ interface PricingItem {
   topBarColor?: string
   badge?: string
   icon?: string
+  color?: string
 }
 
 const props = defineProps<{
@@ -65,6 +66,23 @@ const cardWidth = computed(() => {
   if (count <= 3) return 'w-[16rem]'
   return 'w-[11rem]'
 })
+
+// Color mapping for icons
+const colorClasses: Record<string, { text: string }> = {
+  yellow: { text: 'text-yellow-500' },
+  green: { text: 'text-green-500' },
+  blue: { text: 'text-[#0033FF]' },
+  purple: { text: 'text-purple-500' },
+  red: { text: 'text-red-500' },
+  orange: { text: 'text-orange-500' },
+  indigo: { text: 'text-indigo-500' },
+  cyan: { text: 'text-cyan-500' },
+  black: { text: 'text-gray-900' },
+}
+
+const getIconColor = (color?: string) => {
+  return colorClasses[color || 'blue']?.text || colorClasses.blue.text
+}
 </script>
 
 <template>
@@ -80,11 +98,9 @@ const cardWidth = computed(() => {
     <div class="relative z-10 flex flex-col h-full">
       <!-- Header -->
       <div class="flex flex-col items-start w-full">
-        <h1 class="text-[3rem] font-extrabold text-[#0033FF] tracking-tight leading-tight">
-          {{ slideTitle }}
+        <h1 class="text-[3rem] font-extrabold text-[#0033FF] tracking-tight leading-tight" v-html="parseMarkdown(slideTitle)">
         </h1>
-        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-600 mb-[1rem] border-l-[0.375rem] border-[#0033FF] pl-[1rem]">
-          {{ subtitle }}
+        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-600 mb-[1rem] border-l-[0.375rem] border-[#0033FF] pl-[1rem]" v-html="parseMarkdown(subtitle)">
         </h2>
         <div class="w-full h-px bg-gray-200"></div>
       </div>
@@ -110,7 +126,7 @@ const cardWidth = computed(() => {
             <div class="p-[1rem] flex flex-col h-full">
               <!-- Header: Icon + Title -->
               <div class="flex items-center mb-[0.5rem]">
-                <span v-if="getIconSvg(item.icon)" v-html="getIconSvg(item.icon)" class="w-[1.25rem] h-[1.25rem] mr-[0.375rem] text-[#0033FF]"></span>
+                <span v-if="getIconSvg(item.icon)" v-html="getIconSvg(item.icon)" :class="['w-[1.25rem] h-[1.25rem] mr-[0.375rem]', getIconColor(item.color)]"></span>
                 <h3 class="text-[1rem] font-bold text-[#0033FF]">{{ item.title }}</h3>
               </div>
 

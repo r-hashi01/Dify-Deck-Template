@@ -225,6 +225,8 @@ const indexServer = http.createServer((req, res) => {
 indexServer.listen(3000);
 
 // Start deck servers using concurrently
+let childProcess = null;
+
 if (decks.length > 0) {
   const names = decks.map(d => d.shortName).join(',');
   const colorList = decks.map((_, i) => colors[i % colors.length]).join(',');
@@ -232,9 +234,22 @@ if (decks.length > 0) {
 
   const cmd = `npx concurrently -n ${names} -c ${colorList} ${commands}`;
 
-  spawn(cmd, [], {
+  childProcess = spawn(cmd, [], {
     stdio: 'inherit',
     cwd: rootDir,
     shell: true
   });
 }
+
+// Cleanup on exit
+function cleanup() {
+  console.log('\n  Shutting down...');
+  indexServer.close();
+  if (childProcess) {
+    childProcess.kill('SIGTERM');
+  }
+  process.exit(0);
+}
+
+process.on('SIGINT', cleanup);
+process.on('SIGTERM', cleanup);

@@ -106,7 +106,6 @@ export const deck: Deck = {
         { title: 'Fast', description: 'Optimized performance', icon: 'Rocket', color: 'purple' },
       ],
     },
-
     // Accordion Slide
     {
       layout: 'accordion',
@@ -118,7 +117,6 @@ export const deck: Deck = {
         { title: 'Use Cases', description: 'Chatbots, content generation, data analysis', icon: 'Target' },
       ],
     },
-
     // Focus Cols
     {
       layout: 'focus-cols',
@@ -130,7 +128,6 @@ export const deck: Deck = {
         { title: 'Deploy', description: 'One-click publish', tag: '03', icon: 'Rocket' },
       ],
     },
-
     // Pillars
     {
       layout: 'pillars',
@@ -143,7 +140,6 @@ export const deck: Deck = {
         { title: 'Scale', description: 'Grow without limits', icon: 'TrendingUp', features: ['Modular', 'Extensible', 'Enterprise-ready'] },
       ],
     },
-
     // Matrix
     {
       layout: 'matrix',

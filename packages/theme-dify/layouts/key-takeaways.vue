@@ -9,6 +9,7 @@ interface TakeawayItem {
   title: string
   description?: string
   icon?: string
+  color?: string
 }
 
 const props = defineProps<{
@@ -16,6 +17,7 @@ const props = defineProps<{
   subtitle?: string
   content?: string[]
   items?: TakeawayItem[]
+  showEmptyIconBox?: boolean
   deckName?: string
   copyright?: string
   authorName?: string
@@ -34,6 +36,23 @@ const gridCols = computed(() => {
   if (count <= 3) return 'grid-cols-3'
   return 'grid-cols-3'
 })
+
+// Color mapping for icons
+const colorClasses: Record<string, { bg: string, text: string, border: string }> = {
+  yellow: { bg: 'bg-yellow-50', text: 'text-yellow-500', border: 'border-yellow-100' },
+  green: { bg: 'bg-green-50', text: 'text-green-500', border: 'border-green-100' },
+  blue: { bg: 'bg-blue-50', text: 'text-blue-500', border: 'border-blue-100' },
+  purple: { bg: 'bg-purple-50', text: 'text-purple-500', border: 'border-purple-100' },
+  red: { bg: 'bg-red-50', text: 'text-red-500', border: 'border-red-100' },
+  orange: { bg: 'bg-orange-50', text: 'text-orange-500', border: 'border-orange-100' },
+  indigo: { bg: 'bg-indigo-50', text: 'text-indigo-500', border: 'border-indigo-100' },
+  cyan: { bg: 'bg-cyan-50', text: 'text-cyan-500', border: 'border-cyan-100' },
+  black: { bg: 'bg-gray-100', text: 'text-gray-900', border: 'border-gray-100' },
+}
+
+const getColorClasses = (color?: string) => {
+  return colorClasses[color || 'blue'] || colorClasses.blue
+}
 </script>
 
 <template>
@@ -49,11 +68,9 @@ const gridCols = computed(() => {
     <div class="relative z-10 flex flex-col h-full">
       <!-- Header -->
       <div class="flex flex-col items-start w-full">
-        <h1 class="text-[3rem] font-extrabold text-[#0033FF] tracking-tight leading-tight">
-          {{ slideTitle }}
+        <h1 class="text-[3rem] font-extrabold text-[#0033FF] tracking-tight leading-tight" v-html="parseMarkdown(slideTitle)">
         </h1>
-        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-600 mb-[0.5rem] border-l-[0.375rem] border-[#0033FF] pl-[1rem]">
-          {{ subtitle }}
+        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-600 mb-[0.5rem] border-l-[0.375rem] border-[#0033FF] pl-[1rem]" v-html="parseMarkdown(subtitle)">
         </h2>
 
         <!-- Content/Intro Text -->
@@ -75,11 +92,8 @@ const gridCols = computed(() => {
           >
             <div class="flex items-center justify-between mb-[0.75rem]">
               <!-- Icon -->
-              <div class="w-[2.5rem] h-[2.5rem] rounded-lg bg-blue-50 text-[#0033FF] flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+              <div v-if="getIconSvg(item.icon) || showEmptyIconBox" :class="['w-[2.5rem] h-[2.5rem] rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300', getColorClasses(item.color).bg, getColorClasses(item.color).text]">
                 <span v-if="getIconSvg(item.icon)" v-html="getIconSvg(item.icon)" class="w-[1.25rem] h-[1.25rem]"></span>
-                <svg v-else class="w-[1.25rem] h-[1.25rem]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
               </div>
               <!-- Number -->
               <span class="text-[2rem] font-black text-gray-100 group-hover:text-blue-50 transition-colors duration-300 select-none">

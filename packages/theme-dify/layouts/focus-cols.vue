@@ -10,12 +10,14 @@ interface FocusItem {
   description?: string
   tag?: string
   icon?: string
+  color?: string
 }
 
 const props = defineProps<{
   slideTitle?: string
   subtitle?: string
   items?: FocusItem[]
+  showEmptyIconBox?: boolean
   deckName?: string
   copyright?: string
   authorName?: string
@@ -31,7 +33,7 @@ const heroItem = computed(() => items.value[0])
 // Rest are list items (right side)
 const listItems = computed(() => items.value.slice(1))
 
-// Size config based on list items count
+// Size config based on list items count (right side items = total items - 1)
 const sizeConfig = computed(() => {
   const count = listItems.value.length
   if (count <= 2) {
@@ -42,8 +44,10 @@ const sizeConfig = computed(() => {
       iconSize: 'w-[1.25rem] h-[1.25rem]',
       titleSize: 'text-[1.1rem]',
       descSize: 'text-[0.9rem]',
+      rounded: 'rounded-xl',
+      itemGap: 'gap-[0.75rem]',
     }
-  } else if (count <= 4) {
+  } else if (count <= 3) {
     return {
       gap: 'gap-[0.5rem]',
       padding: 'p-[0.75rem]',
@@ -51,18 +55,50 @@ const sizeConfig = computed(() => {
       iconSize: 'w-[1rem] h-[1rem]',
       titleSize: 'text-[0.95rem]',
       descSize: 'text-[0.8rem]',
+      rounded: 'rounded-lg',
+      itemGap: 'gap-[0.5rem]',
     }
-  } else {
+  } else if (count <= 5) {
     return {
-      gap: 'gap-[0.375rem]',
+      gap: 'gap-[0.4rem]',
       padding: 'p-[0.5rem]',
       iconBox: 'w-[1.75rem] h-[1.75rem]',
       iconSize: 'w-[0.875rem] h-[0.875rem]',
       titleSize: 'text-[0.85rem]',
-      descSize: 'text-[0.75rem]',
+      descSize: 'text-[0.7rem]',
+      rounded: 'rounded-lg',
+      itemGap: 'gap-[0.4rem]',
+    }
+  } else {
+    return {
+      gap: 'gap-[0.3rem]',
+      padding: 'p-[0.4rem]',
+      iconBox: 'w-[1.5rem] h-[1.5rem]',
+      iconSize: 'w-[0.75rem] h-[0.75rem]',
+      titleSize: 'text-[0.75rem]',
+      descSize: 'text-[0.65rem]',
+      rounded: 'rounded-md',
+      itemGap: 'gap-[0.3rem]',
     }
   }
 })
+
+// Color mapping for icons
+const colorClasses: Record<string, { bg: string, text: string, border: string }> = {
+  yellow: { bg: 'bg-yellow-50', text: 'text-yellow-500', border: 'border-yellow-100' },
+  green: { bg: 'bg-green-50', text: 'text-green-500', border: 'border-green-100' },
+  blue: { bg: 'bg-blue-50', text: 'text-blue-500', border: 'border-blue-100' },
+  purple: { bg: 'bg-purple-50', text: 'text-purple-500', border: 'border-purple-100' },
+  red: { bg: 'bg-red-50', text: 'text-red-500', border: 'border-red-100' },
+  orange: { bg: 'bg-orange-50', text: 'text-orange-500', border: 'border-orange-100' },
+  indigo: { bg: 'bg-indigo-50', text: 'text-indigo-500', border: 'border-indigo-100' },
+  cyan: { bg: 'bg-cyan-50', text: 'text-cyan-500', border: 'border-cyan-100' },
+  black: { bg: 'bg-gray-100', text: 'text-gray-900', border: 'border-gray-100' },
+}
+
+const getColorClasses = (color?: string) => {
+  return colorClasses[color || 'blue'] || colorClasses.blue
+}
 </script>
 
 <template>
@@ -78,11 +114,9 @@ const sizeConfig = computed(() => {
     <div class="relative z-10 flex flex-col h-full">
       <!-- Header -->
       <div class="flex flex-col items-start w-full">
-        <h1 class="text-[3rem] font-extrabold text-[#0033FF] tracking-tight leading-tight">
-          {{ slideTitle }}
+        <h1 class="text-[3rem] font-extrabold text-[#0033FF] tracking-tight leading-tight" v-html="parseMarkdown(slideTitle)">
         </h1>
-        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-600 mb-[1rem] border-l-[0.375rem] border-[#0033FF] pl-[1rem]">
-          {{ subtitle }}
+        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-600 mb-[1rem] border-l-[0.375rem] border-[#0033FF] pl-[1rem]" v-html="parseMarkdown(subtitle)">
         </h2>
         <div class="w-full h-px bg-gray-200"></div>
       </div>
@@ -101,11 +135,8 @@ const sizeConfig = computed(() => {
             <div class="relative z-10">
               <!-- Tag -->
               <div class="flex items-center gap-[0.75rem] mb-[1rem]">
-                <div class="p-[0.5rem] bg-[#0033FF] text-white rounded-lg">
+                <div v-if="getIconSvg(heroItem.icon) || showEmptyIconBox" class="p-[0.5rem] bg-[#0033FF] text-white rounded-lg w-[2.25rem] h-[2.25rem]">
                   <span v-if="getIconSvg(heroItem.icon)" v-html="getIconSvg(heroItem.icon)" class="w-[1.25rem] h-[1.25rem]"></span>
-                  <svg v-else class="w-[1.25rem] h-[1.25rem]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
                 </div>
                 <span class="text-[#0033FF] font-bold uppercase tracking-widest text-[0.875rem]">
                   {{ heroItem.tag || 'POSITIONING' }}
@@ -113,7 +144,7 @@ const sizeConfig = computed(() => {
               </div>
 
               <!-- Hero Title -->
-              <h2 class="text-[2.5rem] font-extrabold text-gray-900 leading-tight tracking-tight mb-[1rem]" v-html="parseMarkdown(heroItem.title)">
+              <h2 class="text-[1.8rem] font-extrabold text-gray-900 leading-tight tracking-tight mb-[1rem]" v-html="parseMarkdown(heroItem.title)">
               </h2>
 
               <!-- Hero Description -->
@@ -123,29 +154,31 @@ const sizeConfig = computed(() => {
           </div>
         </div>
 
-        <!-- RIGHT: Card List -->
-        <div :class="['w-7/12 flex flex-col justify-center', sizeConfig.gap]">
-          <div
-            v-for="(item, idx) in listItems"
-            :key="idx"
-            :class="['bg-white border border-gray-200 rounded-xl shadow-sm flex items-start gap-[0.75rem] group hover:border-[#0033FF] transition-colors', sizeConfig.padding]"
-          >
-            <!-- Icon Box -->
-            <div :class="['rounded-lg bg-gray-50 flex items-center justify-center text-gray-500 group-hover:bg-blue-50 group-hover:text-[#0033FF] transition-colors shrink-0', sizeConfig.iconBox]">
-              <span v-if="getIconSvg(item.icon)" v-html="getIconSvg(item.icon)" :class="sizeConfig.iconSize"></span>
-              <svg v-else :class="sizeConfig.iconSize" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-              </svg>
-            </div>
+        <!-- RIGHT: Card List or Custom Content -->
+        <div class="w-7/12 flex flex-col justify-center">
+          <slot>
+            <!-- Default: Card List -->
+            <div :class="['flex flex-col', sizeConfig.gap]">
+              <div
+                v-for="(item, idx) in listItems"
+                :key="idx"
+                :class="['bg-white border border-gray-200 shadow-sm flex items-start group hover:border-[#0033FF] transition-colors', sizeConfig.padding, sizeConfig.rounded, sizeConfig.itemGap]"
+              >
+                <!-- Icon Box -->
+                <div v-if="getIconSvg(item.icon) || showEmptyIconBox" :class="['rounded-md flex items-center justify-center transition-colors shrink-0', sizeConfig.iconBox, getColorClasses(item.color).bg, getColorClasses(item.color).text]">
+                  <span v-if="getIconSvg(item.icon)" v-html="getIconSvg(item.icon)" :class="['flex items-center justify-center', sizeConfig.iconSize]"></span>
+                </div>
 
-            <!-- Content -->
-            <div class="flex-grow">
-              <h4 :class="['font-bold text-gray-900 group-hover:text-[#0033FF] transition-colors', sizeConfig.titleSize]" v-html="parseMarkdown(item.title)">
-              </h4>
-              <p v-if="item.description" :class="['text-gray-600 leading-relaxed', sizeConfig.descSize]" v-html="parseMarkdown(item.description)">
-              </p>
+                <!-- Content -->
+                <div class="flex-grow min-w-0">
+                  <h4 :class="['font-bold text-gray-900 group-hover:text-[#0033FF] transition-colors leading-tight', sizeConfig.titleSize]" v-html="parseMarkdown(item.title)">
+                  </h4>
+                  <p v-if="item.description" :class="['text-gray-600 leading-snug', sizeConfig.descSize]" v-html="parseMarkdown(item.description)">
+                  </p>
+                </div>
+              </div>
             </div>
-          </div>
+          </slot>
         </div>
       </div>
     </div>

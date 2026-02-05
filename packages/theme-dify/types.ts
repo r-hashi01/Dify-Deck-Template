@@ -26,6 +26,7 @@ export interface AccordionItem {
   title: string;
   description: string;
   icon?: string;
+  color?: string;
 }
 
 export interface CardItem {
@@ -33,6 +34,7 @@ export interface CardItem {
   description: string;
   icon?: string;
   color?: string;
+  tags?: string[];
 }
 
 export interface FAQItem {
@@ -45,24 +47,28 @@ export interface FocusItem {
   description?: string;
   tag?: string;
   icon?: string;
+  color?: string;
 }
 
 export interface TakeawayItem {
   title: string;
   description?: string;
   icon?: string;
+  color?: string;
 }
 
 export interface LicenseItem {
   title: string;
   description?: string;
   icon?: string;
+  color?: string;
 }
 
 export interface PillarItem {
   title: string;
   description?: string;
   icon?: string;
+  color?: string;
   features?: string[];
 }
 
@@ -75,6 +81,7 @@ export interface PricingItem {
   topBarColor?: string;
   badge?: string;
   icon?: string;
+  color?: string;
 }
 
 // ===================
@@ -135,6 +142,7 @@ export interface CardsSlide extends BaseSlideProps {
   slideTitle?: string;
   subtitle?: string;
   items?: CardItem[];
+  showEmptyIconBox?: boolean;
 }
 
 export interface AccordionSlide extends BaseSlideProps {
@@ -149,6 +157,7 @@ export interface FocusColsSlide extends BaseSlideProps {
   slideTitle?: string;
   subtitle?: string;
   items?: FocusItem[];
+  showEmptyIconBox?: boolean;
 }
 
 export interface PillarsSlide extends BaseSlideProps {
@@ -157,6 +166,7 @@ export interface PillarsSlide extends BaseSlideProps {
   subtitle?: string;
   positioning?: string;
   items?: PillarItem[];
+  showEmptyIconBox?: boolean;
 }
 
 export interface MatrixSlide extends BaseSlideProps {
@@ -226,6 +236,7 @@ export interface LicenseSlide extends BaseSlideProps {
   subtitle?: string;
   content?: string[];
   items?: LicenseItem[];
+  showEmptyIconBox?: boolean;
 }
 
 export interface KeyTakeawaysSlide extends BaseSlideProps {
@@ -234,6 +245,7 @@ export interface KeyTakeawaysSlide extends BaseSlideProps {
   subtitle?: string;
   content?: string[];
   items?: TakeawayItem[];
+  showEmptyIconBox?: boolean;
 }
 
 export interface MacroFocusSlide extends BaseSlideProps {

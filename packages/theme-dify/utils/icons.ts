@@ -6,12 +6,15 @@ import {
   Users, FileText, BookOpen, AlertCircle, HelpCircle, Info,
   Star, Settings, Heart, MessageCircle, Folder, Search, Calendar,
   Clock, DollarSign, Target, Award, Link, Rocket, TrendingUp,
-  Play, Pause, Plus, Minus, X, Menu, ArrowRight, ArrowLeft,
-  ChevronDown, ChevronUp, ExternalLink, Download, Upload, Trash,
+  Play, Pause, Plus, Minus, X, Menu, ArrowRight, ArrowLeft, ArrowDown, ArrowUp,
+  ChevronDown, ChevronUp, ChevronRight, ChevronLeft, ExternalLink, Download, Upload, Trash, ToggleLeft, ToggleRight,
   Edit, Eye, EyeOff, Bell, Mail, Phone, MapPin, Home, Check, Layout,
   Building, Building2, Briefcase, Factory,
   LineChart, PieChart, Activity, AreaChart,
-  RefreshCw, RefreshCcw, RotateCw, RotateCcw, Repeat, Repeat1, Recycle
+  RefreshCw, RefreshCcw, RotateCw, RotateCcw, Repeat, Repeat1, Recycle,
+  MessageSquare, BotMessageSquare, Brain, BrainCircuit, BrainCog,
+  FilePen, FileEdit, Workflow, Network, Sparkles, WandSparkles, Bot, Plug,
+  Key
 } from 'lucide-static'
 
 // Build icons map
@@ -60,8 +63,14 @@ const icons: Record<string, string> = {
   'menu': Menu,
   'arrow-right': ArrowRight,
   'arrow-left': ArrowLeft,
+  'arrow-down': ArrowDown,
+  'arrow-up': ArrowUp,
   'chevron-down': ChevronDown,
   'chevron-up': ChevronUp,
+  'chevron-right': ChevronRight,
+  'chevron-left': ChevronLeft,
+  'toggle-left': ToggleLeft,
+  'toggle-right': ToggleRight,
   'external-link': ExternalLink,
   'download': Download,
   'upload': Upload,
@@ -93,6 +102,21 @@ const icons: Record<string, string> = {
   'repeat': Repeat,
   'repeat-1': Repeat1,
   'recycle': Recycle,
+  // Dify app type icons
+  'message-square': MessageSquare,
+  'bot-message-square': BotMessageSquare,
+  'brain': Brain,
+  'brain-circuit': BrainCircuit,
+  'brain-cog': BrainCog,
+  'file-pen': FilePen,
+  'file-edit': FileEdit,
+  'workflow': Workflow,
+  'network': Network,
+  'sparkles': Sparkles,
+  'wand-sparkles': WandSparkles,
+  'bot': Bot,
+  'plug': Plug,
+  'key': Key,
 }
 
 // Convert PascalCase to kebab-case

@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import SlideFooter from '../components/SlideFooter.vue'
 import SlideLogo from '../components/SlideLogo.vue'
+import { parseMarkdown } from '../utils/markdown'
 
 const props = defineProps<{
   slideTitle?: string
@@ -36,11 +37,9 @@ const details = computed(() => props.details || [])
     <div class="relative z-10 flex flex-col h-full">
       <!-- Header -->
       <div class="flex flex-col items-start w-full">
-        <h1 class="text-[3rem] font-extrabold text-[#0033FF] tracking-tight leading-tight">
-          {{ slideTitle }}
+        <h1 class="text-[3rem] font-extrabold text-[#0033FF] tracking-tight leading-tight" v-html="parseMarkdown(slideTitle)">
         </h1>
-        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-600 mb-[1rem] border-l-[0.375rem] border-[#0033FF] pl-[1rem]">
-          {{ subtitle }}
+        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-600 mb-[1rem] border-l-[0.375rem] border-[#0033FF] pl-[1rem]" v-html="parseMarkdown(subtitle)">
         </h2>
         <div class="w-full h-px bg-gray-200"></div>
       </div>
@@ -52,13 +51,13 @@ const details = computed(() => props.details || [])
           <div class="space-y-[1rem]">
             <!-- Name (bold, no bullet) -->
             <div v-if="name">
-              <span class="text-[2.5rem] font-extrabold text-gray-900">{{ name }}</span>
+              <span class="text-[2.5rem] font-extrabold text-gray-900" v-html="parseMarkdown(name)"></span>
             </div>
             <!-- Additional details -->
             <template v-for="(detail, index) in details" :key="index">
               <div class="flex items-start gap-[0.75rem]">
                 <div class="w-[0.4rem] h-[0.4rem] rounded-full bg-[#0033FF] mt-[0.6rem] shrink-0"></div>
-                <span class="text-[1.2rem] text-gray-800">{{ detail }}</span>
+                <span class="text-[1.2rem] text-gray-800" v-html="parseMarkdown(detail)"></span>
               </div>
             </template>
           </div>

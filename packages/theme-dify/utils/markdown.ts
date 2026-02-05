@@ -23,10 +23,15 @@ const defaultOptions: MarkdownOptions = {
  * Parse inline Markdown to HTML
  * Order matters: process more specific patterns first
  */
-export function parseMarkdown(text: string, options: MarkdownOptions = {}): string {
+export function parseMarkdown(text: string | undefined | null, options: MarkdownOptions = {}): string {
+  // Handle null/undefined/empty
+  if (text === undefined || text === null || text === '') {
+    return ''
+  }
+
   const opts = { ...defaultOptions, ...options }
 
-  let result = text
+  let result = String(text)
 
   // Escape HTML entities first (but preserve intentional HTML)
   // Skip this if the text contains HTML tags
@@ -49,23 +54,23 @@ export function parseMarkdown(text: string, options: MarkdownOptions = {}): stri
     `<code class="${opts.codeClass}">$1</code>`
   )
 
-  // Bold: **text** or __text__
+  // Bold: **text** or __text__ (also support fullwidth asterisks ＊＊text＊＊)
   result = result.replace(
-    /\*\*([^*]+)\*\*/g,
+    /[*＊]{2}([^*＊]+)[*＊]{2}/g,
     `<strong class="${opts.boldClass}">$1</strong>`
   )
   result = result.replace(
-    /__([^_]+)__/g,
+    /[_＿]{2}([^_＿]+)[_＿]{2}/g,
     `<strong class="${opts.boldClass}">$1</strong>`
   )
 
-  // Italic: *text* or _text_ (but not inside words for _)
+  // Italic: *text* or _text_ (but not inside words for _) (also support fullwidth)
   result = result.replace(
-    /\*([^*]+)\*/g,
+    /[*＊]([^*＊]+)[*＊]/g,
     `<em class="${opts.italicClass}">$1</em>`
   )
   result = result.replace(
-    /(?<![a-zA-Z])_([^_]+)_(?![a-zA-Z])/g,
+    /(?<![a-zA-Z])[_＿]([^_＿]+)[_＿](?![a-zA-Z])/g,
     `<em class="${opts.italicClass}">$1</em>`
   )
 
@@ -74,6 +79,10 @@ export function parseMarkdown(text: string, options: MarkdownOptions = {}): stri
     /~~([^~]+)~~/g,
     `<span class="${opts.strikeClass}">$1</span>`
   )
+
+  // Line breaks: actual newlines and literal \n to <br>
+  result = result.replace(/\\n/g, '<br>')  // Literal \n (backslash + n)
+  result = result.replace(/\n/g, '<br>')   // Actual newline character
 
   return result
 }

@@ -8,6 +8,90 @@ const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, '..');
 const packagesDir = path.join(rootDir, 'packages');
 
+// Find lucide-static icons directory
+function findLucideIconsDir() {
+  const possiblePaths = [
+    path.join(rootDir, 'node_modules/lucide-static/icons'),
+    path.join(rootDir, 'node_modules/.pnpm/lucide-static@0.563.0/node_modules/lucide-static/icons'),
+  ];
+  for (const p of possiblePaths) {
+    if (fs.existsSync(p)) return p;
+  }
+  // Try to find it dynamically
+  const pnpmDir = path.join(rootDir, 'node_modules/.pnpm');
+  if (fs.existsSync(pnpmDir)) {
+    const dirs = fs.readdirSync(pnpmDir).filter(d => d.startsWith('lucide-static@'));
+    if (dirs.length > 0) {
+      return path.join(pnpmDir, dirs[0], 'node_modules/lucide-static/icons');
+    }
+  }
+  return null;
+}
+
+const lucideIconsDir = findLucideIconsDir();
+
+// Get SVG from lucide-static by icon name
+function getIconSvg(iconName) {
+  if (!lucideIconsDir) {
+    console.warn('Warning: lucide-static icons directory not found');
+    return null;
+  }
+  const svgPath = path.join(lucideIconsDir, `${iconName}.svg`);
+  if (fs.existsSync(svgPath)) {
+    return fs.readFileSync(svgPath, 'utf-8').trim();
+  }
+  return null;
+}
+
+// Replace <Icon name="xxx" class="yyy" /> with actual SVG
+function replaceIconPlaceholders(content) {
+  if (!content) return content;
+
+  // Match <Icon name="iconName" class="classes" stroke-width="x" /> in any order
+  return content.replace(/<Icon\s+([^>]+)\/>/g, (match, attrs) => {
+    // Parse attributes
+    const nameMatch = attrs.match(/name="([^"]+)"/);
+    const classMatch = attrs.match(/class="([^"]+)"/);
+    const strokeWidthMatch = attrs.match(/stroke-width="([^"]+)"/);
+
+    if (!nameMatch) {
+      console.warn(`Warning: Icon tag without name attribute: ${match}`);
+      return match;
+    }
+
+    const iconName = nameMatch[1];
+    const svg = getIconSvg(iconName);
+
+    if (!svg) {
+      console.warn(`Warning: Icon "${iconName}" not found in lucide-static`);
+      return match;
+    }
+
+    // Add/modify attributes in the SVG
+    let result = svg;
+
+    // Handle class attribute - replace existing or add new
+    if (classMatch) {
+      if (result.includes('class="')) {
+        result = result.replace(/class="[^"]*"/, `class="${classMatch[1]}"`);
+      } else {
+        result = result.replace('<svg', `<svg class="${classMatch[1]}"`);
+      }
+    }
+
+    // Handle stroke-width attribute
+    if (strokeWidthMatch) {
+      if (result.includes('stroke-width="')) {
+        result = result.replace(/stroke-width="[^"]*"/, `stroke-width="${strokeWidthMatch[1]}"`);
+      } else {
+        result = result.replace('<svg', `<svg stroke-width="${strokeWidthMatch[1]}"`);
+      }
+    }
+
+    return result;
+  });
+}
+
 // YAML value formatter
 function toYamlValue(value, indent = 0) {
   const spaces = '  '.repeat(indent);
@@ -17,8 +101,10 @@ function toYamlValue(value, indent = 0) {
   }
 
   if (typeof value === 'string') {
+    // * is YAML alias reference, so needs quoting
     if (value.includes('\n') || value.includes(':') || value.includes('#') ||
         value.includes("'") || value.includes('"') || value.startsWith(' ') ||
+        value.includes('*') ||
         value.match(/^[\d.]+$/) || value === 'true' || value === 'false') {
       return `"${value.replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"`;
     }
@@ -112,7 +198,7 @@ function slideToFrontmatter(slide, defaults = {}) {
 
   if (slot) {
     lines.push('');
-    lines.push(slot);
+    lines.push(replaceIconPlaceholders(slot));
   }
 
   // Add speaker notes as HTML comment
@@ -170,7 +256,7 @@ function generateMarkdown(deck) {
   // Add first slide slot content if present
   if (firstSlot) {
     parts.push('');
-    parts.push(firstSlot);
+    parts.push(replaceIconPlaceholders(firstSlot));
   }
 
   // Add first slide speaker notes

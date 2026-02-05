@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import SlideFooter from '../components/SlideFooter.vue'
 import SlideLogo from '../components/SlideLogo.vue'
+import { parseMarkdown } from '../utils/markdown'
 
 const props = defineProps<{
   subtitle?: string
@@ -29,8 +30,7 @@ const imageUrl = computed(() => props.imageUrl)
         THANK<br/>YOU
       </h1>
       <div class="w-[6rem] h-[0.75rem] bg-[#0033FF] mb-[2rem]"></div>
-      <p class="text-[1.875rem] text-gray-500">
-        {{ subtitle || $slidev.frontmatter.subtitle || 'Thank you for watching' }}
+      <p class="text-[1.875rem] text-gray-500" v-html="parseMarkdown(subtitle || $slidev?.frontmatter?.subtitle || 'Thank you for watching')">
       </p>
     </div>
 

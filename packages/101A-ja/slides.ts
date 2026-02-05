@@ -144,7 +144,6 @@ RAG パイプラインの仕組みも理解しておくと、技術的な質問�
 正確な知識を持っておきましょう。
       `,
     },
-
     // What is Dify?
     {
       layout: 'presenter-compact',
