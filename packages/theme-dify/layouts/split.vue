@@ -16,14 +16,16 @@ type BulletEntry = string | BulletItem
 
 // ターミナル行の型
 interface TerminalLine {
-  type: 'command' | 'output'
+  type: 'command' | 'output' | 'code'
   text: string
 }
 
 // ターミナル設定の型
 interface TerminalConfig {
   title?: string
-  lines: TerminalLine[]
+  textSize?: 'xs' | 'small' | 'medium' | 'large'
+  lines?: TerminalLine[]
+  linesJson?: string  // JSON string alternative to avoid YAML parsing issues
 }
 
 // ポップアップの機能項目
@@ -243,7 +245,7 @@ const highlightConfig = computed(() => {
 
           <!-- Terminal -->
           <div v-else-if="terminal" class="w-full">
-            <TerminalBlock :title="terminal.title" :lines="terminal.lines" />
+            <TerminalBlock :title="terminal.title" :lines="terminal.lines" :lines-json="terminal.linesJson" :text-size="terminal.textSize" />
           </div>
 
           <!-- Image -->

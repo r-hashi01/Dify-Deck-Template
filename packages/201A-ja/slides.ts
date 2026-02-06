@@ -3,12 +3,12 @@ import type { Deck } from './extraTypes';
 
 export const deck: Deck = {
   config: {
-    title: 'Dify EE 201A: プロダクト入門',
+    title: 'Dify 201A: プロダクト入門',
     theme: '../theme-dify',
     browserExporter: true,
     favicon: '/assets/icon/Dify-if.svg',
     defaults: {
-      deckName: 'Dify EE 201A: プロダクト入門',
+      deckName: 'Dify 201A: プロダクト入門',
       copyright: '© 2026 LangGenius K.K. All rights reserved.',
       authorName: 'Japan FDE Team',
     },

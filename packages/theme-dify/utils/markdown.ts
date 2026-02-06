@@ -14,7 +14,7 @@ export interface MarkdownOptions {
 const defaultOptions: MarkdownOptions = {
   boldClass: 'font-bold text-[#0033FF]',
   italicClass: 'italic',
-  codeClass: 'font-mono bg-gray-100 text-[#0033FF] px-1.5 py-0.5 rounded text-[0.9em]',
+  codeClass: 'font-mono font-bold bg-gray-100 text-[#0033FF] px-1.5 py-0.5 rounded text-[0.9em]',
   strikeClass: 'line-through text-gray-400',
   linkClass: 'text-[#0033FF] underline hover:text-blue-700',
 }
@@ -32,6 +32,15 @@ export function parseMarkdown(text: string | undefined | null, options: Markdown
   const opts = { ...defaultOptions, ...options }
 
   let result = String(text)
+
+  // Store backslash-escaped characters with placeholders
+  // Supports all Markdown special characters: \ ` * _ { } [ ] ( ) # + - . ! | > < ~
+  const escapeMap: { placeholder: string; char: string }[] = []
+  result = result.replace(/\\([\\`*_{}()#+.!|><~\[\]-])/g, (_, char) => {
+    const placeholder = `__ESC_${escapeMap.length}__`
+    escapeMap.push({ placeholder, char })
+    return placeholder
+  })
 
   // Escape HTML entities first (but preserve intentional HTML)
   // Skip this if the text contains HTML tags
@@ -83,6 +92,11 @@ export function parseMarkdown(text: string | undefined | null, options: Markdown
   // Line breaks: actual newlines and literal \n to <br>
   result = result.replace(/\\n/g, '<br>')  // Literal \n (backslash + n)
   result = result.replace(/\n/g, '<br>')   // Actual newline character
+
+  // Restore backslash-escaped characters
+  for (const { placeholder, char } of escapeMap) {
+    result = result.replace(placeholder, char)
+  }
 
   return result
 }

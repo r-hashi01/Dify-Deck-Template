@@ -1,0 +1,10 @@
+{
+  "name": "201B-ja",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "slidev --port 3005",
+    "build": "slidev build --base /201B-ja/ --out ../../dist/201B-ja",
+    "export": "slidev export"
+  }
+}
