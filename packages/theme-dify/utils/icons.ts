@@ -14,7 +14,7 @@ import {
   RefreshCw, RefreshCcw, RotateCw, RotateCcw, Repeat, Repeat1, Recycle,
   MessageSquare, BotMessageSquare, Brain, BrainCircuit, BrainCog,
   FilePen, FileEdit, Workflow, Network, Sparkles, WandSparkles, Bot, Plug,
-  Key
+  Key, Gauge
 } from 'lucide-static'
 
 // Build icons map
@@ -117,6 +117,7 @@ const icons: Record<string, string> = {
   'bot': Bot,
   'plug': Plug,
   'key': Key,
+  'gauge': Gauge,
 }
 
 // Convert PascalCase to kebab-case

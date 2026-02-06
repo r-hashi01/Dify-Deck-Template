@@ -101,14 +101,21 @@ function toYamlValue(value, indent = 0) {
   }
 
   if (typeof value === 'string') {
-    // * is YAML alias reference, so needs quoting
-    if (value.includes('\n') || value.includes(':') || value.includes('#') ||
-        value.includes("'") || value.includes('"') || value.startsWith(' ') ||
-        value.includes('*') ||
-        value.match(/^[\d.]+$/) || value === 'true' || value === 'false') {
-      return `"${value.replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"`;
+    // Check if string contains --- (YAML document separator)
+    // Slidev's frontmatter parser incorrectly ends parsing when it sees ---
+    if (value.includes('---')) {
+      // Use double quotes with unicode escape: \u002D is hyphen
+      let escaped = value
+        .replace(/\\/g, '\\\\')           // Escape existing backslashes first
+        .replace(/"/g, '\\"');            // Escape double quotes
+      // Keep replacing --- until none remain (handles -----, ------, etc.)
+      while (escaped.includes('---')) {
+        escaped = escaped.replace(/---/g, '--\\u002D');
+      }
+      return `"${escaped}"`;
     }
-    return value;
+    // Use single quotes for YAML strings (escape single quotes by doubling them)
+    return `'${value.replace(/'/g, "''")}'`;
   }
 
   if (typeof value === 'number' || typeof value === 'boolean') {
@@ -117,6 +124,7 @@ function toYamlValue(value, indent = 0) {
 
   if (Array.isArray(value)) {
     if (value.length === 0) return '[]';
+
 
     // Check if any item is an object (mixed arrays supported)
     const hasObjects = value.some(item => typeof item === 'object' && item !== null);

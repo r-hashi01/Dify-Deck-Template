@@ -50,7 +50,7 @@ const items = computed(() => props.items || [])
 
       <!-- Content Area -->
       <div class="flex-grow min-h-0 pr-[1.5rem] relative z-10 overflow-y-auto mt-[1.5rem]">
-        <BulletList :items="items" size="md" />
+        <BulletList :items="items" :size="size || 'md'" />
       </div>
     </div>
 
