@@ -4,44 +4,28 @@
 
 Dify 製品紹介用の Slidev スライドテンプレート（モノレポ構成）
 
-## ディレクトリ構造
+## スライド作成の仕組み
 
-```
-├── packages/
-│   ├── theme-dify/          # カスタムテーマ（共通）
-│   │   ├── layouts/         # 21種類のスライドレイアウト（Vue）
-│   │   ├── components/      # 共有コンポーネント
-│   │   └── utils/icons.ts   # Lucideアイコン
-│   │
-│   └── all-styles-en/       # サンプルデッキ
-│       ├── slides.md        # スライドコンテンツ
-│       └── package.json
-│
-├── public/assets/           # ロゴ等の静的ファイル
-├── decks.json               # 有効なデッキの管理
-├── scripts/
-│   ├── dev.js               # 開発サーバー（動的デッキ検出）
-│   ├── create-deck.js       # 新規デッキ作成
-│   └── generate-index.js    # ビルド時のインデックス生成
-│
-└── prompt/                  # AI用スタイルガイド
-```
+デッキには2つの形式がある:
 
-## 開発サーバー
+- **`slides.ts`（推奨）**: TypeScript オブジェクトでスライドを定義。`pnpm generate` で `slides.md` に変換される
+- **`slides.md`（直書き）**: `all-styles-en` のようにMarkdownを直接記述（見本用）
+
+`slides.ts` を持つデッキでは **`slides.md` を直接編集しない**（`generate` で上書きされる）。
+
+## コマンド
 
 ```bash
-pnpm run dev
+pnpm run dev          # generate → 開発サーバー起動
+pnpm run build        # generate → 各デッキbuild → index生成 → PDF出力
+pnpm run serve        # build → localhost:3000 で確認
+pnpm run generate     # slides.ts → slides.md 変換のみ
+pnpm run export-pdfs  # PDF エクスポートのみ
+pnpm create-deck <name> "<title>"  # 新規デッキ作成
 ```
 
 - **http://localhost:3000/** → デッキ選択画面（動的生成）
-- **http://localhost:3001/** → 各デッキ（自動検出）
-
-## ビルド
-
-```bash
-pnpm run build   # dist/ に出力
-pnpm run serve   # ビルド後にローカルで確認
-```
+- **http://localhost:3001+/** → 各デッキ（ポート自動割り当て）
 
 ## デザインカラー
 
@@ -58,7 +42,7 @@ pnpm create-deck my-deck "My Presentation"
 # 2. decks.json に追加
 {
   "decks": [
-    "all-styles-en",
+    "101A-ja",
     "my-deck"        ← 追加
   ]
 }
@@ -70,7 +54,7 @@ pnpm install
 pnpm run dev
 ```
 
-`decks.json` に記載したデッキのみが表示・起動されます。
+`decks.json` に記載したデッキのみがビルド・表示対象になる。`all-styles-en` はレイアウト見本用で通常は含めない。
 
 ---
 
@@ -92,6 +76,7 @@ pnpm run dev
 | `diagram` | 図解 |
 | `pricing` | 料金プラン |
 | `presenter` | 講師紹介 |
+| `presenter-compact` | 講師紹介（コンパクト） |
 | `course-overview` | コース概要 |
 | `story` | ストーリー |
 | `faq` | よくある質問 |
