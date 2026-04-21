@@ -202,7 +202,7 @@ const highlightConfig = computed(() => {
       </div>
 
       <!-- Content Area -->
-      <div class="flex flex-row gap-[3rem] items-start min-h-0 mt-[0.5rem]">
+      <div class="flex flex-row gap-[3rem] items-stretch flex-1 min-h-0 mt-[0.5rem]">
         <!-- Left: Presenter Bio -->
         <div class="w-7/12">
           <div :class="spacing">
@@ -234,7 +234,7 @@ const highlightConfig = computed(() => {
         </div>
 
         <!-- Right: Visual Area -->
-        <div class="w-7/12 flex items-center justify-center">
+        <div class="w-7/12 min-h-0 flex items-center justify-center">
           <!-- Highlights Cards -->
           <div v-if="highlights.length > 0" :class="['w-full', highlightConfig.gap]">
             <component
@@ -297,16 +297,16 @@ const highlightConfig = computed(() => {
           </div>
 
           <!-- Image or Default -->
-          <div v-else class="h-[17.5rem] max-h-[31.25rem] w-full flex items-center justify-center">
-            <div class="w-full h-full bg-white rounded-[1.5rem] shadow-2xl border border-gray-100 p-[3rem] relative overflow-hidden flex items-center justify-center group">
+          <div v-else class="w-full h-full min-h-0 flex items-center justify-center">
+            <div class="w-full h-full min-h-0 bg-white rounded-[1.5rem] shadow-2xl border border-gray-100 p-[1.5rem] relative overflow-hidden flex items-center justify-center group">
               <!-- Decorative circles -->
               <div class="absolute -right-[5rem] -top-[5rem] w-[16rem] h-[16rem] bg-blue-50 rounded-full opacity-50 group-hover:scale-110 transition-transform duration-1000"></div>
               <div class="absolute -left-[5rem] -bottom-[5rem] w-[20rem] h-[20rem] bg-slate-50 rounded-full opacity-50 group-hover:scale-110 transition-transform duration-1000"></div>
 
               <!-- Visual Content -->
-              <div class="relative z-10 w-full flex flex-col items-center justify-center">
+              <div class="relative z-10 w-full h-full min-h-0 flex flex-col items-center justify-center">
                 <!-- imageUrl がある場合は画像を表示 -->
-                <img v-if="imageUrl" :src="imageUrl" class="max-w-full max-h-[14rem] object-contain" />
+                <img v-if="imageUrl" :src="imageUrl" class="max-w-full max-h-full object-contain" />
                 <!-- なければデフォルトアイコン -->
                 <div v-else class="w-[12rem] h-[12rem] rounded-full bg-slate-200 flex items-center justify-center mb-[1.5rem] border-[0.25rem] border-white shadow-lg">
                   <svg class="w-[5rem] h-[5rem] text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
