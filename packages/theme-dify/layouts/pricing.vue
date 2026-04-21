@@ -88,7 +88,7 @@ const getIconColor = (color?: string) => {
 <template>
   <div class="flex flex-col h-full px-[3rem] pt-[2rem] pb-[4rem] relative overflow-hidden bg-white">
     <!-- Background Pattern (Dot Grid) -->
-    <div class="absolute inset-0 z-0 pointer-events-none opacity-20">
+    <div class="absolute inset-0 z-0 pointer-events-none opacity-6">
       <div class="absolute inset-0" style="background-image: radial-gradient(#9CA3AF 1px, transparent 1px); background-size: 2.5rem 2.5rem;"></div>
     </div>
 
@@ -100,7 +100,7 @@ const getIconColor = (color?: string) => {
       <div class="flex flex-col items-start w-full">
         <h1 class="text-[3rem] font-extrabold text-[#0033FF] tracking-tight leading-tight" v-html="parseMarkdown(slideTitle)">
         </h1>
-        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-600 mb-[1rem] border-l-[0.375rem] border-[#0033FF] pl-[1rem]" v-html="parseMarkdown(subtitle)">
+        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-500 mb-[1rem] border-l-[0.2rem] border-[#0033FF] pl-[0.75rem]" v-html="parseMarkdown(subtitle)">
         </h2>
         <div class="w-full h-px bg-gray-200"></div>
       </div>
@@ -111,14 +111,14 @@ const getIconColor = (color?: string) => {
           <div
             v-for="(item, idx) in items"
             :key="idx"
-            :class="['relative flex flex-col bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-lg transition-all duration-300', cardWidth]"
+            :class="['relative flex flex-col bg-white rounded-lg shadow-[0_1px_2px_rgba(15,23,42,0.04)] border border-gray-200 hover:border-gray-300 transition-colors duration-200', cardWidth]"
           >
             <!-- Top Color Bar -->
-            <div :class="['h-[0.375rem] w-full rounded-t-lg', getTopBarColor(item.topBarColor)]"></div>
+            <div :class="['h-[0.25rem] w-full rounded-t-lg', getTopBarColor(item.topBarColor)]"></div>
 
             <!-- Badge -->
             <div v-if="item.badge" class="absolute -top-[0.375rem] -right-[0.375rem] z-10">
-              <div class="bg-red-500 text-white text-[0.6rem] font-bold px-[0.5rem] py-[0.125rem] shadow-md transform rotate-6 rounded-sm">
+              <div class="bg-red-500 text-white text-[0.6rem] font-bold px-[0.5rem] py-[0.125rem] shadow-sm transform rotate-3 rounded-sm">
                 {{ item.badge }}
               </div>
             </div>
@@ -170,7 +170,7 @@ const getIconColor = (color?: string) => {
       <!-- Bottom Banner -->
       <div
         v-if="bottomBanner"
-        class="mt-[1rem] w-full border border-red-400 bg-red-50 p-[0.75rem] rounded-lg flex items-center justify-center text-red-700 font-bold text-[0.9rem] shadow-sm"
+        class="mt-[1rem] w-full border border-red-300 bg-red-50/80 p-[0.75rem] rounded-lg flex items-center justify-center text-red-700 font-bold text-[0.9rem]"
       >
         <div class="bg-red-600 text-white rounded-full w-[1.25rem] h-[1.25rem] flex items-center justify-center mr-[0.5rem] text-[0.75rem] font-black">
           !

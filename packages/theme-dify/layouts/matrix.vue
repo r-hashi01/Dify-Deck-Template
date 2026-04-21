@@ -20,6 +20,7 @@ const slideTitle = computed(() => props.slideTitle || 'Comparison Matrix')
 const subtitle = computed(() => props.subtitle || '')
 const headers = computed(() => props.headers || [])
 const rows = computed(() => props.rows || [])
+const isWideMatrix = computed(() => headers.value.length >= 5)
 
 // Parse special cell values
 const parseCell = (cell: string | boolean | null | undefined) => {
@@ -46,9 +47,9 @@ const parseCell = (cell: string | boolean | null | undefined) => {
 
 // Size presets
 const sizePresets = {
-  large: { cellPadding: '1.25rem', fontSize: '1rem', headerFontSize: '1.1rem', iconSize: 'w-5 h-5' },
-  medium: { cellPadding: '1rem', fontSize: '0.95rem', headerFontSize: '1rem', iconSize: 'w-5 h-5' },
-  small: { cellPadding: '0.75rem', fontSize: '0.85rem', headerFontSize: '0.9rem', iconSize: 'w-4 h-4' },
+  large: { cellPadding: '1.1rem', fontSize: '0.98rem', headerFontSize: '1rem', iconSize: 'w-5 h-5' },
+  medium: { cellPadding: '0.85rem', fontSize: '0.88rem', headerFontSize: '0.9rem', iconSize: 'w-4 h-4' },
+  small: { cellPadding: '0.68rem', fontSize: '0.8rem', headerFontSize: '0.82rem', iconSize: 'w-4 h-4' },
 }
 
 // Determine effective size: manual > auto based on row count
@@ -66,12 +67,19 @@ const sizeConfig = computed(() => sizePresets[effectiveSize.value])
 const cellPadding = computed(() => sizeConfig.value.cellPadding)
 const fontSize = computed(() => sizeConfig.value.fontSize)
 const headerFontSize = computed(() => sizeConfig.value.headerFontSize)
+const tableClass = computed(() => isWideMatrix.value ? 'table-fixed' : 'table-auto')
+const getCellClass = (columnIndex: number) => {
+  if (columnIndex === 0) {
+    return 'font-semibold text-slate-900'
+  }
+  return 'text-slate-700'
+}
 </script>
 
 <template>
   <div class="flex flex-col h-full px-[3rem] pt-[2rem] pb-[4rem] relative overflow-hidden bg-white">
     <!-- Background Pattern (Dot Grid) -->
-    <div class="absolute inset-0 z-0 pointer-events-none opacity-20">
+    <div class="absolute inset-0 z-0 pointer-events-none opacity-6">
       <div class="absolute inset-0" style="background-image: radial-gradient(#9CA3AF 1px, transparent 1px); background-size: 2.5rem 2.5rem;"></div>
     </div>
 
@@ -83,21 +91,31 @@ const headerFontSize = computed(() => sizeConfig.value.headerFontSize)
       <div class="flex flex-col items-start w-full">
         <h1 class="text-[3rem] font-extrabold text-[#0033FF] tracking-tight leading-tight" v-html="parseMarkdown(slideTitle)">
         </h1>
-        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-600 mb-[1rem] border-l-[0.375rem] border-[#0033FF] pl-[1rem]" v-html="parseMarkdown(subtitle)">
+        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-500 mb-[1rem] border-l-[0.2rem] border-[#0033FF] pl-[0.75rem]" v-html="parseMarkdown(subtitle)">
         </h2>
         <div class="w-full h-px bg-gray-200"></div>
       </div>
 
       <!-- Table -->
-      <div class="mt-[1rem] bg-white shadow-sm border border-gray-200 rounded-lg">
-        <table class="w-full text-left border-collapse">
+      <div class="mt-[1rem] bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)] border border-gray-200 rounded-lg overflow-hidden">
+        <table :class="['w-full text-left border-collapse', tableClass]">
+          <colgroup v-if="isWideMatrix">
+            <col class="w-[16%]">
+            <col class="w-[21%]">
+            <col class="w-[21%]">
+            <col class="w-[21%]">
+            <col class="w-[21%]">
+          </colgroup>
           <thead>
-            <tr class="bg-gray-50 border-b-2 border-[#0033FF]">
+            <tr class="bg-slate-50 border-b border-slate-200">
               <th
                 v-for="(header, i) in headers"
                 :key="i"
-                class="font-bold uppercase tracking-wider text-[#0033FF]"
-                :style="{ padding: cellPadding, fontSize: headerFontSize }"
+                :class="[
+                  'font-bold text-[#0033FF] align-top',
+                  i === 0 ? 'tracking-[0.06em]' : ''
+                ]"
+                :style="{ padding: cellPadding, fontSize: headerFontSize, lineHeight: 1.25 }"
                 v-html="parseMarkdown(header)"
               >
               </th>
@@ -115,7 +133,7 @@ const headerFontSize = computed(() => sizeConfig.value.headerFontSize)
               <td
                 v-for="(cell, cIdx) in row"
                 :key="cIdx"
-                class="text-gray-800"
+                :class="['align-top leading-[1.45]', getCellClass(cIdx)]"
                 :style="{ padding: cellPadding, fontSize: fontSize }"
               >
                 <!-- Yes indicator -->

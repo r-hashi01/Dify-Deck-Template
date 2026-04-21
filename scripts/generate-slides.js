@@ -101,6 +101,10 @@ function toYamlValue(value, indent = 0) {
   }
 
   if (typeof value === 'string') {
+    if (value.includes('\n')) {
+      return '|\n' + value.split('\n').map(line => `${spaces}  ${line}`).join('\n');
+    }
+
     // Check if string contains --- (YAML document separator)
     // Slidev's frontmatter parser incorrectly ends parsing when it sees ---
     if (value.includes('---')) {
@@ -180,6 +184,11 @@ function toYamlValue(value, indent = 0) {
 function slideToFrontmatter(slide, defaults = {}) {
   const { slot, notes, ...props } = slide;
   const mergedProps = { ...defaults, ...props };
+  const renderSlotAsProp = Boolean(slot && slide.layout === 'diagram');
+
+  if (renderSlotAsProp) {
+    mergedProps.slot = slot;
+  }
 
   // Remove notes from defaults if present (notes should be per-slide only)
   delete mergedProps.notes;
@@ -204,7 +213,7 @@ function slideToFrontmatter(slide, defaults = {}) {
 
   lines.push('---');
 
-  if (slot) {
+  if (slot && !renderSlotAsProp) {
     lines.push('');
     lines.push(replaceIconPlaceholders(slot));
   }
@@ -228,6 +237,11 @@ function generateMarkdown(deck) {
   const firstSlide = deck.slides[0];
   const { slot: firstSlot, notes: firstNotes, ...firstProps } = firstSlide;
   const firstMerged = { ...deck.config.defaults, ...firstProps };
+  const renderFirstSlotAsProp = Boolean(firstSlot && firstSlide.layout === 'diagram');
+
+  if (renderFirstSlotAsProp) {
+    firstMerged.slot = firstSlot;
+  }
 
   // Don't add title from slideTitle for first slide (deck title is used instead)
   // Remove notes from merged props (will be added as HTML comment)
@@ -262,7 +276,7 @@ function generateMarkdown(deck) {
   parts.push('---');
 
   // Add first slide slot content if present
-  if (firstSlot) {
+  if (firstSlot && !renderFirstSlotAsProp) {
     parts.push('');
     parts.push(replaceIconPlaceholders(firstSlot));
   }

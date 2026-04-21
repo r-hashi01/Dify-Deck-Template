@@ -4,13 +4,13 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "pnpm generate && node scripts/dev.js",
-    "build": "pnpm generate && pnpm -r --filter './packages/*' --filter '!theme-dify' build && node scripts/generate-index.js && npx tsx scripts/export-pdfs.js",
-    "export-pdfs": "npx tsx scripts/export-pdfs.js",
+    "dev": "pnpm generate && concurrently -k -n gen,deck -c yellow,cyan \"pnpm generate:watch\" \"node scripts/dev.js\"",
+    "build": "pnpm generate && pnpm -r --filter './packages/*' --filter '!theme-dify' build && node scripts/generate-index.js && tsx scripts/export-pdfs.js",
+    "export-pdfs": "tsx scripts/export-pdfs.js",
     "serve": "pnpm build && npx serve dist -l 3000",
     "create-deck": "node scripts/create-deck.js",
-    "generate": "npx tsx scripts/generate-slides.js",
-    "generate:watch": "npx tsx watch scripts/generate-slides.js"
+    "generate": "tsx scripts/generate-slides.js",
+    "generate:watch": "tsx watch scripts/generate-slides.js"
   },
   "devDependencies": {
     "@slidev/cli": "^52.11.0",

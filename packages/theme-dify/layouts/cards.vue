@@ -104,15 +104,15 @@ const sizeConfig = computed(() => ({
 
 // Color mapping for icons
 const colorClasses: Record<string, { bg: string, text: string, border: string }> = {
-  yellow: { bg: 'bg-yellow-50', text: 'text-yellow-500', border: 'border-yellow-100' },
-  green: { bg: 'bg-green-50', text: 'text-green-500', border: 'border-green-100' },
-  blue: { bg: 'bg-blue-50', text: 'text-blue-500', border: 'border-blue-100' },
-  purple: { bg: 'bg-purple-50', text: 'text-purple-500', border: 'border-purple-100' },
-  red: { bg: 'bg-red-50', text: 'text-red-500', border: 'border-red-100' },
-  orange: { bg: 'bg-orange-50', text: 'text-orange-500', border: 'border-orange-100' },
-  indigo: { bg: 'bg-indigo-50', text: 'text-indigo-500', border: 'border-indigo-100' },
-  cyan: { bg: 'bg-cyan-50', text: 'text-cyan-500', border: 'border-cyan-100' },
-  black: { bg: 'bg-gray-100', text: 'text-gray-900', border: 'border-gray-100' },
+  yellow: { bg: 'bg-yellow-50/60', text: 'text-yellow-600', border: 'border-yellow-200' },
+  green: { bg: 'bg-green-50/60', text: 'text-green-600', border: 'border-green-200' },
+  blue: { bg: 'bg-blue-50/60', text: 'text-blue-600', border: 'border-blue-200' },
+  purple: { bg: 'bg-purple-50/60', text: 'text-purple-600', border: 'border-purple-200' },
+  red: { bg: 'bg-red-50/60', text: 'text-red-600', border: 'border-red-200' },
+  orange: { bg: 'bg-orange-50/60', text: 'text-orange-600', border: 'border-orange-200' },
+  indigo: { bg: 'bg-indigo-50/60', text: 'text-indigo-600', border: 'border-indigo-200' },
+  cyan: { bg: 'bg-cyan-50/60', text: 'text-cyan-600', border: 'border-cyan-200' },
+  black: { bg: 'bg-gray-100/80', text: 'text-gray-900', border: 'border-gray-200' },
 }
 
 const getColorClasses = (color?: string) => {
@@ -123,7 +123,7 @@ const getColorClasses = (color?: string) => {
 <template>
   <div class="flex flex-col h-full px-[3rem] pt-[2rem] pb-[4rem] relative overflow-hidden bg-white">
     <!-- Background Pattern (Dot Grid) -->
-    <div class="absolute inset-0 z-0 pointer-events-none opacity-20">
+    <div class="absolute inset-0 z-0 pointer-events-none opacity-6">
       <div class="absolute inset-0" style="background-image: radial-gradient(#9CA3AF 1px, transparent 1px); background-size: 2.5rem 2.5rem;"></div>
     </div>
 
@@ -136,7 +136,7 @@ const getColorClasses = (color?: string) => {
         <h1 class="text-[3rem] font-extrabold text-[#0033FF] tracking-tight leading-tight">
           <span v-html="parseMarkdown(slideTitle)"></span>
         </h1>
-        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-600 mb-[1rem] border-l-[0.375rem] border-[#0033FF] pl-[1rem]">
+        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-500 mb-[1rem] border-l-[0.2rem] border-[#0033FF] pl-[0.75rem]">
           <span v-html="parseMarkdown(subtitle)"></span>
         </h2>
         <div class="w-full h-px bg-gray-200"></div>
@@ -153,7 +153,7 @@ const getColorClasses = (color?: string) => {
           <div
             v-for="(item, idx) in items"
             :key="idx"
-            :class="['bg-white rounded-sm border border-gray-200 shadow-sm hover:shadow-md hover:border-[#0033FF] transition-all duration-300 flex flex-col items-start group relative', sizeConfig.padding]"
+            :class="['bg-white rounded-sm border border-gray-200 shadow-[0_1px_2px_rgba(15,23,42,0.04)] hover:border-gray-300 transition-colors duration-200 flex flex-col items-start group relative', sizeConfig.padding]"
           >
             <!-- Tags -->
             <div v-if="item.tags && item.tags.length > 0" class="absolute top-[0.5rem] right-[0.5rem] flex gap-[0.25rem]">
@@ -181,7 +181,7 @@ const getColorClasses = (color?: string) => {
             </div>
 
             <!-- Title -->
-            <div :class="['font-bold text-gray-900 mb-[0.25rem] leading-tight group-hover:text-[#0033FF] transition-colors', (getIconSvg(item.icon) || showEmptyIconBox) ? sizeConfig.titleMarginWithIcon : sizeConfig.titleMarginNoIcon, sizeConfig.titleSize]" v-html="parseMarkdown(item.title)">
+            <div :class="['font-bold text-gray-900 mb-[0.25rem] leading-tight', (getIconSvg(item.icon) || showEmptyIconBox) ? sizeConfig.titleMarginWithIcon : sizeConfig.titleMarginNoIcon, sizeConfig.titleSize]" v-html="parseMarkdown(item.title)">
             </div>
 
             <!-- Description -->

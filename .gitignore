@@ -29,3 +29,6 @@ npm-debug.log*
 # slide Markdown
 slides.md
 *.slides.md
+
+slide*.png
+page*.png

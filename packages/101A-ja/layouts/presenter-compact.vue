@@ -62,14 +62,14 @@ const closeModal = () => {
 
 // カラーマップ
 const colorMap: Record<string, { bg: string, icon: string, title: string }> = {
-  'blue': { bg: 'bg-blue-50', icon: 'text-blue-500', title: 'text-blue-700' },
-  'purple': { bg: 'bg-purple-50', icon: 'text-purple-500', title: 'text-purple-700' },
-  'green': { bg: 'bg-emerald-50', icon: 'text-emerald-500', title: 'text-emerald-700' },
-  'red': { bg: 'bg-rose-50', icon: 'text-rose-500', title: 'text-rose-700' },
-  'orange': { bg: 'bg-orange-50', icon: 'text-orange-500', title: 'text-orange-700' },
-  'cyan': { bg: 'bg-cyan-50', icon: 'text-cyan-500', title: 'text-cyan-700' },
-  'indigo': { bg: 'bg-indigo-50', icon: 'text-indigo-500', title: 'text-indigo-700' },
-  'gray': { bg: 'bg-gray-50', icon: 'text-gray-500', title: 'text-gray-700' },
+  'blue': { bg: 'bg-blue-50/55', icon: 'text-blue-600', title: 'text-blue-700' },
+  'purple': { bg: 'bg-purple-50/55', icon: 'text-purple-600', title: 'text-purple-700' },
+  'green': { bg: 'bg-emerald-50/55', icon: 'text-emerald-600', title: 'text-emerald-700' },
+  'red': { bg: 'bg-rose-50/55', icon: 'text-rose-600', title: 'text-rose-700' },
+  'orange': { bg: 'bg-orange-50/55', icon: 'text-orange-600', title: 'text-orange-700' },
+  'cyan': { bg: 'bg-cyan-50/55', icon: 'text-cyan-600', title: 'text-cyan-700' },
+  'indigo': { bg: 'bg-indigo-50/55', icon: 'text-indigo-600', title: 'text-indigo-700' },
+  'gray': { bg: 'bg-gray-50/80', icon: 'text-gray-600', title: 'text-gray-700' },
 }
 
 const getHighlightStyle = (color?: string) => {
@@ -145,6 +145,7 @@ const spacing = computed(() => {
 
 // Dynamic sizing for highlights
 const highlightsCount = computed(() => highlights.value.length)
+const isDenseHighlightGrid = computed(() => highlightsCount.value >= 4)
 const highlightConfig = computed(() => {
   if (highlightsCount.value <= 2) {
     return {
@@ -156,7 +157,7 @@ const highlightConfig = computed(() => {
       featureSize: 'text-[0.75rem]',
     }
   }
-  if (highlightsCount.value <= 4) {
+  if (highlightsCount.value <= 3) {
     return {
       gap: 'space-y-[0.5rem]',
       padding: 'p-[0.75rem]',
@@ -167,7 +168,7 @@ const highlightConfig = computed(() => {
     }
   }
   return {
-    gap: 'space-y-[0.375rem]',
+    gap: 'space-y-[0.25rem]',
     padding: 'p-[0.5rem]',
     iconSize: 'w-[1.5rem] h-[1.5rem]',
     titleSize: 'text-[0.9rem]',
@@ -180,7 +181,7 @@ const highlightConfig = computed(() => {
 <template>
   <div class="flex flex-col h-full px-[3rem] pt-[2rem] pb-[4rem] relative overflow-hidden bg-white">
     <!-- Background Pattern (Dot Grid) -->
-    <div class="absolute inset-0 z-0 pointer-events-none opacity-20">
+    <div class="absolute inset-0 z-0 pointer-events-none opacity-6">
       <div class="absolute inset-0" style="background-image: radial-gradient(#9CA3AF 1px, transparent 1px); background-size: 2.5rem 2.5rem;"></div>
     </div>
 
@@ -193,16 +194,16 @@ const highlightConfig = computed(() => {
         <h1 class="text-[3rem] font-extrabold text-[#0033FF] tracking-tight leading-tight">
           {{ slideTitle }}
         </h1>
-        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-600 mb-[1rem] border-l-[0.375rem] border-[#0033FF] pl-[1rem]">
+        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-500 mb-[1rem] border-l-[0.2rem] border-[#0033FF] pl-[0.75rem]">
           {{ subtitle }}
         </h2>
         <div class="w-full h-px bg-gray-200"></div>
       </div>
 
       <!-- Content Area -->
-      <div class="flex flex-row gap-[3rem] items-start min-h-0 mt-[0.5rem]">
+      <div class="flex flex-row gap-[2rem] items-start min-h-0 mt-[0.5rem]">
         <!-- Left: Presenter Bio -->
-        <div class="w-7/12">
+        <div class="w-6/12 min-w-0">
           <div :class="spacing">
             <!-- Name (smaller) -->
             <div v-if="name">
@@ -226,15 +227,21 @@ const highlightConfig = computed(() => {
               </div>
             </template>
             <!-- Description (new) -->
-            <div v-if="description" :class="[descriptionSize, 'text-gray-900 leading-relaxed font-extrabold w-11/12']" v-html="parseMarkdown(description)">
+            <div v-if="description" :class="[descriptionSize, 'text-gray-900 leading-relaxed font-semibold w-11/12']" v-html="parseMarkdown(description)">
             </div>
           </div>
         </div>
 
         <!-- Right: Visual Area -->
-        <div class="w-7/12 flex items-center justify-center">
+        <div class="w-6/12 min-w-0 flex items-start justify-center">
           <!-- Highlights Cards -->
-          <div v-if="highlights.length > 0" :class="['w-full', highlightConfig.gap]">
+          <div
+            v-if="highlights.length > 0"
+            :class="[
+              'w-full',
+              isDenseHighlightGrid ? 'grid grid-cols-2 gap-[0.5rem]' : highlightConfig.gap
+            ]"
+          >
             <component
               :is="item.link && !item.popup ? 'a' : 'div'"
               v-for="(item, idx) in highlights"
@@ -244,10 +251,10 @@ const highlightConfig = computed(() => {
               :rel="item.link && !item.popup ? 'noopener noreferrer' : undefined"
               @click="item.popup ? openModal(item) : undefined"
               :class="[
-                'flex items-center gap-[0.75rem] rounded-xl border no-underline',
+                'flex items-center gap-[0.75rem] rounded-xl border border-gray-200 shadow-[0_1px_2px_rgba(15,23,42,0.04)] no-underline',
                 highlightConfig.padding,
                 getHighlightStyle(item.color).bg,
-                (item.link || item.popup) ? 'cursor-pointer hover:shadow-md hover:scale-[1.02] transition-all duration-200' : ''
+                (item.link || item.popup) ? 'cursor-pointer hover:border-gray-300 hover:shadow-[0_4px_12px_rgba(15,23,42,0.06)] transition-all duration-200' : ''
               ]"
             >
               <!-- Icon -->
@@ -258,11 +265,14 @@ const highlightConfig = computed(() => {
               <div class="flex flex-col flex-1">
                 <span :class="[highlightConfig.titleSize, 'font-bold', getHighlightStyle(item.color).title]" v-html="parseMarkdown(item.title)"></span>
                 <span v-if="item.subtitle" :class="[highlightConfig.subtitleSize, 'text-gray-600']" v-html="parseMarkdown(item.subtitle)"></span>
-                <div v-if="item.features && item.features.length > 0" class="flex flex-wrap gap-[0.375rem] mt-[0.25rem]">
+                <div
+                  v-if="item.features && item.features.length > 0 && !isDenseHighlightGrid"
+                  class="flex flex-wrap gap-[0.375rem] mt-[0.25rem]"
+                >
                   <span
                     v-for="(feature, fIdx) in item.features"
                     :key="fIdx"
-                    :class="[highlightConfig.featureSize, 'px-[0.5rem] py-[0.125rem] bg-white/50 rounded text-gray-600']"
+                    :class="[highlightConfig.featureSize, 'px-[0.5rem] py-[0.125rem] bg-white/70 rounded text-gray-500']"
                     v-html="parseMarkdown(feature)"
                   ></span>
                 </div>
@@ -277,17 +287,17 @@ const highlightConfig = computed(() => {
 
           <!-- Image or Default -->
           <div v-else class="h-[17.5rem] max-h-[31.25rem] w-full flex items-center justify-center">
-            <div class="w-full h-full bg-white rounded-[1.5rem] shadow-2xl border border-gray-100 p-[3rem] relative overflow-hidden flex items-center justify-center group">
+            <div class="w-full h-full bg-white rounded-[1.25rem] shadow-[0_8px_24px_rgba(15,23,42,0.06)] border border-gray-200 p-[3rem] relative overflow-hidden flex items-center justify-center">
               <!-- Decorative circles -->
-              <div class="absolute -right-[5rem] -top-[5rem] w-[16rem] h-[16rem] bg-blue-50 rounded-full opacity-50 group-hover:scale-110 transition-transform duration-1000"></div>
-              <div class="absolute -left-[5rem] -bottom-[5rem] w-[20rem] h-[20rem] bg-slate-50 rounded-full opacity-50 group-hover:scale-110 transition-transform duration-1000"></div>
+              <div class="absolute -right-[5rem] -top-[5rem] w-[16rem] h-[16rem] bg-blue-50 rounded-full opacity-30"></div>
+              <div class="absolute -left-[5rem] -bottom-[5rem] w-[20rem] h-[20rem] bg-slate-50 rounded-full opacity-35"></div>
 
               <!-- Visual Content -->
               <div class="relative z-10 w-full flex flex-col items-center justify-center">
                 <!-- imageUrl がある場合は画像を表示 -->
                 <img v-if="imageUrl" :src="imageUrl" class="max-w-full max-h-[14rem] object-contain" />
                 <!-- なければデフォルトアイコン -->
-                <div v-else class="w-[12rem] h-[12rem] rounded-full bg-slate-200 flex items-center justify-center mb-[1.5rem] border-[0.25rem] border-white shadow-lg">
+                <div v-else class="w-[12rem] h-[12rem] rounded-full bg-slate-100 flex items-center justify-center mb-[1.5rem] border border-white shadow-sm">
                   <svg class="w-[5rem] h-[5rem] text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                   </svg>

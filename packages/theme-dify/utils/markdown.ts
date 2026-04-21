@@ -1,6 +1,6 @@
 /**
  * Simple inline Markdown parser for slide content
- * Supports: **bold**, *italic*, `code`, ~~strikethrough~~, [link](url)
+ * Supports: **bold**, *italic*, `code`, ~~strikethrough~~, [link](url), line breaks
  */
 
 export interface MarkdownOptions {
@@ -89,7 +89,8 @@ export function parseMarkdown(text: string | undefined | null, options: Markdown
     `<span class="${opts.strikeClass}">$1</span>`
   )
 
-  // Line breaks: actual newlines and literal \n to <br>
+  // Line breaks: explicit marker, literal \n, and actual newlines
+  result = result.replace(/\{\{br\}\}/gi, '<br>')
   result = result.replace(/\\n/g, '<br>')  // Literal \n (backslash + n)
   result = result.replace(/\n/g, '<br>')   // Actual newline character
 

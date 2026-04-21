@@ -175,6 +175,7 @@ export interface MatrixSlide extends BaseSlideProps {
   subtitle?: string;
   headers?: string[];
   rows?: string[][];
+  matrixSize?: 'small' | 'medium' | 'large';
 }
 
 export interface DiagramSlide extends BaseSlideProps {
@@ -228,6 +229,7 @@ export interface FAQSlide extends BaseSlideProps {
   slideTitle?: string;
   subtitle?: string;
   items?: FAQItem[];
+  compact?: boolean;
 }
 
 export interface LicenseSlide extends BaseSlideProps {

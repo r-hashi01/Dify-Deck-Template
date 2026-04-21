@@ -69,12 +69,30 @@ export interface PresenterCompactSlide extends BaseSlideProps {
   terminal?: TerminalConfig;
 }
 
+export interface SlaResponseRow {
+  priority: string;
+  level?: string;
+  time: string;
+}
+
+export interface SlaSummarySlide extends BaseSlideProps {
+  layout: 'sla-summary';
+  slideTitle?: string;
+  subtitle?: string;
+  applicability?: string[];
+  covered?: string[];
+  excluded?: string[];
+  responseRows?: SlaResponseRow[];
+  warningTitle?: string;
+  warningText?: string;
+}
+
 // ===================
 // 拡張 Deck 型
 // ===================
 
 // このデッキで使用するスライド型（ベース + カスタム）
-export type Slide = BaseSlide | PresenterCompactSlide;
+export type Slide = BaseSlide | PresenterCompactSlide | SlaSummarySlide;
 
 // このデッキ用の Deck 型
 export interface Deck {

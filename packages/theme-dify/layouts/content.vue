@@ -31,7 +31,7 @@ const items = computed(() => props.items || [])
 <template>
   <div class="flex flex-col h-full px-[3rem] pt-[2rem] pb-[4rem] relative overflow-hidden bg-white">
     <!-- Background Pattern (Dot Grid) -->
-    <div class="absolute inset-0 z-0 pointer-events-none opacity-20">
+    <div class="absolute inset-0 z-0 pointer-events-none opacity-6">
       <div class="absolute inset-0" style="background-image: radial-gradient(#9CA3AF 1px, transparent 1px); background-size: 2.5rem 2.5rem;"></div>
     </div>
 
@@ -43,7 +43,7 @@ const items = computed(() => props.items || [])
       <div class="flex flex-col items-start w-full">
         <h1 class="text-[3rem] font-extrabold text-[#0033FF] tracking-tight leading-tight" v-html="parseMarkdown(slideTitle)">
         </h1>
-        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-600 mb-[1rem] border-l-[0.375rem] border-[#0033FF] pl-[1rem]" v-html="parseMarkdown(subtitle)">
+        <h2 v-if="subtitle" class="text-[1.5rem] text-gray-500 mb-[1rem] border-l-[0.2rem] border-[#0033FF] pl-[0.75rem]" v-html="parseMarkdown(subtitle)">
         </h2>
         <div class="w-full h-px bg-gray-200"></div>
       </div>
